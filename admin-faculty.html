@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faculty Management | KHIT Family</title>
+<style>
+:root{font-family:Arial,Helvetica,sans-serif;color:#172033;background:#f4f7fb}*{box-sizing:border-box}body{margin:0}.shell{display:flex;min-height:100vh}.side{width:240px;background:#101827;color:#fff;padding:24px 16px;position:fixed;inset:0 auto 0 0}.brand{text-align:center;margin-bottom:28px}.brand h1{font-size:20px;letter-spacing:2px;margin:0}.brand p{font-size:11px;color:#9ca8bb}.nav a{display:block;color:#cbd5e1;text-decoration:none;padding:11px 13px;border-radius:8px;margin:4px 0;font-size:14px}.nav a:hover,.nav a.active{background:#1d4ed8;color:#fff}.logout{width:100%;margin-top:24px;padding:11px;background:#dc2626;color:#fff;border:0;border-radius:7px;cursor:pointer}.main{margin-left:240px;width:calc(100% - 240px)}header{height:70px;background:#fff;border-bottom:1px solid #e5e7eb;padding:0 30px;display:flex;align-items:center;justify-content:space-between}header h2{margin:0;font-size:20px}.user{color:#64748b;font-size:13px}.content{padding:30px;max-width:1200px}.hero{background:#172554;color:#fff;padding:26px;border-radius:14px;margin-bottom:22px}.hero h1{margin:0 0 8px}.hero p{margin:0;color:#dbeafe}.panel{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:22px;margin-bottom:22px;box-shadow:0 5px 20px #0f172a0a}.toolbar{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-bottom:16px}.toolbar input{max-width:360px;padding:11px;border:1px solid #dbe1ea;border-radius:7px}.button{padding:10px 14px;border:0;border-radius:7px;background:#1d4ed8;color:#fff}.notice{padding:18px;background:#f8fafc;border:1px dashed #cbd5e1;color:#64748b;border-radius:8px}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:720px}th,td{text-align:left;padding:12px;border-bottom:1px solid #edf0f4;font-size:13px}th{color:#64748b;font-size:12px;text-transform:uppercase}@media(max-width:760px){.side{position:static;width:100%;height:auto}.shell{display:block}.main{margin-left:0;width:100%}header{padding:0 18px}.content{padding:18px}.toolbar{display:block}.toolbar input{width:100%;max-width:none;margin-bottom:10px}.user{display:none}}
+</style>
+    <link rel='stylesheet' href='premium-theme.css'>
+</head>
+<body>
+<div class="shell"><aside class="side"><div class="brand"><h1>KHIT FAMILY</h1><p>College Management Portal</p></div><nav class="nav"><a href="admin-dashboard.html">Dashboard</a><a href="admin-students.html">Students</a><a class="active" href="admin-faculty.html">Faculty</a><a href="admin-fees.html">Fees</a><a href="admin-bus.html">Bus</a><a href="database/admin-notifications.html">Notifications</a><a href="admin-events.html">Events</a></nav><button class="logout" onclick="logout()">Logout</button></aside><main class="main"><header><h2>Faculty Management</h2><span class="user" id="userInfo">Authorized administrator</span></header><section class="content"><div class="hero"><h1>Faculty Records</h1><p>Manage authorized faculty profiles, departments, and teaching assignments.</p></div><div class="panel"><div class="toolbar"><input id="search" placeholder="Search faculty records" oninput="filterRows()"><button class="button" onclick="toggleForm()">Add Faculty</button></div><form id="facultyForm" hidden onsubmit="createFaculty(event)" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px"><input id="facultyId" required placeholder="Faculty ID"><input id="fullName" required placeholder="Full name"><input id="department" placeholder="Department"><input id="designation" placeholder="Designation"><input id="email" type="email" placeholder="Official email"><input id="mobile" placeholder="Mobile"><button class="button" type="submit">Save Faculty</button></form><div class="notice" id="notice">Loading faculty records...</div><div class="table-wrap" id="tableWrap" hidden><table><thead><tr><th>Faculty ID</th><th>Name</th><th>Department</th><th>Designation</th><th>Official Email</th><th>Action</th></tr></thead><tbody id="rows"></tbody></table></div></div></section></main></div>
+<script>
+const API = "http://localhost:5000";
+const token = localStorage.getItem("khit_token");
+if (!token) location.href = "database/admin-login.html";
+const user = JSON.parse(localStorage.getItem("khit_user") || "{}");
+document.getElementById("userInfo").textContent = user.username || "Authorized administrator";
+let faculty = [];
+function logout() { localStorage.removeItem("khit_token"); localStorage.removeItem("khit_user"); location.href = "database/admin-login.html"; }
+function toggleForm() { const form = document.getElementById("facultyForm"); form.hidden = !form.hidden; }
+function escapeHTML(value) { return String(value ?? "").replace(/[&<>\"']/g, character => ({"&":"&amp;","<":"&lt;",">":"&gt;",'\"':"&quot;", "'":"&#039;"}[character])); }
+function renderRows(items = faculty) {
+	const rows = document.getElementById("rows");
+	const notice = document.getElementById("notice");
+	document.getElementById("tableWrap").hidden = !items.length;
+	notice.hidden = Boolean(items.length);
+	notice.textContent = items.length ? "" : "No faculty records are connected yet.";
+	rows.innerHTML = items.map(item => `<tr><td>${escapeHTML(item.faculty_id)}</td><td>${escapeHTML(item.full_name)}</td><td>${escapeHTML(item.department || "-")}</td><td>${escapeHTML(item.designation || "-")}</td><td>${escapeHTML(item.email || "-")}</td><td><button class="button" onclick="deleteFaculty(${item.id})">Delete</button></td></tr>`).join("");
+}
+function filterRows() { const query = document.getElementById("search").value.toLowerCase(); renderRows(faculty.filter(item => `${item.faculty_id} ${item.full_name} ${item.department || ""} ${item.designation || ""}`.toLowerCase().includes(query))); }
+async function loadFaculty() {
+	const response = await fetch(`${API}/api/admin/faculty`, { headers: { Authorization: `Bearer ${token}` } });
+	if (response.status === 401 || response.status === 403) return logout();
+	const data = await response.json();
+	if (!response.ok) throw new Error(data.message || "Unable to load faculty");
+	faculty = data.faculty || [];
+	renderRows();
+}
+async function createFaculty(event) {
+	event.preventDefault();
+	const body = { faculty_id: facultyId.value, full_name: fullName.value, department: department.value, designation: designation.value, email: email.value, mobile: mobile.value };
+	const response = await fetch(`${API}/api/admin/faculty`, { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` }, body: JSON.stringify(body) });
+	const data = await response.json();
+	if (!response.ok) return alert(data.message || "Unable to save faculty");
+	event.target.reset(); event.target.hidden = true; await loadFaculty();
+}
+async function deleteFaculty(id) {
+	if (!confirm("Delete this faculty record?")) return;
+	const response = await fetch(`${API}/api/admin/faculty/${id}`, { method: "DELETE", headers: { Authorization: `Bearer ${token}` } });
+	if (response.ok) await loadFaculty();
+}
+loadFaculty().catch(error => { document.getElementById("notice").textContent = error.message; });
+</script></body></html>
+

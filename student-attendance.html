@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>KHIT Family | Attendance</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        header {
+            height: 70px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+        }
+
+        .brand h2 {
+            color: #8f1738;
+            font-size: 21px;
+        }
+
+        .brand p {
+            color: #6b7280;
+            font-size: 11px;
+            margin-top: 3px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .student-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            border: none;
+            background: #8f1738;
+            color: white;
+            padding: 9px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: auto;
+            padding: 30px;
+        }
+
+        .top-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .top-section h1 {
+            color: #8f1738;
+            font-size: 28px;
+        }
+
+        .top-section p {
+            color: #6b7280;
+            font-size: 14px;
+            margin-top: 6px;
+        }
+
+        .back-btn {
+            border: 1px solid #d1d5db;
+            background: white;
+            color: #8f1738;
+            padding: 10px 16px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        /* OVERVIEW */
+
+        .overview {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 22px;
+        }
+
+        .section-title {
+            color: #8f1738;
+            font-size: 18px;
+            margin-bottom: 18px;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .info-box {
+            background: #f8fafc;
+            border: 1px solid #edf0f4;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .info-label {
+            color: #6b7280;
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .info-value {
+            color: #8f1738;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        /* ATTENDANCE SUMMARY */
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 22px;
+        }
+
+        .summary-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 22px;
+        }
+
+        .summary-icon {
+            font-size: 25px;
+            margin-bottom: 10px;
+        }
+
+        .summary-title {
+            color: #6b7280;
+            font-size: 13px;
+            margin-bottom: 7px;
+        }
+
+        .summary-value {
+            color: #8f1738;
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        /* TABLE */
+
+        .attendance-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 22px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+
+        th {
+            background: #f4f7fb;
+            color: #374151;
+            text-align: left;
+            padding: 13px;
+            font-size: 12px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        td {
+            padding: 14px 13px;
+            font-size: 13px;
+            border-bottom: 1px solid #eef2f7;
+            color: #4b5563;
+        }
+
+        td:first-child {
+            font-weight: 600;
+            color: #8f1738;
+        }
+
+        .percentage {
+            font-weight: 700;
+            color: #8f1738;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 11px;
+        }
+
+        .status.pending {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+
+        /* MONTHLY */
+
+        .monthly-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 22px;
+        }
+
+        .month-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .month-box {
+            border: 1px solid #e5e7eb;
+            border-radius: 9px;
+            padding: 16px;
+        }
+
+        .month-name {
+            color: #8f1738;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .month-value {
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .notice {
+            margin-top: 22px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 18px;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        @media (max-width: 900px) {
+
+            .overview-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .month-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 0 4%;
+            }
+
+            .brand p,
+            .student-name {
+                display: none;
+            }
+
+            .container {
+                padding: 20px 15px;
+            }
+
+            .top-section {
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .top-section h1 {
+                font-size: 23px;
+            }
+
+            .overview-grid,
+            .month-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+        }
+
+    </style>
+
+    <link rel='stylesheet' href='premium-theme.css'>
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="brand">
+
+        <h2>
+            KHIT Family
+        </h2>
+
+        <p>
+            Your College  Your Campus  Your Digital Family
+        </p>
+
+    </div>
+
+
+    <div class="header-right">
+
+        <span
+            class="student-name"
+            id="headerName"
+        >
+            Student
+        </span>
+
+        <button
+            class="logout-btn"
+            onclick="logout()"
+        >
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+
+
+<div class="container">
+
+
+    <!-- TOP -->
+
+    <div class="top-section">
+
+        <div>
+
+            <h1>
+                 Attendance
+            </h1>
+
+            <p>
+                View your subject-wise and monthly attendance.
+            </p>
+
+        </div>
+
+
+        <button
+            class="back-btn"
+            onclick="goDashboard()"
+        >
+             Dashboard
+        </button>
+
+    </div>
+
+
+
+    <!-- STUDENT INFO -->
+
+    <div class="overview">
+
+        <h2 class="section-title">
+            Student Information
+        </h2>
+
+
+        <div class="overview-grid">
+
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Student Name
+                </div>
+
+                <div
+                    class="info-value"
+                    id="studentName"
+                >
+                    -
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Student ID
+                </div>
+
+                <div
+                    class="info-value"
+                    id="studentId"
+                >
+                    -
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Roll Number
+                </div>
+
+                <div
+                    class="info-value"
+                    id="rollNumber"
+                >
+                    -
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Department
+                </div>
+
+                <div
+                    class="info-value"
+                    id="department"
+                >
+                    -
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Year
+                </div>
+
+                <div
+                    class="info-value"
+                    id="year"
+                >
+                    -
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Section
+                </div>
+
+                <div
+                    class="info-value"
+                    id="section"
+                >
+                    -
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Academic Year
+                </div>
+
+                <div
+                    class="info-value"
+                    id="academicYear"
+                >
+                    -
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- SUMMARY -->
+
+    <div class="summary-grid">
+
+
+        <div class="summary-card">
+
+            <div class="summary-icon">
+                
+            </div>
+
+            <div class="summary-title">
+                Overall Attendance
+            </div>
+
+            <div class="summary-value">
+                --
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-icon">
+                
+            </div>
+
+            <div class="summary-title">
+                Present Days
+            </div>
+
+            <div class="summary-value">
+                --
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-icon">
+                
+            </div>
+
+            <div class="summary-title">
+                Absent Days
+            </div>
+
+            <div class="summary-value">
+                --
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- SUBJECT ATTENDANCE -->
+
+    <div class="attendance-card">
+
+        <h2 class="section-title">
+            Subject-wise Attendance
+        </h2>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Subject Code
+                        </th>
+
+                        <th>
+                            Subject
+                        </th>
+
+                        <th>
+                            Conducted
+                        </th>
+
+                        <th>
+                            Present
+                        </th>
+
+                        <th>
+                            Absent
+                        </th>
+
+                        <th>
+                            Attendance
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <tr>
+
+                        <td>
+                            -
+                        </td>
+
+                        <td>
+                            Attendance data not available
+                        </td>
+
+                        <td>
+                            -
+                        </td>
+
+                        <td>
+                            -
+                        </td>
+
+                        <td>
+                            -
+                        </td>
+
+                        <td class="percentage">
+                            --
+                        </td>
+
+                        <td>
+
+                            <span class="status pending">
+                                Awaiting college data
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- MONTHLY -->
+
+    <div class="monthly-card">
+
+        <h2 class="section-title">
+            Monthly Attendance
+        </h2>
+
+
+        <div class="month-grid">
+
+
+            <div class="month-box">
+
+                <div class="month-name">
+                    June
+                </div>
+
+                <div class="month-value">
+                    Attendance: --
+                </div>
+
+            </div>
+
+
+            <div class="month-box">
+
+                <div class="month-name">
+                    July
+                </div>
+
+                <div class="month-value">
+                    Attendance: --
+                </div>
+
+            </div>
+
+
+            <div class="month-box">
+
+                <div class="month-name">
+                    August
+                </div>
+
+                <div class="month-value">
+                    Attendance: --
+                </div>
+
+            </div>
+
+
+            <div class="month-box">
+
+                <div class="month-name">
+                    September
+                </div>
+
+                <div class="month-value">
+                    Attendance: --
+                </div>
+
+            </div>
+
+
+            <div class="month-box">
+
+                <div class="month-name">
+                    October
+                </div>
+
+                <div class="month-value">
+                    Attendance: --
+                </div>
+
+            </div>
+
+
+            <div class="month-box">
+
+                <div class="month-name">
+                    November
+                </div>
+
+                <div class="month-value">
+                    Attendance: --
+                </div>
+
+            </div>
+
+
+            <div class="month-box">
+
+                <div class="month-name">
+                    December
+                </div>
+
+                <div class="month-value">
+                    Attendance: --
+                </div>
+
+            </div>
+
+
+            <div class="month-box">
+
+                <div class="month-name">
+                    January
+                </div>
+
+                <div class="month-value">
+                    Attendance: --
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="notice">
+
+        <strong>
+            Attendance Records:
+        </strong>
+
+        Attendance will be displayed after authorized college
+        attendance data is connected to the portal.
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+const API_URL =
+    "http://localhost:5000";
+
+
+const token =
+    localStorage.getItem("khit_token");
+
+
+if (!token) {
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+/* LOAD STUDENT */
+
+async function loadStudentProfile() {
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/student/profile`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            alert(
+                result.message ||
+                "Unable to load profile."
+            );
+
+            logout();
+
+            return;
+
+        }
+
+
+        const student =
+            result.student;
+
+
+        document.getElementById(
+            "headerName"
+        ).textContent =
+            student.full_name || "Student";
+
+
+        document.getElementById(
+            "studentName"
+        ).textContent =
+            student.full_name || "-";
+
+
+        document.getElementById(
+            "studentId"
+        ).textContent =
+            student.student_id || "-";
+
+
+        document.getElementById(
+            "rollNumber"
+        ).textContent =
+            student.roll_number || "-";
+
+
+        document.getElementById(
+            "department"
+        ).textContent =
+            student.department || "-";
+
+
+        document.getElementById(
+            "year"
+        ).textContent =
+            student.year || "-";
+
+
+        document.getElementById(
+            "section"
+        ).textContent =
+            student.section || "-";
+
+
+        document.getElementById(
+            "academicYear"
+        ).textContent =
+            student.academic_year || "-";
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Cannot connect to KHIT Family server."
+        );
+
+    }
+
+}
+
+
+/* DASHBOARD */
+
+function goDashboard() {
+
+    window.location.href =
+        "student-dashboard.html";
+
+}
+
+
+/* LOGOUT */
+
+function logout() {
+
+    localStorage.removeItem(
+        "khit_token"
+    );
+
+    localStorage.removeItem(
+        "khit_user"
+    );
+
+    localStorage.removeItem(
+        "khit_student"
+    );
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+async function loadAttendanceRecords() {
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/api/student/attendance`,
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
+
+        const result = await response.json();
+        if (!response.ok) return;
+
+        const summary = result.summary || {};
+        const values = document.querySelectorAll(".summary-card strong, .summary-box strong");
+
+        if (values[0]) values[0].textContent = `${summary.percentage || 0}%`;
+        if (values[1]) values[1].textContent = summary.present || 0;
+        if (values[2]) values[2].textContent = summary.absent || 0;
+
+        const tableBody = document.querySelector(".attendance-table tbody");
+        const rows = result.subject_wise || [];
+
+        if (tableBody && rows.length) {
+            tableBody.innerHTML = rows.map(item => `
+                <tr>
+                    <td>${escapeHTML(item.subject || "-")}</td>
+                    <td>${item.conducted || 0}</td>
+                    <td>${item.present || 0}</td>
+                    <td>${item.absent || 0}</td>
+                    <td>${item.percentage || 0}%</td>
+                </tr>
+            `).join("");
+        }
+
+    } catch (error) {
+        console.error("Attendance records error:", error);
+    }
+
+}
+
+function escapeHTML(value) {
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+loadStudentProfile();
+loadAttendanceRecords();
+
+</script>
+
+
+</body>
+
+</html>

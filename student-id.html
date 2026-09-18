@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>KHIT Family | Digital Student ID</title>
+
+    <!-- QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        header {
+            height: 70px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+        }
+
+        .brand h2 {
+            color: #8f1738;
+            font-size: 21px;
+        }
+
+        .brand p {
+            color: #6b7280;
+            font-size: 11px;
+            margin-top: 3px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            border: none;
+            background: #8f1738;
+            color: white;
+            padding: 9px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .back-btn {
+            border: none;
+            background: none;
+            color: #8f1738;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .page-title {
+            margin-bottom: 25px;
+        }
+
+        .page-title h1 {
+            color: #8f1738;
+            font-size: 28px;
+        }
+
+        .page-title p {
+            color: #6b7280;
+            margin-top: 6px;
+            font-size: 14px;
+        }
+
+        /* ID CARD */
+
+        .id-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid #dfe5ec;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
+        .id-header {
+            background: #8f1738;
+            color: white;
+            padding: 22px;
+            text-align: center;
+        }
+
+        .id-header h2 {
+            font-size: 22px;
+        }
+
+        .id-header p {
+            font-size: 12px;
+            margin-top: 5px;
+            opacity: 0.9;
+        }
+
+        .id-body {
+            padding: 28px;
+            display: grid;
+            grid-template-columns: 1fr 220px;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .student-photo {
+            width: 115px;
+            height: 135px;
+            border: 1px solid #dbe3ec;
+            background: #f4f7fb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+
+        .student-name {
+            color: #8f1738;
+            font-size: 23px;
+            margin-bottom: 12px;
+        }
+
+        .details {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        .details span:nth-child(odd) {
+            color: #6b7280;
+        }
+
+        .details span:nth-child(even) {
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .qr-section {
+            text-align: center;
+            border-left: 1px solid #e5e7eb;
+            padding-left: 25px;
+        }
+
+        #qrcode {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .qr-section p {
+            font-size: 11px;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+
+        .id-footer {
+            border-top: 1px solid #e5e7eb;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: #6b7280;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .action-btn {
+            border: none;
+            padding: 11px 18px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .primary {
+            background: #8f1738;
+            color: white;
+        }
+
+        .secondary {
+            background: white;
+            border: 1px solid #dbe3ec;
+            color: #8f1738;
+        }
+
+        @media (max-width: 700px) {
+
+            header {
+                padding: 0 15px;
+            }
+
+            .brand p,
+            .header-name {
+                display: none;
+            }
+
+            .container {
+                padding: 0 12px;
+            }
+
+            .id-body {
+                grid-template-columns: 1fr;
+            }
+
+            .qr-section {
+                border-left: none;
+                border-top: 1px solid #e5e7eb;
+                padding-left: 0;
+                padding-top: 25px;
+            }
+
+            .details {
+                grid-template-columns: 130px 1fr;
+            }
+
+            .id-footer {
+                flex-direction: column;
+                gap: 6px;
+            }
+        }
+
+    </style>
+    <script src="theme.js" defer></script>
+    <link rel='stylesheet' href='premium-theme.css'>
+</head>
+
+<body>
+
+<header>
+
+    <div class="brand">
+
+        <h2>KHIT Family</h2>
+
+        <p>
+            Your College  Your Campus  Your Digital Family
+        </p>
+
+    </div>
+
+    <div class="header-right">
+
+        <span
+            class="header-name"
+            id="headerName"
+        >
+            Student
+        </span>
+
+        <button
+            class="logout-btn"
+            onclick="logout()"
+        >
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+
+<div class="container">
+
+    <button
+        class="back-btn"
+        onclick="goDashboard()"
+    >
+         Back to Dashboard
+    </button>
+
+
+    <div class="page-title">
+
+        <h1>Digital Student ID</h1>
+
+        <p>
+            Your digital college identity card with a secure QR code.
+        </p>
+
+    </div>
+
+
+    <!-- DIGITAL ID CARD -->
+
+    <div class="id-card">
+
+
+        <div class="id-header">
+
+            <h2>
+                KALLAM HARANADHAREDDY INSTITUTE OF TECHNOLOGY
+            </h2>
+
+            <p>
+                KHIT FAMILY  DIGITAL STUDENT ID
+            </p>
+
+        </div>
+
+
+        <div class="id-body">
+
+
+            <!-- STUDENT INFORMATION -->
+
+            <div>
+
+                <div class="student-photo">
+                    
+                </div>
+
+
+                <h2
+                    class="student-name"
+                    id="studentName"
+                >
+                    Loading...
+                </h2>
+
+
+                <div class="details">
+
+                    <span>
+                        Student ID
+                    </span>
+
+                    <span id="studentId">
+                        -
+                    </span>
+
+
+                    <span>
+                        Roll Number
+                    </span>
+
+                    <span id="rollNumber">
+                        -
+                    </span>
+
+
+                    <span>
+                        Department
+                    </span>
+
+                    <span id="department">
+                        -
+                    </span>
+
+
+                    <span>
+                        Year
+                    </span>
+
+                    <span id="year">
+                        -
+                    </span>
+
+
+                    <span>
+                        Section
+                    </span>
+
+                    <span id="section">
+                        -
+                    </span>
+
+
+                    <span>
+                        Academic Year
+                    </span>
+
+                    <span id="academicYear">
+                        -
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- QR -->
+
+            <div class="qr-section">
+
+                <div id="qrcode"></div>
+
+                <p>
+                    Scan this QR code to identify
+                    the student using the portal.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="id-footer">
+
+            <span>
+                KHIT Family Digital Portal
+            </span>
+
+            <span>
+                Student Identity Card
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- ACTIONS -->
+
+    <div class="actions">
+
+        <button
+            class="action-btn primary"
+            onclick="window.print()"
+        >
+             Print ID
+        </button>
+
+        <button
+            class="action-btn secondary"
+            onclick="goDashboard()"
+        >
+            Dashboard
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const API_URL =
+    "http://localhost:5000";
+
+const token =
+    localStorage.getItem("khit_token");
+
+
+/* ==========================================
+   LOGIN CHECK
+========================================== */
+
+if (!token) {
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+/* ==========================================
+   LOAD STUDENT
+========================================== */
+
+async function loadStudent() {
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/student/profile`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            alert(
+                result.message ||
+                "Unable to load student data."
+            );
+
+            logout();
+
+            return;
+        }
+
+
+        const student =
+            result.student;
+
+
+        /* HEADER */
+
+        document.getElementById(
+            "headerName"
+        ).textContent =
+            student.full_name;
+
+
+        /* DETAILS */
+
+        document.getElementById(
+            "studentName"
+        ).textContent =
+            student.full_name || "-";
+
+
+        document.getElementById(
+            "studentId"
+        ).textContent =
+            student.student_id || "-";
+
+
+        document.getElementById(
+            "rollNumber"
+        ).textContent =
+            student.roll_number || "-";
+
+
+        document.getElementById(
+            "department"
+        ).textContent =
+            student.department || "-";
+
+
+        document.getElementById(
+            "year"
+        ).textContent =
+            student.year || "-";
+
+
+        document.getElementById(
+            "section"
+        ).textContent =
+            student.section || "-";
+
+
+        document.getElementById(
+            "academicYear"
+        ).textContent =
+            student.academic_year || "-";
+
+
+        /* ==================================
+           CREATE QR CODE
+        ================================== */
+
+        const qrData = JSON.stringify({
+
+            portal: "KHIT Family",
+
+            student_id:
+                student.student_id,
+
+            roll_number:
+                student.roll_number,
+
+            name:
+                student.full_name,
+
+            department:
+                student.department,
+
+            academic_year:
+                student.academic_year
+
+        });
+
+
+        document.getElementById(
+            "qrcode"
+        ).innerHTML = "";
+
+
+        new QRCode(
+            document.getElementById("qrcode"),
+            {
+                text: qrData,
+                width: 160,
+                height: 160,
+                colorDark: "#8f1738",
+                colorLight: "#ffffff",
+                correctLevel:
+                    QRCode.CorrectLevel.H
+            }
+        );
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Cannot connect to KHIT Family server."
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   DASHBOARD
+========================================== */
+
+function goDashboard() {
+
+    window.location.href =
+        "student-dashboard.html";
+
+}
+
+
+/* ==========================================
+   LOGOUT
+========================================== */
+
+function logout() {
+
+    localStorage.removeItem(
+        "khit_token"
+    );
+
+    localStorage.removeItem(
+        "khit_user"
+    );
+
+    localStorage.removeItem(
+        "khit_student"
+    );
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+/* ==========================================
+   START
+========================================== */
+
+loadStudent();
+
+</script>
+
+</body>
+</html>

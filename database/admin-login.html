@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Login | KHIT Family</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f172a, #1e3a8a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 430px;
+}
+
+.logo-section {
+    text-align: center;
+    color: white;
+    margin-bottom: 22px;
+}
+
+.logo-box {
+    width: 44px;
+    height: 44px;
+    margin: 0 auto 15px;
+    background: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('../khit-logo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
+.logo-section h1 {
+    font-size: 27px;
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.logo-section p {
+    margin-top: 6px;
+    color: #cbd5e1;
+    font-size: 13px;
+}
+
+.login-card {
+    background: white;
+    border-radius: 18px;
+    padding: 30px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+}
+
+.login-card h2 {
+    color: #0f172a;
+    font-size: 22px;
+    margin-bottom: 7px;
+}
+
+.subtitle {
+    color: #64748b;
+    font-size: 13px;
+    margin-bottom: 25px;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 7px;
+}
+
+input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    outline: none;
+    font-size: 14px;
+}
+
+input:focus {
+    border-color: #2563eb;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 9px;
+    background: #2563eb;
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.login-btn:hover {
+    background: #1d4ed8;
+}
+
+.login-btn:disabled {
+    background: #94a3b8;
+    cursor: default;
+}
+
+.message {
+    display: none;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 13px;
+}
+
+.error {
+    display: block;
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+.success {
+    display: block;
+    background: #f0fdf4;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+.security {
+    margin-top: 20px;
+    padding: 13px;
+    border-radius: 9px;
+    background: #eff6ff;
+    color: #1e40af;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.back {
+    text-align: center;
+    margin-top: 18px;
+}
+
+.back a {
+    color: #2563eb;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.back a:hover {
+    text-decoration: underline;
+}
+
+.footer {
+    text-align: center;
+    color: #94a3b8;
+    font-size: 11px;
+    margin-top: 18px;
+}
+</style>
+    <link rel='stylesheet' href='../premium-theme.css'>
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <div class="logo-section">
+
+        <div class="logo-box" aria-label="KHIT Family logo"></div>
+
+        <h1>KHIT Family</h1>
+
+        <p>
+            College Administration Portal
+        </p>
+
+    </div>
+
+
+    <div class="login-card">
+
+        <h2>Admin Login</h2>
+
+        <p class="subtitle">
+            Secure access for authorized college administration.
+        </p>
+
+
+        <div
+            id="message"
+            class="message">
+        </div>
+
+
+        <form id="loginForm">
+
+            <div class="form-group">
+
+                <label for="username">
+                    Admin Username
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    placeholder="Enter admin username"
+                    autocomplete="username"
+                    required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter password"
+                    autocomplete="current-password"
+                    required>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="login-btn"
+                id="loginBtn">
+
+                Login to Admin Portal
+
+            </button>
+
+        </form>
+
+
+        <div class="security">
+
+             <strong>Authorized Access Only</strong><br>
+
+            This portal is intended only for the authorized
+            KHIT host/admin account. If you are not the system
+            administrator, do not open or use this page.
+
+        </div>
+
+
+        <div class="back">
+
+            <a href="../index.html">
+                 Back to Portal
+            </a>
+
+        </div>
+
+        <div class="back">
+
+            <a href="../login.html">
+                 Back to Student Login
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+
+         2026 KHIT Family  Administrative Portal
+
+    </div>
+
+</div>
+
+
+<script>
+
+const API_BASE =
+    "http://localhost:5000";
+
+
+const form =
+    document.getElementById("loginForm");
+
+
+const loginBtn =
+    document.getElementById("loginBtn");
+
+
+const message =
+    document.getElementById("message");
+
+
+function showMessage(
+    text,
+    type
+) {
+
+    message.textContent = text;
+
+    message.className =
+        "message " + type;
+
+}
+
+
+/* =================================
+   ADMIN LOGIN
+================================= */
+
+form.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+
+        const username =
+            document
+                .getElementById("username")
+                .value
+                .trim();
+
+
+        const password =
+            document
+                .getElementById("password")
+                .value;
+
+
+        if (!username || !password) {
+
+            showMessage(
+                "Please enter username and password.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        loginBtn.disabled = true;
+
+        loginBtn.textContent =
+            "Signing in...";
+
+
+        message.style.display =
+            "none";
+
+
+        try {
+
+            /*
+             * IMPORTANT:
+             * Current backend has only
+             * /api/student/login.
+             *
+             * Admin login endpoint will be
+             * added in the next backend step.
+             */
+
+            const response =
+                await fetch(
+                    API_BASE +
+                    "/api/admin/login",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            username:
+                                username,
+
+                            password:
+                                password
+                        })
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.message ||
+                    "Invalid admin credentials"
+                );
+
+            }
+
+
+            if (
+                !data.user ||
+                (
+                    data.user.role !== "admin" &&
+                    data.user.role !== "superadmin"
+                )
+            ) {
+
+                throw new Error(
+                    "Admin access required"
+                );
+
+            }
+
+
+            localStorage.setItem(
+                "khit_token",
+                data.token
+            );
+
+
+            localStorage.setItem(
+                "khit_user",
+                JSON.stringify(
+                    data.user
+                )
+            );
+
+
+            showMessage(
+                "Admin login successful. Redirecting...",
+                "success"
+            );
+
+
+            setTimeout(
+                function() {
+
+                    window.location.href =
+                        "../admin-dashboard.html";
+
+                },
+                700
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Admin Login Error:",
+                error
+            );
+
+
+            showMessage(
+                error.message ||
+                "Unable to login.",
+                "error"
+            );
+
+
+            loginBtn.disabled =
+                false;
+
+            loginBtn.textContent =
+                "Login to Admin Portal";
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>

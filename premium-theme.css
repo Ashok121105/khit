@@ -1,0 +1,299 @@
+/*
+ * Shared KHIT Family visual layer.
+ * It deliberately stays presentation-only so each page keeps its existing
+ * navigation, data loading, and role-specific behavior.
+ */
+:root {
+    --khit-maroon: #8f1738;
+    --khit-maroon-dark: #5e1029;
+    --khit-burgundy: #74122f;
+    --khit-rose: #f7e8eb;
+    --khit-mist: #fbf8f5;
+    --khit-cream: #fffdf8;
+    --khit-gold: #c6a15b;
+    --khit-ink: #30252a;
+    --khit-muted: #75686d;
+    --khit-line: #eadde0;
+    --khit-shadow: 0 18px 45px rgba(95, 16, 41, 0.1);
+}
+
+html {
+    background: var(--khit-mist);
+}
+
+body {
+    background:
+        radial-gradient(circle at 8% 0%, rgba(247, 232, 235, 0.8), transparent 30%),
+        linear-gradient(180deg, var(--khit-mist) 0%, #ffffff 100%) !important;
+    color: var(--khit-ink) !important;
+}
+
+header,
+.topbar {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border-color: var(--khit-line) !important;
+    box-shadow: 0 8px 24px rgba(22, 61, 107, 0.045);
+    backdrop-filter: blur(14px);
+}
+
+.brand h1,
+.brand h2,
+.brand-text h2,
+.login-title h1,
+.login-box h1,
+.topbar h3,
+.title h1,
+.title-section h1,
+.top-section h1,
+.section-title,
+.profile-card h2,
+.section h2,
+.card .value,
+.info-value {
+    color: var(--khit-maroon) !important;
+}
+
+.brand p,
+.brand-text p,
+.brand .subtitle,
+.title p,
+.title-section p,
+.top-section p,
+.profile-item span,
+.muted,
+.card .label,
+.empty {
+    color: var(--khit-muted) !important;
+}
+
+button,
+.btn,
+.portal-btn,
+.home-btn,
+.register-btn,
+.login-btn,
+.logout,
+.logout-btn,
+.login-box .login-btn {
+    background: linear-gradient(135deg, var(--khit-maroon-dark) 0%, var(--khit-maroon) 100%) !important;
+    color: #ffffff !important;
+    border: 0 !important;
+    box-shadow: 0 10px 22px rgba(95, 16, 41, 0.18);
+    transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+}
+
+button:hover,
+.btn:hover,
+.portal-btn:hover,
+.home-btn:hover,
+.register-btn:hover,
+.login-btn:hover,
+.logout:hover,
+.logout-btn:hover {
+    filter: brightness(1.06);
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px rgba(95, 16, 41, 0.24);
+}
+
+.portal-btn.secondary,
+.back-btn,
+.secondary-btn,
+.btn.light {
+    background: #ffffff !important;
+    color: var(--khit-maroon) !important;
+    border: 1px solid var(--khit-line) !important;
+    box-shadow: none;
+}
+
+.portal-card {
+    background: linear-gradient(180deg, #ffffff 0%, #fffaf9 100%) !important;
+    border-color: var(--khit-line) !important;
+    box-shadow: 0 12px 28px rgba(95, 16, 41, 0.08) !important;
+}
+
+.portal-card h3,
+.status-text,
+.progress-value {
+    color: var(--khit-maroon) !important;
+}
+
+.portal-card p {
+    color: var(--khit-muted) !important;
+}
+
+.portal-card button,
+.portal-card.secondary button,
+.demo-btn {
+    background: linear-gradient(135deg, var(--khit-maroon-dark), var(--khit-maroon)) !important;
+    color: #ffffff !important;
+    border: 0 !important;
+}
+
+.status-panel {
+    background: linear-gradient(135deg, #fffaf0 0%, #ffffff 100%) !important;
+    border-color: #ead9b9 !important;
+    box-shadow: 0 14px 30px rgba(95, 16, 41, 0.08) !important;
+}
+
+.status-badge {
+    background: var(--khit-maroon-dark) !important;
+}
+
+.progress-fill {
+    background: linear-gradient(90deg, var(--khit-maroon), var(--khit-burgundy)) !important;
+}
+
+input,
+select,
+textarea {
+    border-color: #cfdde8 !important;
+    background: rgba(255, 255, 255, 0.92) !important;
+    color: var(--khit-ink) !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--khit-maroon) !important;
+    box-shadow: 0 0 0 4px rgba(143, 23, 56, 0.12) !important;
+}
+
+.form-card,
+.login-card,
+.login-box,
+.card,
+.section,
+.overview,
+.profile-card,
+.topbar,
+.form-card,
+.parent-card {
+    border-color: var(--khit-line) !important;
+    box-shadow: var(--khit-shadow) !important;
+}
+
+.welcome,
+.hero {
+    background:
+        linear-gradient(135deg, rgba(94, 16, 41, 0.98), rgba(143, 23, 56, 0.96)),
+        radial-gradient(circle at 90% 10%, rgba(201, 150, 62, 0.36), transparent 28%) !important;
+    box-shadow: 0 20px 38px rgba(95, 16, 41, 0.18) !important;
+}
+
+.welcome::after,
+.hero::after {
+    content: "";
+    display: block;
+    height: 3px;
+    width: 72px;
+    margin-top: 18px;
+    border-radius: 99px;
+    background: var(--khit-gold);
+}
+
+.sidebar {
+    background:
+        linear-gradient(180deg, var(--khit-maroon-dark) 0%, var(--khit-maroon) 70%, #a33b55 100%) !important;
+    box-shadow: 8px 0 28px rgba(13, 43, 77, 0.16) !important;
+}
+
+.menu-item:hover,
+.menu-item.active,
+.menu a:hover,
+.menu a.active {
+    background: rgba(255, 255, 255, 0.13) !important;
+    border-color: rgba(255, 255, 255, 0.16) !important;
+}
+
+table th {
+    background: var(--khit-rose) !important;
+    color: var(--khit-maroon) !important;
+}
+
+table th,
+table td,
+.notification-item {
+    border-color: var(--khit-line) !important;
+}
+
+.info-box,
+.profile-item,
+.note {
+    background: var(--khit-rose) !important;
+    border-color: #ead1d7 !important;
+}
+
+.brand-badge {
+    background: linear-gradient(135deg, var(--khit-maroon-dark), var(--khit-maroon)) !important;
+    box-shadow: 0 12px 25px rgba(95, 16, 41, 0.22);
+}
+
+body.theme-dark {
+    background: #21171c !important;
+    color: #f9eef1 !important;
+}
+
+body.theme-dark .topbar,
+body.theme-dark .settings-topbar,
+body.theme-dark .profile-header,
+body.theme-dark .profile-card,
+body.theme-dark .section,
+body.theme-dark .updates,
+body.theme-dark .service-card,
+body.theme-dark .id-card,
+body.theme-dark .panel,
+body.theme-dark #profileForm {
+    background: #302329 !important;
+    border-color: #5b3c47 !important;
+    color: #f9eef1 !important;
+}
+
+body.theme-dark .topbar h3,
+body.theme-dark .section-title,
+body.theme-dark .profile-header h2,
+body.theme-dark .profile-card h2,
+body.theme-dark .section h2,
+body.theme-dark .service-card h3,
+body.theme-dark .page-title h1,
+body.theme-dark .page-heading h2,
+body.theme-dark .panel h3 {
+    color: #f4b7c5 !important;
+}
+
+body.theme-dark .service-card p,
+body.theme-dark .profile-header p,
+body.theme-dark .profile-item span,
+body.theme-dark .page-title p,
+body.theme-dark .panel-copy,
+body.theme-dark .muted {
+    color: #d9c0c8 !important;
+}
+
+body.theme-dark input,
+body.theme-dark textarea,
+body.theme-dark select,
+body.theme-dark .field,
+body.theme-dark .theme-option label {
+    background: #241a1f !important;
+    color: #f9eef1 !important;
+    border-color: #5b3c47 !important;
+}
+
+body.theme-dark .theme-preview,
+body.theme-dark .back-link {
+    background: #241a1f !important;
+    color: #f4b7c5 !important;
+    border-color: #5b3c47 !important;
+}
+
+@media (max-width: 720px) {
+    .container,
+    .content {
+        padding: 20px !important;
+    }
+
+    .topbar {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+    }
+}

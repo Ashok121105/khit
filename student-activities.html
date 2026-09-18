@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Activities & Events | KHIT Family</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .topbar {
+            height: 70px;
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand {
+            font-size: 22px;
+            font-weight: bold;
+            color: #173b70;
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .dashboard-btn {
+            background: #eef4ff;
+            color: #173b70;
+        }
+
+        .logout-btn {
+            background: #173b70;
+            color: white;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: auto;
+            padding: 30px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #173b70, #285a9e);
+            color: white;
+            border-radius: 18px;
+            padding: 35px;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .student-info {
+            background: white;
+            border-radius: 15px;
+            padding: 22px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .student-info h2 {
+            color: #173b70;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .info-item {
+            background: #f7f9fc;
+            padding: 14px;
+            border-radius: 10px;
+        }
+
+        .info-item span {
+            display: block;
+            color: #6b7280;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .info-item strong {
+            font-size: 15px;
+        }
+
+        .section-title {
+            margin: 30px 0 15px;
+            font-size: 22px;
+            color: #173b70;
+        }
+
+        .filters {
+            background: white;
+            padding: 18px;
+            border-radius: 14px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+        }
+
+        .filters input,
+        .filters select {
+            padding: 12px;
+            border: 1px solid #d7dce5;
+            border-radius: 8px;
+            outline: none;
+            background: white;
+        }
+
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .event-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.06);
+            transition: 0.25s;
+        }
+
+        .event-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 22px rgba(0,0,0,0.1);
+        }
+
+        .event-banner {
+            height: 125px;
+            background: linear-gradient(135deg, #dbeafe, #eff6ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 45px;
+        }
+
+        .event-content {
+            padding: 20px;
+        }
+
+        .event-type {
+            display: inline-block;
+            background: #eef4ff;
+            color: #285a9e;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .event-content h3 {
+            margin-bottom: 10px;
+            color: #1f2937;
+            font-size: 18px;
+        }
+
+        .event-details {
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .event-btn {
+            width: 100%;
+            padding: 11px;
+            background: #173b70;
+            color: white;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .event-btn:hover {
+            background: #285a9e;
+        }
+
+        .participation {
+            background: white;
+            border-radius: 15px;
+            padding: 22px;
+            margin-top: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        th,
+        td {
+            padding: 14px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+        }
+
+        th {
+            background: #f7f9fc;
+            color: #173b70;
+        }
+
+        .status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .registered {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .completed {
+            background: #e0e7ff;
+            color: #3730a3;
+        }
+
+        .upcoming {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .notice {
+            background: #fff;
+            border-left: 5px solid #285a9e;
+            padding: 18px;
+            border-radius: 10px;
+            margin-top: 30px;
+            color: #4b5563;
+            line-height: 1.6;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .no-results {
+            display: none;
+            background: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 12px;
+            color: #6b7280;
+        }
+
+        @media (max-width: 900px) {
+
+            .info-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .events-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .brand {
+                font-size: 18px;
+            }
+
+            .dashboard-btn {
+                display: none;
+            }
+
+            .container {
+                padding: 18px;
+            }
+
+            .hero {
+                padding: 25px;
+            }
+
+            .hero h1 {
+                font-size: 26px;
+            }
+
+            .info-grid,
+            .events-grid,
+            .filters {
+                grid-template-columns: 1fr;
+            }
+
+            .top-actions {
+                gap: 5px;
+            }
+
+            .btn {
+                padding: 9px 12px;
+            }
+        }
+    </style>
+    <link rel='stylesheet' href='premium-theme.css'>
+</head>
+
+<body>
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+
+        <div class="brand">
+            KHIT Family
+        </div>
+
+        <div class="top-actions">
+            <button class="btn dashboard-btn" onclick="goDashboard()">
+                Dashboard
+            </button>
+
+            <button class="btn logout-btn" onclick="logout()">
+                Logout
+            </button>
+        </div>
+
+    </div>
+
+
+    <div class="container">
+
+        <!-- HERO -->
+        <div class="hero">
+
+            <h1>Activities & Events</h1>
+
+            <p>
+                Discover college events, competitions, workshops,
+                sports, cultural activities and technical programs.
+            </p>
+
+        </div>
+
+
+        <!-- STUDENT INFORMATION -->
+        <div class="student-info">
+
+            <h2>Student Information</h2>
+
+            <div class="info-grid">
+
+                <div class="info-item">
+                    <span>Student Name</span>
+                    <strong id="studentName">Loading...</strong>
+                </div>
+
+                <div class="info-item">
+                    <span>Student ID</span>
+                    <strong id="studentId">Loading...</strong>
+                </div>
+
+                <div class="info-item">
+                    <span>Roll Number</span>
+                    <strong id="rollNumber">Loading...</strong>
+                </div>
+
+                <div class="info-item">
+                    <span>Department</span>
+                    <strong id="department">Loading...</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- FILTERS -->
+        <h2 class="section-title">
+            College Activities & Events
+        </h2>
+
+        <div class="filters">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search events..."
+                onkeyup="filterEvents()"
+            >
+
+            <select id="typeFilter" onchange="filterEvents()">
+
+                <option value="all">
+                    All Categories
+                </option>
+
+                <option value="technical">
+                    Technical
+                </option>
+
+                <option value="cultural">
+                    Cultural
+                </option>
+
+                <option value="sports">
+                    Sports
+                </option>
+
+                <option value="workshop">
+                    Workshop
+                </option>
+
+                <option value="competition">
+                    Competition
+                </option>
+
+            </select>
+
+
+            <select id="statusFilter" onchange="filterEvents()">
+
+                <option value="all">
+                    All Status
+                </option>
+
+                <option value="upcoming">
+                    Upcoming
+                </option>
+
+                <option value="registered">
+                    Registered
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- EVENTS -->
+        <div class="events-grid" id="eventsGrid">
+
+
+            <div
+                class="event-card"
+                data-name="Engineering Day Tech Expo"
+                data-type="technical"
+                data-status="upcoming"
+            >
+
+                <div class="event-banner">
+                    
+                </div>
+
+                <div class="event-content">
+
+                    <span class="event-type">
+                        Technical
+                    </span>
+
+                    <h3>
+                        Engineering Day Tech Expo
+                    </h3>
+
+                    <div class="event-details">
+                         Date: To be announced<br>
+                         Time: To be announced<br>
+                         Venue: College Campus
+                    </div>
+
+                    <button
+                        class="event-btn"
+                        onclick="viewEvent('Engineering Day Tech Expo')"
+                    >
+                        View Event
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="event-card"
+                data-name="Technical Workshop"
+                data-type="workshop"
+                data-status="upcoming"
+            >
+
+                <div class="event-banner">
+                    
+                </div>
+
+                <div class="event-content">
+
+                    <span class="event-type">
+                        Workshop
+                    </span>
+
+                    <h3>
+                        Technical Workshop
+                    </h3>
+
+                    <div class="event-details">
+                         Date: To be announced<br>
+                         Time: To be announced<br>
+                         Venue: College Campus
+                    </div>
+
+                    <button
+                        class="event-btn"
+                        onclick="viewEvent('Technical Workshop')"
+                    >
+                        View Event
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="event-card"
+                data-name="Cultural Fest"
+                data-type="cultural"
+                data-status="upcoming"
+            >
+
+                <div class="event-banner">
+                    
+                </div>
+
+                <div class="event-content">
+
+                    <span class="event-type">
+                        Cultural
+                    </span>
+
+                    <h3>
+                        Cultural Fest
+                    </h3>
+
+                    <div class="event-details">
+                         Date: To be announced<br>
+                         Time: To be announced<br>
+                         Venue: College Campus
+                    </div>
+
+                    <button
+                        class="event-btn"
+                        onclick="viewEvent('Cultural Fest')"
+                    >
+                        View Event
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="event-card"
+                data-name="Sports Meet"
+                data-type="sports"
+                data-status="upcoming"
+            >
+
+                <div class="event-banner">
+                    
+                </div>
+
+                <div class="event-content">
+
+                    <span class="event-type">
+                        Sports
+                    </span>
+
+                    <h3>
+                        Sports Meet
+                    </h3>
+
+                    <div class="event-details">
+                         Date: To be announced<br>
+                         Time: To be announced<br>
+                         Venue: College Ground
+                    </div>
+
+                    <button
+                        class="event-btn"
+                        onclick="viewEvent('Sports Meet')"
+                    >
+                        View Event
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="event-card"
+                data-name="Project Competition"
+                data-type="competition"
+                data-status="upcoming"
+            >
+
+                <div class="event-banner">
+                    
+                </div>
+
+                <div class="event-content">
+
+                    <span class="event-type">
+                        Competition
+                    </span>
+
+                    <h3>
+                        Project Competition
+                    </h3>
+
+                    <div class="event-details">
+                         Date: To be announced<br>
+                         Time: To be announced<br>
+                         Venue: College Campus
+                    </div>
+
+                    <button
+                        class="event-btn"
+                        onclick="viewEvent('Project Competition')"
+                    >
+                        View Event
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="event-card"
+                data-name="Student Technical Activity"
+                data-type="technical"
+                data-status="registered"
+            >
+
+                <div class="event-banner">
+                    
+                </div>
+
+                <div class="event-content">
+
+                    <span class="event-type">
+                        Technical
+                    </span>
+
+                    <h3>
+                        Student Technical Activity
+                    </h3>
+
+                    <div class="event-details">
+                         Date: To be announced<br>
+                         Time: To be announced<br>
+                         Venue: College Campus
+                    </div>
+
+                    <button
+                        class="event-btn"
+                        onclick="viewEvent('Student Technical Activity')"
+                    >
+                        View Event
+                    </button>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div
+            class="no-results"
+            id="noResults"
+        >
+            No activities or events found.
+        </div>
+
+
+        <!-- PARTICIPATION HISTORY -->
+        <div class="participation">
+
+            <h2 class="section-title">
+                My Participation
+            </h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Event</th>
+                        <th>Category</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>Student Technical Activity</td>
+                        <td>Technical</td>
+                        <td>To be announced</td>
+                        <td>
+                            <span class="status registered">
+                                Registered
+                            </span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Project Competition</td>
+                        <td>Competition</td>
+                        <td>To be announced</td>
+                        <td>
+                            <span class="status upcoming">
+                                Upcoming
+                            </span>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- NOTICE -->
+        <div class="notice">
+
+            <strong>College Data Notice</strong>
+
+            <br><br>
+
+            Events, dates, venues, registration details and participation
+            records shown here are sample/prototype information.
+
+            Actual college activities and events will be displayed after
+            authorized KHIT administration/faculty integration.
+
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+
+        KHIT Family  Student Activities & Events
+
+    </div>
+
+
+    <script>
+
+        const API_URL = "http://localhost:5000";
+        const token = localStorage.getItem("khit_token");
+
+        if (!token) {
+            window.location.href = "login.html";
+        }
+
+        async function loadStudentProfile() {
+            try {
+                const response = await fetch(`${API_URL}/api/student/profile`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    alert(result.message || "Unable to load profile.");
+                    logout();
+                    return;
+                }
+
+                const student = result.student;
+
+                document.getElementById("studentName").textContent = student.full_name || "-";
+                document.getElementById("studentId").textContent = student.student_id || "-";
+                document.getElementById("rollNumber").textContent = student.roll_number || "-";
+                document.getElementById("department").textContent = student.department || "-";
+
+            } catch (error) {
+                console.error("Student activities profile error:", error);
+                alert("Cannot connect to KHIT Family server.");
+            }
+        }
+
+        function filterEvents() {
+            const searchValue = (document.getElementById("searchInput").value || "").toLowerCase();
+            const typeFilter = document.getElementById("typeFilter").value;
+            const statusFilter = document.getElementById("statusFilter").value;
+            const cards = document.querySelectorAll(".event-card");
+            let visibleCount = 0;
+
+            cards.forEach((card) => {
+                const name = (card.dataset.name || "").toLowerCase();
+                const type = (card.dataset.type || "").toLowerCase();
+                const status = (card.dataset.status || "").toLowerCase();
+
+                const matchesSearch = !searchValue || name.includes(searchValue);
+                const matchesType = typeFilter === "all" || type === typeFilter;
+                const matchesStatus = statusFilter === "all" || status === statusFilter;
+
+                const shouldShow = matchesSearch && matchesType && matchesStatus;
+                card.style.display = shouldShow ? "block" : "none";
+
+                if (shouldShow) visibleCount++;
+            });
+
+            const noResults = document.getElementById("noResults");
+            noResults.style.display = visibleCount === 0 ? "block" : "none";
+        }
+
+        function viewEvent(name) {
+            alert("Event: " + name + "\n\nThis is a demo event entry. Authorized event details will be loaded from the college portal in the final version.");
+        }
+
+        function goDashboard() {
+            window.location.href = "student-dashboard.html";
+        }
+
+        function logout() {
+            localStorage.removeItem("khit_token");
+            localStorage.removeItem("khit_user");
+            localStorage.removeItem("khit_student");
+            window.location.href = "login.html";
+        }
+
+        loadStudentProfile();
+        filterEvents();
+
+    </script>
+
+</body>
+
+</html>
+

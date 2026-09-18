@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Placements | KHIT Family</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .topbar {
+            height: 70px;
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #173b70;
+        }
+
+        .brand-logo {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+            border-radius: 10px;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .dashboard-btn {
+            background: #eef4ff;
+            color: #173b70;
+        }
+
+        .logout-btn {
+            background: #173b70;
+            color: white;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: auto;
+            padding: 30px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #173b70, #285a9e);
+            color: white;
+            border-radius: 18px;
+            padding: 35px;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .student-info {
+            background: white;
+            border-radius: 15px;
+            padding: 22px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .student-info h2 {
+            color: #173b70;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .info-item {
+            background: #f7f9fc;
+            padding: 14px;
+            border-radius: 10px;
+        }
+
+        .info-item span {
+            display: block;
+            color: #6b7280;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .info-item strong {
+            font-size: 15px;
+        }
+
+        .section-title {
+            margin: 30px 0 15px;
+            font-size: 22px;
+            color: #173b70;
+        }
+
+        .filters {
+            background: white;
+            padding: 18px;
+            border-radius: 14px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+        }
+
+        .filters input,
+        .filters select {
+            padding: 12px;
+            border: 1px solid #d7dce5;
+            border-radius: 8px;
+            outline: none;
+            background: white;
+        }
+
+        .jobs-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .job-card {
+            background: white;
+            border-radius: 16px;
+            padding: 22px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.06);
+            transition: 0.25s;
+        }
+
+        .job-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 22px rgba(0,0,0,0.1);
+        }
+
+        .company-logo {
+            width: 58px;
+            height: 58px;
+            background: #eef4ff;
+            color: #173b70;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .job-card h3 {
+            font-size: 19px;
+            margin-bottom: 6px;
+        }
+
+        .role {
+            color: #285a9e;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .job-details {
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.9;
+            margin-bottom: 15px;
+        }
+
+        .eligibility {
+            background: #f7f9fc;
+            padding: 12px;
+            border-radius: 9px;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .apply-btn {
+            width: 100%;
+            padding: 11px;
+            background: #173b70;
+            color: white;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .apply-btn:hover {
+            background: #285a9e;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .open {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .applied {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .closed {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .applications {
+            background: white;
+            border-radius: 15px;
+            padding: 22px;
+            margin-top: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+        th,
+        td {
+            padding: 14px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+        }
+
+        th {
+            background: #f7f9fc;
+            color: #173b70;
+        }
+
+        .notice {
+            background: white;
+            border-left: 5px solid #285a9e;
+            padding: 18px;
+            border-radius: 10px;
+            margin-top: 30px;
+            color: #4b5563;
+            line-height: 1.6;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .no-results {
+            display: none;
+            background: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 12px;
+            color: #6b7280;
+        }
+
+        @media (max-width: 900px) {
+            .info-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .jobs-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 650px) {
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .brand {
+                font-size: 18px;
+            }
+
+            .dashboard-btn {
+                display: none;
+            }
+
+            .container {
+                padding: 18px;
+            }
+
+            .hero {
+                padding: 25px;
+            }
+
+            .hero h1 {
+                font-size: 26px;
+            }
+
+            .info-grid,
+            .jobs-grid,
+            .filters {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link rel='stylesheet' href='premium-theme.css'>
+</head>
+
+<body>
+
+    <!-- TOP BAR -->
+
+    <div class="topbar">
+
+        <div class="brand">
+            <img
+                class="brand-logo"
+                src="/khit-logo.png"
+                alt="KHIT Logo"
+            >
+            KHIT Family
+        </div>
+
+        <div class="top-actions">
+
+            <button
+                class="btn dashboard-btn"
+                onclick="goDashboard()"
+            >
+                Dashboard
+            </button>
+
+            <button
+                class="btn logout-btn"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="container">
+
+        <!-- HERO -->
+
+        <div class="hero">
+
+            <h1>
+                Placements
+            </h1>
+
+            <p>
+                Explore placement opportunities, company drives,
+                eligibility criteria and your application status.
+            </p>
+
+        </div>
+
+
+        <!-- STUDENT INFORMATION -->
+
+        <div class="student-info">
+
+            <h2>
+                Student Information
+            </h2>
+
+            <div class="info-grid">
+
+                <div class="info-item">
+                    <span>Student Name</span>
+                    <strong id="studentName">
+                        Loading...
+                    </strong>
+                </div>
+
+                <div class="info-item">
+                    <span>Student ID</span>
+                    <strong id="studentId">
+                        Loading...
+                    </strong>
+                </div>
+
+                <div class="info-item">
+                    <span>Roll Number</span>
+                    <strong id="rollNumber">
+                        Loading...
+                    </strong>
+                </div>
+
+                <div class="info-item">
+                    <span>Department</span>
+                    <strong id="department">
+                        Loading...
+                    </strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PLACEMENT DRIVES -->
+
+        <h2 class="section-title">
+            Placement Drives
+        </h2>
+
+
+        <!-- FILTERS -->
+
+        <div class="filters">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search company or job role..."
+                onkeyup="filterJobs()"
+            >
+
+
+            <select
+                id="roleFilter"
+                onchange="filterJobs()"
+            >
+
+                <option value="all">
+                    All Roles
+                </option>
+
+                <option value="software">
+                    Software
+                </option>
+
+                <option value="electronics">
+                    Electronics
+                </option>
+
+                <option value="core">
+                    Core Engineering
+                </option>
+
+                <option value="support">
+                    Support
+                </option>
+
+            </select>
+
+
+            <select
+                id="statusFilter"
+                onchange="filterJobs()"
+            >
+
+                <option value="all">
+                    All Status
+                </option>
+
+                <option value="open">
+                    Open
+                </option>
+
+                <option value="applied">
+                    Applied
+                </option>
+
+                <option value="closed">
+                    Closed
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- JOB CARDS -->
+
+        <div
+            class="jobs-grid"
+            id="jobsGrid"
+        >
+
+
+            <!-- JOB 1 -->
+
+            <div
+                class="job-card"
+                data-name="Technology Company Software Engineer"
+                data-role="software"
+                data-status="open"
+            >
+
+                <div class="company-logo">
+                    
+                </div>
+
+                <span class="status open">
+                    Open
+                </span>
+
+                <h3>
+                    Technology Company
+                </h3>
+
+                <div class="role">
+                    Software Engineer
+                </div>
+
+                <div class="job-details">
+                     Package: To be announced<br>
+                     Drive Date: To be announced<br>
+                     Mode: To be announced<br>
+                     Eligible: Selected branches
+                </div>
+
+                <div class="eligibility">
+                    <strong>Eligibility</strong><br>
+                    Eligibility criteria will be provided
+                    by the placement cell.
+                </div>
+
+                <button
+                    class="apply-btn"
+                    onclick="viewDrive('Technology Company - Software Engineer')"
+                >
+                    View Drive
+                </button>
+
+            </div>
+
+
+            <!-- JOB 2 -->
+
+            <div
+                class="job-card"
+                data-name="Electronics Company Embedded Engineer"
+                data-role="electronics"
+                data-status="open"
+            >
+
+                <div class="company-logo">
+                    
+                </div>
+
+                <span class="status open">
+                    Open
+                </span>
+
+                <h3>
+                    Electronics Company
+                </h3>
+
+                <div class="role">
+                    Embedded Engineer
+                </div>
+
+                <div class="job-details">
+                     Package: To be announced<br>
+                     Drive Date: To be announced<br>
+                     Mode: To be announced<br>
+                     Eligible: Selected branches
+                </div>
+
+                <div class="eligibility">
+                    <strong>Eligibility</strong><br>
+                    Eligibility criteria will be provided
+                    by the placement cell.
+                </div>
+
+                <button
+                    class="apply-btn"
+                    onclick="viewDrive('Electronics Company - Embedded Engineer')"
+                >
+                    View Drive
+                </button>
+
+            </div>
+
+
+            <!-- JOB 3 -->
+
+            <div
+                class="job-card"
+                data-name="Manufacturing Company Graduate Engineer"
+                data-role="core"
+                data-status="open"
+            >
+
+                <div class="company-logo">
+                    
+                </div>
+
+                <span class="status open">
+                    Open
+                </span>
+
+                <h3>
+                    Manufacturing Company
+                </h3>
+
+                <div class="role">
+                    Graduate Engineer
+                </div>
+
+                <div class="job-details">
+                     Package: To be announced<br>
+                     Drive Date: To be announced<br>
+                     Mode: To be announced<br>
+                     Eligible: Selected branches
+                </div>
+
+                <div class="eligibility">
+                    <strong>Eligibility</strong><br>
+                    Eligibility criteria will be provided
+                    by the placement cell.
+                </div>
+
+                <button
+                    class="apply-btn"
+                    onclick="viewDrive('Manufacturing Company - Graduate Engineer')"
+                >
+                    View Drive
+                </button>
+
+            </div>
+
+
+            <!-- JOB 4 -->
+
+            <div
+                class="job-card"
+                data-name="IT Services Company Support Engineer"
+                data-role="support"
+                data-status="applied"
+            >
+
+                <div class="company-logo">
+                    
+                </div>
+
+                <span class="status applied">
+                    Applied
+                </span>
+
+                <h3>
+                    IT Services Company
+                </h3>
+
+                <div class="role">
+                    Support Engineer
+                </div>
+
+                <div class="job-details">
+                     Package: To be announced<br>
+                     Drive Date: To be announced<br>
+                     Mode: To be announced<br>
+                     Eligible: Selected branches
+                </div>
+
+                <div class="eligibility">
+                    <strong>Eligibility</strong><br>
+                    Application submitted through
+                    the placement portal.
+                </div>
+
+                <button
+                    class="apply-btn"
+                    onclick="viewDrive('IT Services Company - Support Engineer')"
+                >
+                    View Application
+                </button>
+
+            </div>
+
+
+            <!-- JOB 5 -->
+
+            <div
+                class="job-card"
+                data-name="Core Electronics Company Design Engineer"
+                data-role="electronics"
+                data-status="open"
+            >
+
+                <div class="company-logo">
+                    
+                </div>
+
+                <span class="status open">
+                    Open
+                </span>
+
+                <h3>
+                    Core Electronics Company
+                </h3>
+
+                <div class="role">
+                    Design Engineer
+                </div>
+
+                <div class="job-details">
+                     Package: To be announced<br>
+                     Drive Date: To be announced<br>
+                     Mode: To be announced<br>
+                     Eligible: Selected branches
+                </div>
+
+                <div class="eligibility">
+                    <strong>Eligibility</strong><br>
+                    Eligibility criteria will be provided
+                    by the placement cell.
+                </div>
+
+                <button
+                    class="apply-btn"
+                    onclick="viewDrive('Core Electronics Company - Design Engineer')"
+                >
+                    View Drive
+                </button>
+
+            </div>
+
+
+            <!-- JOB 6 -->
+
+            <div
+                class="job-card"
+                data-name="Engineering Company Trainee Engineer"
+                data-role="core"
+                data-status="closed"
+            >
+
+                <div class="company-logo">
+                    
+                </div>
+
+                <span class="status closed">
+                    Closed
+                </span>
+
+                <h3>
+                    Engineering Company
+                </h3>
+
+                <div class="role">
+                    Trainee Engineer
+                </div>
+
+                <div class="job-details">
+                     Package: To be announced<br>
+                     Drive Date: Completed<br>
+                     Mode: To be announced<br>
+                     Eligible: Selected branches
+                </div>
+
+                <div class="eligibility">
+                    <strong>Status</strong><br>
+                    This placement drive is currently
+                    closed for applications.
+                </div>
+
+                <button
+                    class="apply-btn"
+                    onclick="viewDrive('Engineering Company - Trainee Engineer')"
+                >
+                    View Details
+                </button>
+
+            </div>
+
+
+        </div>
+
+
+        <div
+            class="no-results"
+            id="noResults"
+        >
+            No placement opportunities found.
+        </div>
+
+
+        <!-- MY APPLICATIONS -->
+
+        <div class="applications">
+
+            <h2 class="section-title">
+                My Placement Applications
+            </h2>
+
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Company</th>
+                        <th>Role</th>
+                        <th>Applied Date</th>
+                        <th>Status</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>IT Services Company</td>
+                        <td>Support Engineer</td>
+                        <td>-</td>
+                        <td>Not connected</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="note">Placement drives and applications are sample placeholders until official placement data is connected.</p>
+        </div>
+    </section>
+</main>
+</div>
+<script>
+const token = localStorage.getItem("khit_token");
+if (!token) window.location.href = "login.html";
+function goDashboard() { window.location.href = "student-dashboard.html"; }
+function logout() { localStorage.removeItem("khit_token"); localStorage.removeItem("khit_user"); localStorage.removeItem("khit_student"); window.location.href = "login.html"; }
+function viewDrive(name) { alert(`${name}\n\nOfficial placement details will appear after authorized data is connected.`); }
+async function loadPlacementDrives(){try{const response=await fetch("/api/student/placements",{headers:{Authorization:`Bearer ${token}`}});if(!response.ok)return;const data=await response.json();const drives=data.drives||[];if(!drives.length)return;const cards=document.querySelectorAll(".job-card");cards.forEach(card=>card.remove());const container=document.querySelector(".jobs-grid, .placements-grid");if(!container)return;drives.forEach(drive=>{const card=document.createElement("article");card.className="job-card";card.innerHTML=`<h3>${drive.company_name||"Company"}</h3><div class="role">${drive.job_role||"-"}</div><p>${drive.description||""}</p><div class="job-details">Drive date: ${drive.drive_date||"-"}<br>Location: ${drive.location||"-"}<br>Package: ${drive.package||"-"}</div><button class="apply-btn" onclick="viewDrive('${String(drive.company_name||"Placement").replace(/'/g,"\\'")}')">View Details</button>`;container.appendChild(card)})}catch(error){console.error("Placements error:",error)}}
+loadPlacementDrives();
+</script>
+</body>
+</html>

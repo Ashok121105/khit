@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Reports | KHIT Family</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #0f172a;
+    }
+    .topbar {
+      background: #0f172a;
+      color: #fff;
+      padding: 18px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    .brand p {
+      margin: 4px 0 0;
+      color: #cbd5e1;
+      font-size: 13px;
+    }
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .user-pill {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+    .logout-btn {
+      background: #dc2626;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 12px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px 40px;
+    }
+    .hero {
+      background: linear-gradient(135deg, #1d4ed8, #0f172a);
+      color: white;
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+    .hero h2 {
+      margin: 0 0 8px;
+      font-size: 28px;
+    }
+    .hero p {
+      margin: 0;
+      color: #dbeafe;
+      font-size: 14px;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .card {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: 0 6px 18px rgba(15,23,42,0.04);
+    }
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 14px;
+      color: #475569;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+    .value {
+      font-size: 30px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    th, td {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 10px 8px;
+      text-align: left;
+    }
+    th {
+      color: #475569;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .muted {
+      color: #64748b;
+      font-size: 13px;
+    }
+    .notification-item {
+      padding: 12px 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .notification-item:last-child {
+      border-bottom: none;
+    }
+    @media (max-width: 860px) {
+      .stats, .grid { grid-template-columns: 1fr; }
+      .topbar { flex-wrap: wrap; gap: 12px; }
+    }
+  </style>
+    <link rel='stylesheet' href='premium-theme.css'>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1>KHIT Family</h1>
+      <p>Admin Reports</p>
+    </div>
+    <div class="top-actions">
+      <span class="user-pill" id="headerUser">Admin</span>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h2 id="heroTitle">Loading report data...</h2>
+      <p id="heroSubtitle">Monitoring student, attendance and fee trends across the college.</p>
+    </section>
+
+    <section class="stats">
+      <div class="card">
+        <h3>Students</h3>
+        <div class="value" id="studentsTotal">0</div>
+      </div>
+      <div class="card">
+        <h3>Faculty</h3>
+        <div class="value" id="facultyTotal">0</div>
+      </div>
+      <div class="card">
+        <h3>Fees Collected</h3>
+        <div class="value" id="feesCollected">0</div>
+      </div>
+      <div class="card">
+        <h3>Fees Pending</h3>
+        <div class="value" id="feesPending">0</div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <h3>Department Distribution</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Department</th>
+              <th>Students</th>
+            </tr>
+          </thead>
+          <tbody id="departmentTableBody">
+            <tr><td colspan="2" class="muted">Loading department data...</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>Attendance Summary</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Status</th>
+              <th>Count</th>
+            </tr>
+          </thead>
+          <tbody id="attendanceTableBody">
+            <tr><td colspan="2" class="muted">Loading attendance data...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="grid" style="margin-top:20px;">
+      <div class="card">
+        <h3>Fee Statuses</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Status</th>
+              <th>Records</th>
+            </tr>
+          </thead>
+          <tbody id="feeStatusTableBody">
+            <tr><td colspan="2" class="muted">Loading fee status data...</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>Recent Notifications</h3>
+        <div id="notificationsList" class="muted">Loading notifications...</div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const token = localStorage.getItem('khit_token');
+    const user = JSON.parse(localStorage.getItem('khit_user') || '{}');
+    const API = 'http://localhost:5000';
+
+    if (!token) {
+      window.location.href = 'database/admin-login.html';
+    }
+
+    function formatCurrency(value) {
+      const num = Number(value || 0);
+      return `${num.toLocaleString('en-IN', { maximumFractionDigits: 2 })}`;
+    }
+
+    function renderDepartmentTable(rows) {
+      if (!rows || !rows.length) {
+        document.getElementById('departmentTableBody').innerHTML = '<tr><td colspan="2" class="muted">No department data available.</td></tr>';
+        return;
+      }
+
+      document.getElementById('departmentTableBody').innerHTML = rows.map(item => `
+        <tr>
+          <td>${item.department || 'Unknown'}</td>
+          <td>${item.total_students || 0}</td>
+        </tr>
+      `).join('');
+    }
+
+    function renderAttendanceTable(rows) {
+      if (!rows || !rows.length) {
+        document.getElementById('attendanceTableBody').innerHTML = '<tr><td colspan="2" class="muted">No attendance data available.</td></tr>';
+        return;
+      }
+
+      const total = rows.reduce((sum, item) => sum + Number(item.total || 0), 0);
+      document.getElementById('attendanceTableBody').innerHTML = rows.map(item => `
+        <tr>
+          <td>${item.status || 'Unknown'}</td>
+          <td>${item.total || 0}</td>
+        </tr>
+      `).join('');
+    }
+
+    function renderFeeStatusTable(rows) {
+      if (!rows || !rows.length) {
+        document.getElementById('feeStatusTableBody').innerHTML = '<tr><td colspan="2" class="muted">No fee status data available.</td></tr>';
+        return;
+      }
+
+      document.getElementById('feeStatusTableBody').innerHTML = rows.map(item => `
+        <tr>
+          <td>${item.status || 'Unknown'}</td>
+          <td>${item.total_records || 0}</td>
+        </tr>
+      `).join('');
+    }
+
+    function renderNotifications(rows) {
+      if (!rows || !rows.length) {
+        document.getElementById('notificationsList').textContent = 'No recent notifications available.';
+        return;
+      }
+
+      document.getElementById('notificationsList').innerHTML = rows.map(item => `
+        <div class="notification-item">
+          <strong>${item.title || 'Notification'}</strong><br>
+          <span class="muted">${item.message || 'No message available.'}</span><br>
+          <small class="muted">${item.created_at ? new Date(item.created_at).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : 'Recently'}</small>
+        </div>
+      `).join('');
+    }
+
+    async function loadReports() {
+      try {
+        const response = await fetch(API + '/api/admin/reports', {
+          headers: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (response.status === 401 || response.status === 403) {
+          logout();
+          return;
+        }
+
+        const result = await response.json();
+        if (!response.ok || result.status !== 'success') {
+          throw new Error(result.message || 'Unable to load admin reports');
+        }
+
+        const { summary, departmentBreakdown, feeStatusBreakdown, recentAnnouncements } = result;
+
+        document.getElementById('headerUser').textContent = user.username || 'Admin';
+        document.getElementById('heroTitle').textContent = `Overview for ${user.username || 'Administrator'}`;
+
+        document.getElementById('studentsTotal').textContent = summary.students || 0;
+        document.getElementById('facultyTotal').textContent = summary.faculty || 0;
+        document.getElementById('feesCollected').textContent = formatCurrency(summary.fee_paid || 0);
+        document.getElementById('feesPending').textContent = formatCurrency(summary.fee_pending || 0);
+
+        renderDepartmentTable(departmentBreakdown);
+        renderFeeStatusTable(feeStatusBreakdown);
+        renderNotifications(recentAnnouncements);
+
+        const attendanceRows = [
+          { status: 'Present', total: summary.attendance_present || 0 },
+          { status: 'Absent', total: summary.attendance_absent || 0 },
+          { status: 'Leave', total: summary.attendance_leave || 0 }
+        ];
+        renderAttendanceTable(attendanceRows);
+      } catch (error) {
+        console.error(error);
+        alert(error.message || 'Unable to load reports');
+        logout();
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('khit_token');
+      localStorage.removeItem('khit_user');
+      window.location.href = 'database/admin-login.html';
+    }
+
+    loadReports();
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Student Dashboard | KHIT Family
+    </title>
+
+    <style>
+        :root {
+            --theme-deep: #8f1738;
+            --theme-deep-2: #5e1029;
+            --theme-mid: #b03a59;
+            --theme-soft: #eaf3ff;
+            --theme-light: #f5f9ff;
+            --theme-line: #dfeafc;
+            --theme-ink: #1f2937;
+            --theme-muted: #667085;
+            --theme-panel: #ffffff;
+            --theme-sidebar: linear-gradient(180deg, #8f1738 0%, #0c2d52 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(180deg, var(--theme-soft) 0%, #ffffff 100%);
+            color: var(--theme-ink);
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: var(--theme-sidebar);
+            color: white;
+            padding: 25px 15px;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 6px 0 20px rgba(19, 59, 109, 0.18);
+        }
+
+        .logo-area {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-area h2 {
+            font-size: 22px;
+        }
+
+        .logo-area p {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        .menu-item {
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 14px;
+            border: 1px solid transparent;
+        }
+
+        .menu-icon {
+            display: inline-flex;
+            width: 22px;
+            height: 18px;
+            margin-right: 6px;
+            align-items: center;
+            justify-content: center;
+            color: #f0c978;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .menu-item:hover,
+        .menu-item.active {
+            background: rgba(255,255,255,0.15);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        /* MAIN */
+
+        .main {
+
+            margin-left: 250px;
+
+            min-height: 100vh;
+
+        }
+
+        /* TOPBAR */
+
+        .topbar {
+
+            height: 70px;
+
+                    background: rgba(255,255,255,0.96);
+
+                    border-bottom: 1px solid var(--theme-line);
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 0 30px;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 100;
+
+        }
+
+        .topbar h3 {
+                    color: var(--theme-deep);
+        }
+
+        .logout {
+
+                    background: linear-gradient(135deg, var(--theme-deep) 0%, var(--theme-mid) 100%);
+
+            color: white;
+
+            border: none;
+
+            padding: 10px 16px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+                    box-shadow: 0 10px 18px rgba(18, 59, 109, 0.16);
+
+                }
+
+        .container {
+
+            padding: 30px;
+
+            max-width: 1400px;
+
+            margin: auto;
+
+        }
+
+        /* WELCOME */
+
+        .welcome {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--theme-deep),
+                    var(--theme-mid)
+                );
+
+            color: white;
+
+            padding: 30px;
+
+            border-radius: 18px;
+
+            margin-bottom: 25px;
+
+            box-shadow: 0 14px 28px rgba(18, 59, 109, 0.12);
+
+        }
+
+        .welcome h1 {
+
+            font-size: 28px;
+
+            margin-bottom: 8px;
+
+        }
+
+        .welcome p {
+
+            opacity: 0.9;
+
+            line-height: 1.6;
+
+        }
+
+        /* PROFILE */
+
+        .profile-card {
+
+            background: white;
+
+            padding: 22px;
+
+            border-radius: 15px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 8px 20px rgba(17, 51, 92, 0.06);
+
+            border: 1px solid var(--theme-line);
+
+        }
+
+        .profile-card h2 {
+
+            color: var(--theme-deep);
+
+            margin-bottom: 18px;
+
+            font-size: 20px;
+
+        }
+
+        .profile-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 15px;
+
+        }
+
+        .profile-item {
+
+            background: var(--theme-light);
+
+            padding: 15px;
+
+            border-radius: 10px;
+
+            border: 1px solid var(--theme-line);
+
+        }
+
+        .profile-item span {
+
+            display: block;
+
+            color: #6b7280;
+
+            font-size: 12px;
+
+            margin-bottom: 6px;
+
+        }
+
+        .profile-item strong {
+
+            font-size: 14px;
+
+        }
+
+        /* SECTION TITLE */
+
+        .section-title {
+
+            color: var(--theme-deep);
+
+            margin: 28px 0 15px;
+
+            font-size: 22px;
+
+        }
+
+        /* SERVICES */
+
+        .services {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+
+        }
+
+        .service-card {
+
+            background: linear-gradient(145deg, #fff7f8 0%, #f8e7eb 100%);
+
+            padding: 22px;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 8px 20px rgba(17, 51, 92, 0.06);
+
+            cursor: pointer;
+
+            transition: 0.25s;
+
+            border: 1px solid var(--theme-line);
+
+        }
+
+        .service-card:nth-child(4n + 2) {
+
+            background: linear-gradient(145deg, #f5f9ff 0%, #e5efff 100%);
+
+        }
+
+        .service-card:nth-child(4n + 3) {
+
+            background: linear-gradient(145deg, #fffaf0 0%, #f7edcf 100%);
+
+        }
+
+        .service-card:nth-child(4n) {
+
+            background: linear-gradient(145deg, #f3fbf8 0%, #dff2eb 100%);
+
+        }
+
+        .service-card:hover {
+
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 12px 24px rgba(17, 51, 92, 0.1);
+
+        }
+
+        .service-icon {
+
+            width: 50px;
+            height: 50px;
+
+            background: rgba(255, 255, 255, 0.72);
+
+            color: var(--theme-deep);
+
+            border-radius: 12px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 14px;
+            border: 1px solid var(--theme-line);
+        }
+
+        .khit-icon {
+            width: 22px;
+            height: 22px;
+            border: 2px solid currentColor;
+            border-radius: 7px;
+            position: relative;
+            display: block;
+        }
+
+        .khit-icon::before {
+            content: "";
+            position: absolute;
+            width: 7px;
+            height: 7px;
+            border: 2px solid currentColor;
+            border-radius: 50%;
+            left: 5px;
+            top: 3px;
+        }
+
+        .khit-icon::after {
+            content: "";
+            position: absolute;
+            width: 12px;
+            height: 6px;
+            border: 2px solid currentColor;
+            border-bottom: 0;
+            border-radius: 9px 9px 0 0;
+            left: 3px;
+            bottom: 2px;
+        }
+
+        .service-card:nth-child(2) .khit-icon::before {
+            content: "ID";
+            border: 0;
+            width: auto;
+            height: auto;
+            left: 2px;
+            top: 2px;
+            font-size: 9px;
+            font-weight: 800;
+            border-radius: 0;
+        }
+
+        .service-card:nth-child(n+3) .khit-icon::before {
+            content: "";
+            width: 12px;
+            height: 8px;
+            border: 2px solid currentColor;
+            border-radius: 2px;
+            left: 3px;
+            top: 4px;
+        }
+
+        .service-card:nth-child(n+3) .khit-icon::after {
+            width: 12px;
+            height: 2px;
+            border: 0;
+            border-top: 2px solid currentColor;
+            border-radius: 0;
+            left: 3px;
+            bottom: 3px;
+        }
+
+        .service-card:nth-child(3) .khit-icon {
+            border-radius: 3px;
+        }
+
+        .service-card:nth-child(3) .khit-icon::before {
+            width: 13px;
+            height: 9px;
+            left: 2px;
+            top: 3px;
+            border-width: 2px 1px 2px 2px;
+            transform: skewY(-8deg);
+        }
+
+        .service-card:nth-child(3) .khit-icon::after {
+            width: 13px;
+            left: 3px;
+            bottom: 5px;
+            transform: rotate(-8deg);
+        }
+
+        .service-card:nth-child(4) .khit-icon::before {
+            width: 3px;
+            height: 10px;
+            left: 3px;
+            top: 7px;
+            border: 0;
+            border-radius: 1px;
+            background: currentColor;
+            box-shadow: 5px -4px 0 currentColor, 10px -7px 0 currentColor;
+        }
+
+        .service-card:nth-child(4) .khit-icon::after {
+            width: 14px;
+            height: 2px;
+            left: 2px;
+            bottom: 3px;
+            border: 0;
+            background: currentColor;
+        }
+
+        .service-card h3 {
+
+            color: var(--theme-deep);
+
+            margin-bottom: 7px;
+
+            font-size: 17px;
+
+        }
+
+        .service-card p {
+
+            color: #6b7280;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+
+        }
+
+        /* UPDATES */
+
+        .updates {
+
+            background: white;
+
+            border-radius: 15px;
+
+            padding: 22px;
+
+            box-shadow:
+                0 8px 20px rgba(17, 51, 92, 0.06);
+
+            border: 1px solid var(--theme-line);
+
+        }
+
+        .update {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            padding: 15px 0;
+
+            border-bottom:
+                1px solid #e5e7eb;
+
+        }
+
+        .update:last-child {
+            border-bottom: none;
+        }
+
+        .update strong {
+            color: var(--theme-deep);
+        }
+
+        .update span {
+
+            color: #6b7280;
+
+            font-size: 12px;
+
+        }
+
+        /* QUICK ACCESS */
+
+        .quick-access {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(5, 1fr);
+
+            gap: 12px;
+
+        }
+
+        .quick-btn {
+
+            background: white;
+
+            border:
+                1px solid #e5e7eb;
+
+            padding: 14px;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            color: #173b70;
+
+            font-weight: 600;
+
+        }
+
+        .quick-btn:hover {
+            background: #eef4ff;
+        }
+
+        /* SECURITY */
+
+        .security {
+
+            margin-top: 25px;
+
+            background: #eef6ff;
+
+            border-left:
+                5px solid #285a9e;
+
+            padding: 18px;
+
+            border-radius: 10px;
+
+            color: #374151;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+
+        }
+
+        /* MOBILE MENU */
+
+        .mobile-menu {
+
+            display: none;
+
+            background: #173b70;
+
+            color: white;
+
+            border: none;
+
+            padding: 9px 12px;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+
+        }
+
+        /* TABLET */
+
+        @media (max-width: 1100px) {
+
+            .services {
+
+                grid-template-columns:
+                    repeat(3, 1fr);
+
+            }
+
+            .quick-access {
+
+                grid-template-columns:
+                    repeat(3, 1fr);
+
+            }
+
+            .profile-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+
+                transform:
+                    translateX(-100%);
+
+                transition: 0.3s;
+
+            }
+
+            .sidebar.show {
+
+                transform:
+                    translateX(0);
+
+            }
+
+            .main {
+
+                margin-left: 0;
+
+            }
+
+            .mobile-menu {
+
+                display: block;
+
+            }
+
+            .topbar {
+
+                padding: 0 15px;
+
+            }
+
+            .container {
+
+                padding: 18px;
+
+            }
+
+            .services {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+            .quick-access {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+        }
+
+        @media (max-width: 550px) {
+
+            .services,
+            .quick-access,
+            .profile-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .welcome h1 {
+                font-size: 23px;
+            }
+
+            .topbar h3 {
+                font-size: 16px;
+            }
+
+            .logout {
+                padding: 8px 12px;
+            }
+
+        }
+
+    </style>
+
+    <script src="theme.js" defer></script>
+    <link rel='stylesheet' href='premium-theme.css'>
+</head>
+
+
+<body>
+
+
+    <!-- SIDEBAR -->
+
+    <aside
+        class="sidebar"
+        id="sidebar"
+    >
+
+        <div class="logo-area">
+
+            <h2>
+                KHIT Family
+            </h2>
+
+            <p>
+                Student Portal
+            </p>
+
+        </div>
+
+
+        <div
+            class="menu-item active"
+            onclick="goDashboard()"
+        >
+            <span class="menu-icon" aria-hidden="true">⌂</span> Home
+        </div>
+
+
+        <div
+            class="menu-item"
+            onclick="openProfile()"
+        >
+            <span class="menu-icon" aria-hidden="true">◉</span> My Profile
+        </div>
+
+
+        <div
+            class="menu-item"
+            onclick="openStudentID()"
+        >
+            <span class="menu-icon" aria-hidden="true">ID</span> Digital Student ID
+        </div>
+
+
+        <div
+            class="menu-item"
+            onclick="openAcademics()"
+        >
+            <span class="menu-icon" aria-hidden="true">▤</span> Academics
+        </div>
+
+
+        <div
+            class="menu-item"
+            onclick="openAttendance()"
+        >
+            <span class="menu-icon" aria-hidden="true">✓</span> Attendance
+        </div>
+
+
+        <div
+            class="menu-item"
+            onclick="openExams()"
+        >
+            <span class="menu-icon" aria-hidden="true">◇</span> Exams & Results
+        </div>
+
+
+        <div
+            class="menu-item"
+            onclick="openStudyMaterials()"
+        >
+            <span class="menu-icon" aria-hidden="true">▣</span> Study Materials
+        </div>
+
+
+        <div
+            class="menu-item"
+            onclick="openAssignments()"
+        >
+            <span class="menu-icon" aria-hidden="true">≡</span> Assignments
+        </div>
+
+
+        <div
+            class="menu-item"
+            onclick="openFees()"
+        >
+            <span class="menu-icon" aria-hidden="true">$</span> Fees
+        </div>
+
+
+        <div
+            class="menu-item"
+            onclick="openBus()"
+        >
+            <span class="menu-icon" aria-hidden="true">▰</span> Bus Services
+        </div>
+
+
+        <div
+            class="menu-item"
+            onclick="openActivities()"
+        >
+            <span class="menu-icon" aria-hidden="true">★</span> Activities & Events
+        </div>
+
+
+        <div
+            class="menu-item"
+            onclick="openPlacements()"
+        >
+            <span class="menu-icon" aria-hidden="true">□</span> Placements
+        </div>
+
+
+        <div
+            class="menu-item"
+            onclick="openInternships()"
+        >
+            <span class="menu-icon" aria-hidden="true">◇</span> Internships
+        </div>
+
+
+        <div
+            class="menu-item"
+            onclick="openDocuments()"
+        >
+            <span class="menu-icon" aria-hidden="true">▤</span> Documents
+        </div>
+
+
+        <!-- NOTIFICATIONS CONNECTED -->
+
+        <div
+            class="menu-item"
+            onclick="openNotifications()"
+        >
+            <span class="menu-icon" aria-hidden="true">!</span> Notifications
+        </div>
+
+        <div
+            class="menu-item"
+            onclick="openLeave()"
+        >
+            <span class="menu-icon" aria-hidden="true">□</span> Leave Request
+        </div>
+
+        <div
+            class="menu-item"
+            onclick="openSettings()"
+        >
+            <span class="menu-icon" aria-hidden="true">⚙</span> Settings
+        </div>
+
+    </aside>
+
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+
+        <!-- TOPBAR -->
+
+        <div class="topbar">
+
+            <div
+                style="
+                    display:flex;
+                    align-items:center;
+                    gap:12px;
+                "
+            >
+
+                <button
+                    class="mobile-menu"
+                    onclick="toggleSidebar()"
+                >
+                    
+                </button>
+
+
+                <h3>
+                    Student Dashboard
+                </h3>
+
+            </div>
+
+
+            <button
+                class="logout"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+
+        </div>
+
+
+
+        <div class="container">
+
+
+            <!-- WELCOME -->
+
+            <div class="welcome">
+
+                <h1>
+
+                    Welcome,
+                    <span id="welcomeName">
+                        Student
+                    </span>
+                    
+
+                </h1>
+
+
+                <p>
+
+                    Manage your academic information,
+                    activities, placements, internships,
+                    documents and notifications from
+                    your KHIT Family portal.
+
+                </p>
+
+            </div>
+
+
+
+            <!-- PROFILE -->
+
+            <div class="profile-card">
+
+                <h2>
+                    Student Overview
+                </h2>
+
+
+                <div class="profile-grid">
+
+
+                    <div class="profile-item">
+
+                        <span>
+                            Full Name
+                        </span>
+
+                        <strong id="studentName">
+                            Loading...
+                        </strong>
+
+                    </div>
+
+
+                    <div class="profile-item">
+
+                        <span>
+                            Student ID
+                        </span>
+
+                        <strong id="studentId">
+                            Loading...
+                        </strong>
+
+                    </div>
+
+
+                    <div class="profile-item">
+
+                        <span>
+                            Roll Number
+                        </span>
+
+                        <strong id="rollNumber">
+                            Loading...
+                        </strong>
+
+                    </div>
+
+
+                    <div class="profile-item">
+
+                        <span>
+                            Department
+                        </span>
+
+                        <strong id="department">
+                            Loading...
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SERVICES -->
+
+            <h2 class="section-title">
+                Student Services
+            </h2>
+
+
+            <div class="services">
+
+
+                <div
+                    class="service-card"
+                    onclick="openProfile()"
+                >
+
+                    <div class="service-icon"><span class="khit-icon" aria-hidden="true"></span></div>
+
+                    <h3>
+                        My Profile
+                    </h3>
+
+                    <p>
+                        View your personal and academic profile.
+                    </p>
+
+                </div>
+
+
+
+                <div
+                    class="service-card"
+                    onclick="openStudentID()"
+                >
+
+                    <div class="service-icon"><span class="khit-icon" aria-hidden="true"></span></div>
+
+                    <h3>
+                        Digital Student ID
+                    </h3>
+
+                    <p>
+                        Access your digital student identification card.
+                    </p>
+
+                </div>
+
+
+
+                <div
+                    class="service-card"
+                    onclick="openAcademics()"
+                >
+
+                    <div class="service-icon"><span class="khit-icon" aria-hidden="true"></span></div>
+
+                    <h3>
+                        Academics
+                    </h3>
+
+                    <p>
+                        View subjects, credits and academic progress.
+                    </p>
+
+                </div>
+
+
+
+                <div
+                    class="service-card"
+                    onclick="openAttendance()"
+                >
+
+                    <div class="service-icon"><span class="khit-icon" aria-hidden="true"></span></div>
+
+                    <h3>
+                        Attendance
+                    </h3>
+
+                    <p>
+                        Check attendance and subject-wise records.
+                    </p>
+
+                </div>
+
+
+
+                <div
+                    class="service-card"
+                    onclick="openExams()"
+                >
+
+                    <div class="service-icon"><span class="khit-icon" aria-hidden="true"></span></div>
+
+                    <h3>
+                        Exams & Results
+                    </h3>
+
+                    <p>
+                        View examination schedules and results.
+                    </p>
+
+                </div>
+
+
+
+                <div
+                    class="service-card"
+                    onclick="openStudyMaterials()"
+                >
+
+                    <div class="service-icon"><span class="khit-icon" aria-hidden="true"></span></div>
+
+                    <h3>
+                        Study Materials
+                    </h3>
+
+                    <p>
+                        Access notes, PDFs and learning materials.
+                    </p>
+
+                </div>
+
+
+
+                <div
+                    class="service-card"
+                    onclick="openAssignments()"
+                >
+
+                    <div class="service-icon"><span class="khit-icon" aria-hidden="true"></span></div>
+
+                    <h3>
+                        Assignments
+                    </h3>
+
+                    <p>
+                        Track assignments and submission status.
+                    </p>
+
+                </div>
+
+
+
+                <div
+                    class="service-card"
+                    onclick="openFees()"
+                >
+
+                    <div class="service-icon"><span class="khit-icon" aria-hidden="true"></span></div>
+
+                    <h3>
+                        Fees
+                    </h3>
+
+                    <p>
+                        View fee details, payments and receipts.
+                    </p>
+
+                </div>
+
+
+
+                <div
+                    class="service-card"
+                    onclick="openBus()"
+                >
+
+                    <div class="service-icon"><span class="khit-icon" aria-hidden="true"></span></div>
+
+                    <h3>
+                        Bus Services
+                    </h3>
+
+                    <p>
+                        View route, pickup and bus fee details.
+                    </p>
+
+                </div>
+
+
+
+                <div
+                    class="service-card"
+                    onclick="openActivities()"
+                >
+
+                    <div class="service-icon"><span class="khit-icon" aria-hidden="true"></span></div>
+
+                    <h3>
+                        Activities & Events
+                    </h3>
+
+                    <p>
+                        Explore college events and participation.
+                    </p>
+
+                </div>
+
+
+
+                <div
+                    class="service-card"
+                    onclick="openPlacements()"
+                >
+
+                    <div class="service-icon"><span class="khit-icon" aria-hidden="true"></span></div>
+
+                    <h3>
+                        Placements
+                    </h3>
+
+                    <p>
+                        Explore placement drives and applications.
+                    </p>
+
+                </div>
+
+
+
+                <div
+                    class="service-card"
+                    onclick="openInternships()"
+                >
+
+                    <div class="service-icon"><span class="khit-icon" aria-hidden="true"></span></div>
+
+                    <h3>
+                        Internships
+                    </h3>
+
+                    <p>
+                        Discover internship opportunities,
+                        roles and application status.
+                    </p>
+
+                </div>
+
+
+
+                <!-- DOCUMENTS -->
+
+                <div
+                    class="service-card"
+                    onclick="openDocuments()"
+                >
+
+                    <div class="service-icon"><span class="khit-icon" aria-hidden="true"></span></div>
+
+                    <h3>
+                        Documents
+                    </h3>
+
+                    <p>
+                        Access certificates, marks memos,
+                        receipts and college documents.
+                    </p>
+
+                </div>
+
+
+
+                <div
+                    class="service-card"
+                    onclick="openNotifications()"
+                >
+
+                    <div class="service-icon"><span class="khit-icon" aria-hidden="true"></span></div>
+
+                    <h3>
+                        Notifications
+                    </h3>
+
+                    <p>
+                        View important college announcements.
+                    </p>
+
+                </div>
+
+                <div
+                    class="service-card"
+                    onclick="openLeave()"
+                >
+
+                    <div class="service-icon"><span class="khit-icon" aria-hidden="true"></span></div>
+
+                    <h3>
+                        Leave Request
+                    </h3>
+
+                    <p>
+                        Apply for leave and track approval status.
+                    </p>
+
+                </div>
+
+
+                <div
+                    class="service-card"
+                    onclick="openSettings()"
+                >
+
+                    <div class="service-icon"><span class="khit-icon" aria-hidden="true"></span></div>
+
+                    <h3>
+                        Settings
+                    </h3>
+
+                    <p>
+                        Manage your portal preferences.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script>
+
+const API_URL = "http://localhost:5000";
+const token = localStorage.getItem("khit_token");
+
+if (!token) {
+    window.location.href = "login.html";
+}
+
+const safeToken = token || "";
+
+function navigate(page) {
+    window.location.href = page;
+}
+
+function openProfile() { navigate("student-profile.html"); }
+function openStudentID() { navigate("student-id.html"); }
+function openAcademics() { navigate("student-academics.html"); }
+function openAttendance() { navigate("student-attendance.html"); }
+function openExams() { navigate("student-exams.html"); }
+function openStudyMaterials() { navigate("student-study-materials.html"); }
+function openAssignments() { navigate("student-assignments.html"); }
+function openFees() { navigate("student-fees.html"); }
+function openBus() { navigate("student-bus.html"); }
+function openActivities() { navigate("student-activities.html"); }
+function openPlacements() { navigate("student-placements.html"); }
+function openInternships() { navigate("student-internships.html"); }
+function openDocuments() { navigate("student-documents.html"); }
+function openNotifications() { navigate("student-notifications.html"); }
+function openLeave() { navigate("student-leave.html"); }
+function openSettings() { navigate("student-settings.html"); }
+
+function toggleSidebar() {
+    document.getElementById("sidebar").classList.toggle("show");
+}
+
+function logout() {
+    localStorage.removeItem("khit_token");
+    localStorage.removeItem("khit_user");
+    localStorage.removeItem("khit_student");
+    window.location.href = "login.html";
+}
+
+async function loadStudentProfile() {
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/api/student/profile`,
+            {
+                headers: {
+                    "Authorization": `Bearer ${safeToken}`
+                }
+            }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            logout();
+            return;
+        }
+
+        const student = result.student || {};
+        const name = student.full_name || "Student";
+
+        document.getElementById("welcomeName").textContent = name;
+        document.getElementById("studentName").textContent = name;
+        document.getElementById("studentId").textContent = student.student_id || "-";
+        document.getElementById("rollNumber").textContent = student.roll_number || "-";
+        document.getElementById("department").textContent = student.department || "-";
+
+        const headerName = document.getElementById("headerName");
+        if (headerName) headerName.textContent = name;
+
+
+    } catch (error) {
+        console.error("Student dashboard profile error:", error);
+    }
+
+}
+
+loadStudentProfile();
+
+</script>
+
+</body>
+
+</html>

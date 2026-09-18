@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KHIT Family | Faculty Dashboard</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; }
+        body { background: #f4f7fb; color: #1f2937; }
+        header {
+            background: #8f1738; color: white; padding: 18px 7%; display: flex; justify-content: space-between; align-items: center; gap: 14px;
+        }
+        .brand { font-size: 22px; font-weight: 700; }
+        .header-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .btn { border: none; padding: 10px 14px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+        .btn.light { background: white; color: #8f1738; }
+        .btn.dark { background: #0f172a; color: white; }
+        .page { width: min(1100px, 92%); margin: 28px auto 40px; }
+        .topbar {
+            background: white; border: 1px solid #e5e7eb; border-radius: 14px; padding: 18px 20px; margin-bottom: 22px;
+            display: flex; justify-content: space-between; align-items: center; gap: 18px; flex-wrap: wrap;
+        }
+        .title h1 { color: #8f1738; font-size: 30px; margin-bottom: 5px; }
+        .title p { color: #64748b; }
+        .cards {
+            display: grid; grid-template-columns: repeat(3, minmax(180px, 1fr)); gap: 18px; margin-bottom: 26px;
+        }
+        .card {
+            background: white; border: 1px solid #e5e7eb; border-radius: 14px; padding: 18px; box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
+        }
+        .card .label { color: #64748b; font-size: 12px; text-transform: uppercase; letter-spacing: 0.7px; }
+        .card .value { margin-top: 8px; color: #8f1738; font-size: 32px; font-weight: 700; }
+        .section {
+            background: white; border: 1px solid #e5e7eb; border-radius: 14px; padding: 20px; margin-top: 18px;
+        }
+        .section h2 { color: #8f1738; margin-bottom: 12px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { text-align: left; padding: 12px 10px; border-bottom: 1px solid #e5e7eb; font-size: 14px; }
+        th { color: #475569; background: #f8fafc; }
+        .empty { color: #64748b; font-style: italic; }
+        @media (max-width: 700px) {
+            .cards { grid-template-columns: 1fr; }
+            header { padding: 15px 5%; }
+        }
+    </style>
+    <link rel='stylesheet' href='premium-theme.css'>
+</head>
+<body>
+    <header>
+        <div class="brand">KHIT Family</div>
+        <div class="header-actions">
+            <button class="btn light" onclick="window.location.href='faculty-login.html'">Faculty Login</button>
+            <button class="btn dark" onclick="logout()">Logout</button>
+        </div>
+    </header>
+
+    <main class="page">
+        <div class="topbar">
+            <div class="title">
+                <h1 id="facultyName">Faculty Dashboard</h1>
+                <p id="facultyMeta">Loading...</p>
+            </div>
+            <button class="btn dark" onclick="window.location.href='index.html'">Home</button>
+        </div>
+
+        <div class="cards">
+            <div class="card"><div class="label">Students</div><div class="value" id="studentsCount">0</div></div>
+            <div class="card"><div class="label">Attendance Entries</div><div class="value" id="attendanceCount">0</div></div>
+            <div class="card"><div class="label">Notifications</div><div class="value" id="notificationsCount">0</div></div>
+        </div>
+
+        <div class="section">
+            <h2>Assigned Subjects</h2>
+            <div id="subjectsList"></div>
+        </div>
+    </main>
+
+    <script>
+        const API_URL = "http://localhost:5000";
+
+        function getToken() {
+            return localStorage.getItem("khit_token");
+        }
+
+        function logout() {
+            localStorage.removeItem("khit_token");
+            localStorage.removeItem("khit_user");
+            localStorage.removeItem("khit_faculty");
+            window.location.href = "faculty-login.html";
+        }
+
+        async function loadDashboard() {
+            const token = getToken();
+            if (!token) {
+                window.location.href = "faculty-login.html";
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/api/faculty/dashboard`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+
+                const result = await response.json();
+                if (!response.ok) {
+                    throw new Error(result.message || "Failed to load dashboard");
+                }
+
+                const faculty = result.faculty || {};
+                const summary = result.summary || {};
+                const subjects = result.subjects || [];
+
+                document.getElementById("facultyName").textContent = faculty.full_name || "Faculty Dashboard";
+                document.getElementById("facultyMeta").textContent = `${faculty.department || "Department"}  ${faculty.designation || "Faculty"}`;
+                document.getElementById("studentsCount").textContent = summary.total_students || 0;
+                document.getElementById("attendanceCount").textContent = summary.total_attendance_records || 0;
+                document.getElementById("notificationsCount").textContent = summary.total_notifications || 0;
+
+                const list = document.getElementById("subjectsList");
+                if (!subjects.length) {
+                    list.innerHTML = '<p class="empty">No subject records yet.</p>';
+                    return;
+                }
+
+                list.innerHTML = `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Subject</th>
+                                <th>Code</th>
+                                <th>Department</th>
+                                <th>Semester</th>
+                                <th>Section</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${subjects.map(subject => `
+                                <tr>
+                                    <td>${subject.name || '-'}</td>
+                                    <td>${subject.code || '-'}</td>
+                                    <td>${subject.department || '-'}</td>
+                                    <td>${subject.semester || '-'}</td>
+                                    <td>${subject.section || '-'}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            } catch (error) {
+                alert(error.message || "Unable to load faculty dashboard");
+                logout();
+            }
+        }
+
+        loadDashboard();
+    </script>
+</body>
+</html>
+

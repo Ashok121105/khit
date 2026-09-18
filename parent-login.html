@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Parent Login | KHIT Family</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #eff6ff, #f8fafc);
+      color: #0f172a;
+    }
+    .wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .card {
+      width: 100%;
+      max-width: 430px;
+      background: #fff;
+      border: 1px solid #dfe7f1;
+      border-radius: 16px;
+      box-shadow: 0 12px 32px rgba(15,23,42,0.08);
+      padding: 28px;
+    }
+    .brand {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .brand h1 {
+      margin: 0;
+      font-size: 28px;
+      color: #8f1738;
+      letter-spacing: 1px;
+    }
+    .brand p {
+      margin: 8px 0 0;
+      color: #64748b;
+      font-size: 13px;
+    }
+    .field {
+      margin-bottom: 14px;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #334155;
+    }
+    input {
+      width: 100%;
+      padding: 12px 13px;
+      border: 1px solid #dbe3ec;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+    }
+    input:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
+    }
+    button {
+      width: 100%;
+      margin-top: 8px;
+      padding: 12px 14px;
+      border: none;
+      border-radius: 8px;
+      background: #8f1738;
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .message {
+      margin-top: 14px;
+      min-height: 22px;
+      font-size: 13px;
+      color: #b91c1c;
+    }
+    .links {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 12px;
+      color: #64748b;
+    }
+    .links a {
+      color: #8f1738;
+      text-decoration: none;
+      font-weight: 600;
+    }
+  </style>
+    <link rel='stylesheet' href='premium-theme.css'>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="brand">
+        <h1>KHIT Family</h1>
+        <p>Parent Portal Login</p>
+      </div>
+
+      <form id="loginForm">
+        <div class="field">
+          <label for="studentId">Student ID</label>
+          <input id="studentId" name="student_id" type="text" placeholder="Enter student ID" required />
+        </div>
+
+        <div class="field">
+          <label for="parentMobile">Parent Mobile</label>
+          <input id="parentMobile" name="parent_mobile" type="text" placeholder="Enter parent mobile number" required />
+        </div>
+
+        <button type="submit">Login</button>
+      </form>
+
+      <div id="message" class="message"></div>
+
+      <div class="links">
+        <a href="index.html">Back to main portal</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    const messageBox = document.getElementById('message');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const payload = {
+        student_id: document.getElementById('studentId').value.trim(),
+        parent_mobile: document.getElementById('parentMobile').value.trim()
+      };
+
+      if (!payload.student_id || !payload.parent_mobile) {
+        messageBox.textContent = 'Student ID and parent mobile are required.';
+        return;
+      }
+
+      messageBox.textContent = 'Please wait...';
+
+      try {
+        const response = await fetch('http://localhost:5000/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ...payload,
+            role: 'parent'
+          })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.message || 'Parent login failed');
+        }
+
+        localStorage.setItem('khit_parent_token', result.token);
+        localStorage.setItem('khit_parent_user', JSON.stringify(result.student));
+        window.location.href = 'parent-dashboard.html';
+      } catch (error) {
+        messageBox.textContent = error.message || 'Unable to login as parent.';
+      }
+    });
+  </script>
+</body>
+</html>
+

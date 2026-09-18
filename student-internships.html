@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Internships | KHIT Family</title>
+<style>
+:root{font-family:Arial,Helvetica,sans-serif;color:#172033;background:#f4f7fb}*{box-sizing:border-box}body{margin:0}.topbar{height:70px;background:#fff;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;padding:0 30px}.brand{font-size:22px;font-weight:700;color:#173b70}.actions{display:flex;gap:10px}.btn{border:0;border-radius:8px;padding:10px 16px;cursor:pointer;font-weight:600}.dashboard{background:#eef4ff;color:#173b70}.logout{background:#173b70;color:#fff}.container{max-width:1200px;margin:auto;padding:30px}.hero{background:#173b70;color:#fff;border-radius:16px;padding:30px;margin-bottom:22px}.hero h1{margin:0 0 8px}.hero p{margin:0;color:#dbeafe}.panel{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:22px;margin-bottom:20px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.card{border:1px solid #e5e7eb;border-radius:10px;padding:18px}.card h3{margin:0 0 8px}.card p,.meta,.note{color:#64748b;font-size:13px;line-height:1.6}.view{margin-top:12px;background:#1d4ed8;color:#fff}table{width:100%;border-collapse:collapse;min-width:620px}th,td{text-align:left;padding:12px;border-bottom:1px solid #edf0f4;font-size:13px}th{color:#64748b;font-size:12px;text-transform:uppercase}.table-wrap{overflow:auto}@media(max-width:760px){.topbar{padding:0 18px}.container{padding:18px}.grid{grid-template-columns:1fr}.actions .dashboard{display:none}}
+</style>
+    <link rel='stylesheet' href='premium-theme.css'>
+</head>
+<body>
+<header class="topbar"><div class="brand">KHIT Family</div><div class="actions"><button class="btn dashboard" onclick="goDashboard()">Dashboard</button><button class="btn logout" onclick="logout()">Logout</button></div></header>
+<main class="container"><section class="hero"><h1>Internships</h1><p>Explore approved internship opportunities and track applications.</p></section><section class="panel"><h2>Available Opportunities</h2><div class="grid"><article class="card"><h3>Software Development Intern</h3><p>Company and eligibility details will be supplied through authorized placement data.</p><div class="meta">Status: Sample placeholder</div><button class="btn view" onclick="viewInternship('Software Development Intern')">View Details</button></article><article class="card"><h3>Embedded Systems Intern</h3><p>Role, duration, stipend, and location require official source data.</p><div class="meta">Status: Sample placeholder</div><button class="btn view" onclick="viewInternship('Embedded Systems Intern')">View Details</button></article><article class="card"><h3>Design Engineering Intern</h3><p>Eligibility and deadline will appear after authorized publishing.</p><div class="meta">Status: Sample placeholder</div><button class="btn view" onclick="viewInternship('Design Engineering Intern')">View Details</button></article></div></section><section class="panel"><h2>My Internship Applications</h2><div class="table-wrap"><table><thead><tr><th>Company</th><th>Role</th><th>Applied Date</th><th>Status</th></tr></thead><tbody><tr><td>No official applications</td><td>-</td><td>-</td><td>Not connected</td></tr></tbody></table></div><p class="note">Internship applications will be connected to authorized placement data.</p></section></main>
+<script>
+const token=localStorage.getItem("khit_token");
+if(!token)window.location.href="login.html";
+function goDashboard(){window.location.href="student-dashboard.html"}
+function logout(){localStorage.removeItem("khit_token");localStorage.removeItem("khit_user");localStorage.removeItem("khit_student");window.location.href="login.html"}
+function viewInternship(name){alert(`${name}\n\nOfficial internship details will appear after authorized data is connected.`)}
+async function loadInternships(){try{const response=await fetch("/api/student/internships",{headers:{Authorization:`Bearer ${token}`}});if(!response.ok)return;const data=await response.json();const internships=data.internships||[];if(!internships.length)return;const cards=document.querySelectorAll(".card");cards.forEach(card=>card.remove());const container=document.querySelector(".grid");if(!container)return;internships.forEach(item=>{const card=document.createElement("article");card.className="card";card.innerHTML=`<h3>${item.company_name||"Company"}</h3><p>${item.role||"-"}</p><p>${item.description||""}</p><div class="meta">Deadline: ${item.application_deadline||"-"}</div><button class="btn view" onclick="viewInternship('${String(item.company_name||"Internship").replace(/'/g,"\\'")}')">View Details</button>`;container.appendChild(card)})}catch(error){console.error("Internships error:",error)}}
+loadInternships();
+</script>
+</body>
+</html>
+

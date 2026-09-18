@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Notifications | KHIT Family</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .main {
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 70px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 30px;
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .topbar h3 {
+            color: #173b70;
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .dashboard-btn {
+            background: #eef4ff;
+            color: #173b70;
+        }
+
+        .logout-btn {
+            background: #173b70;
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 30px;
+        }
+
+        .hero {
+            background:
+                linear-gradient(
+                    135deg,
+                    #173b70,
+                    #285a9e
+                );
+
+            color: white;
+
+            padding: 30px;
+
+            border-radius: 18px;
+
+            margin-bottom: 25px;
+        }
+
+        .hero h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .hero p {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .student-info {
+            background: white;
+            padding: 22px;
+            border-radius: 15px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.05);
+
+            margin-bottom: 25px;
+        }
+
+        .student-info h2 {
+            color: #173b70;
+            margin-bottom: 18px;
+            font-size: 20px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .info-box {
+            background: #f7f9fc;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .info-box span {
+            display: block;
+            color: #6b7280;
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .info-box strong {
+            font-size: 14px;
+        }
+
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+
+            margin-bottom: 18px;
+        }
+
+        .section-title {
+            color: #173b70;
+            font-size: 22px;
+        }
+
+        .filter-area {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-area input,
+        .filter-area select {
+            padding: 11px 13px;
+            border: 1px solid #d9dee8;
+            border-radius: 8px;
+            outline: none;
+            background: white;
+        }
+
+        .notification-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .notification {
+            background: white;
+            padding: 20px;
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.05);
+
+            border-left: 5px solid #285a9e;
+
+            position: relative;
+        }
+
+        .notification.unread {
+            border-left-color: #173b70;
+        }
+
+        .notification-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+
+            gap: 15px;
+        }
+
+        .notification-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification-icon {
+            width: 42px;
+            height: 42px;
+
+            border-radius: 10px;
+
+            background: #eef4ff;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 20px;
+        }
+
+        .notification h3 {
+            color: #173b70;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .notification-time {
+            color: #6b7280;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .notification p {
+            color: #4b5563;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-top: 14px;
+        }
+
+        .notification-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-top: 15px;
+
+            padding-top: 12px;
+
+            border-top:
+                1px solid #eef0f4;
+        }
+
+        .category {
+            display: inline-block;
+
+            background: #eef4ff;
+
+            color: #173b70;
+
+            padding: 5px 10px;
+
+            border-radius: 20px;
+
+            font-size: 11px;
+
+            font-weight: 600;
+        }
+
+        .read-btn,
+        .notification-action {
+            border: 1px solid #8f1738;
+            background: #ffffff;
+            color: #8f1738;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 7px 11px;
+            border-radius: 7px;
+            transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        }
+
+        .read-btn:hover,
+        .notification-action:hover {
+            background: #8f1738;
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+
+        .read-btn:disabled,
+        .notification-action:disabled {
+            background: #f7e8eb;
+            border-color: #ead1d7;
+            color: #75686d;
+            cursor: default;
+            transform: none;
+        }
+
+        .unread-dot {
+            width: 9px;
+            height: 9px;
+            background: #173b70;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .empty {
+            background: white;
+            padding: 45px;
+            text-align: center;
+            border-radius: 15px;
+            color: #6b7280;
+        }
+
+        .security {
+            margin-top: 25px;
+
+            background: #eef6ff;
+
+            border-left:
+                5px solid #285a9e;
+
+            padding: 18px;
+
+            border-radius: 10px;
+
+            color: #374151;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+        }
+
+        @media (max-width: 900px) {
+
+            .info-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .topbar h3 {
+                font-size: 16px;
+            }
+
+            .dashboard-btn {
+                display: none;
+            }
+
+            .container {
+                padding: 18px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .notification-top {
+                flex-direction: column;
+            }
+
+            .notification-time {
+                margin-left: 52px;
+            }
+
+        }
+
+    </style>
+
+    <link rel='stylesheet' href='premium-theme.css'>
+</head>
+
+
+<body>
+
+<div class="main">
+
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+        <h3>
+             Notifications
+        </h3>
+
+        <div class="top-actions">
+
+            <button
+                class="btn dashboard-btn"
+                onclick="goDashboard()"
+            >
+                Dashboard
+            </button>
+
+            <button
+                class="btn logout-btn"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="container">
+
+
+        <!-- HERO -->
+
+        <div class="hero">
+
+            <h1>
+                Notifications 
+            </h1>
+
+            <p>
+                Stay updated with academic announcements,
+                assignments, exams, fees, placements,
+                internships and college activities.
+            </p>
+
+        </div>
+
+
+
+        <!-- STUDENT INFO -->
+
+        <div class="student-info">
+
+            <h2>
+                Student Information
+            </h2>
+
+            <div class="info-grid">
+
+
+                <div class="info-box">
+
+                    <span>
+                        Full Name
+                    </span>
+
+                    <strong id="studentName">
+                        Loading...
+                    </strong>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <span>
+                        Student ID
+                    </span>
+
+                    <strong id="studentId">
+                        Loading...
+                    </strong>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <span>
+                        Roll Number
+                    </span>
+
+                    <strong id="rollNumber">
+                        Loading...
+                    </strong>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <span>
+                        Department
+                    </span>
+
+                    <strong id="department">
+                        Loading...
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- NOTIFICATION HEADER -->
+
+        <div class="notification-header">
+
+            <h2 class="section-title">
+                Recent Notifications
+            </h2>
+
+
+            <div class="filter-area">
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search notifications..."
+                    oninput="filterNotifications()"
+                >
+
+
+                <select
+                    id="categoryFilter"
+                    onchange="filterNotifications()"
+                >
+
+                    <option value="all">
+                        All Categories
+                    </option>
+
+                    <option value="academic">
+                        Academic
+                    </option>
+
+                    <option value="assignment">
+                        Assignment
+                    </option>
+
+                    <option value="exam">
+                        Exams
+                    </option>
+
+                    <option value="fee">
+                        Fees
+                    </option>
+
+                    <option value="placement">
+                        Placement
+                    </option>
+
+                    <option value="internship">
+                        Internship
+                    </option>
+
+                    <option value="event">
+                        Events
+                    </option>
+
+                    <option value="college">
+                        College
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- NOTIFICATIONS -->
+
+        <div
+            class="notification-list"
+            id="notificationList"
+        >
+
+
+            <!-- NOTIFICATION 1 -->
+
+            <div
+                class="notification unread"
+                data-category="academic"
+                data-title="academic update"
+            >
+
+                <div class="notification-top">
+
+                    <div class="notification-title">
+
+                        <div class="notification-icon">
+                            
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Academic Update
+                            </h3>
+
+                            <span class="unread-dot"></span>
+
+                        </div>
+
+                    </div>
+
+                    <span class="notification-time">
+                        Recently
+                    </span>
+
+                </div>
+
+
+                <p>
+                    New academic information and
+                    semester-related updates are
+                    available for students.
+                </p>
+
+
+                <div class="notification-footer">
+
+                    <span class="category">
+                        Academic
+                    </span>
+
+                    <button
+                        class="read-btn"
+                        onclick="markRead(this)"
+                    >
+                        Mark as read
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- NOTIFICATION 2 -->
+
+            <div
+                class="notification unread"
+                data-category="assignment"
+                data-title="assignment notification"
+            >
+
+                <div class="notification-top">
+
+                    <div class="notification-title">
+
+                        <div class="notification-icon">
+                            
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                New Assignment Notification
+                            </h3>
+
+                            <span class="unread-dot"></span>
+
+                        </div>
+
+                    </div>
+
+                    <span class="notification-time">
+                        Recently
+                    </span>
+
+                </div>
+
+
+                <p>
+                    A new assignment may have been
+                    added by your faculty. Please check
+                    the Assignments section for details.
+                </p>
+
+
+                <div class="notification-footer">
+
+                    <span class="category">
+                        Assignment
+                    </span>
+
+                    <button
+                        class="read-btn"
+                        onclick="markRead(this)"
+                    >
+                        Mark as read
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- NOTIFICATION 3 -->
+
+            <div
+                class="notification"
+                data-category="exam"
+                data-title="examination update"
+            >
+
+                <div class="notification-top">
+
+                    <div class="notification-title">
+
+                        <div class="notification-icon">
+                            
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Examination Update
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+                    <span class="notification-time">
+                        Recent
+                    </span>
+
+                </div>
+
+
+                <p>
+                    Examination schedule and result-related
+                    information will be displayed here
+                    after authorized college integration.
+                </p>
+
+
+                <div class="notification-footer">
+
+                    <span class="category">
+                        Exams
+                    </span>
+
+                    <button
+                        class="read-btn"
+                        onclick="viewNotification('Examination Update')"
+                    >
+                        View
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- NOTIFICATION 4 -->
+
+            <div
+                class="notification"
+                data-category="fee"
+                data-title="fee payment update"
+            >
+
+                <div class="notification-top">
+
+                    <div class="notification-title">
+
+                        <div class="notification-icon">
+                            
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Fee Payment Update
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+                    <span class="notification-time">
+                        Recent
+                    </span>
+
+                </div>
+
+
+                <p>
+                    Fee payment reminders, payment
+                    confirmations and reimbursement-related
+                    notifications will appear here.
+                </p>
+
+
+                <div class="notification-footer">
+
+                    <span class="category">
+                        Fees
+                    </span>
+
+                    <button
+                        class="read-btn"
+                        onclick="viewNotification('Fee Payment Update')"
+                    >
+                        View
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- NOTIFICATION 5 -->
+
+            <div
+                class="notification"
+                data-category="placement"
+                data-title="placement opportunity"
+            >
+
+                <div class="notification-top">
+
+                    <div class="notification-title">
+
+                        <div class="notification-icon">
+                            
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Placement Opportunity
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+                    <span class="notification-time">
+                        Recent
+                    </span>
+
+                </div>
+
+
+                <p>
+                    New placement opportunities and
+                    placement-cell announcements will
+                    appear in this section.
+                </p>
+
+
+                <div class="notification-footer">
+
+                    <span class="category">
+                        Placement
+                    </span>
+
+                    <button
+                        class="read-btn"
+                        onclick="viewNotification('Placement Opportunity')"
+                    >
+                        View
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- NOTIFICATION 6 -->
+
+            <div
+                class="notification"
+                data-category="internship"
+                data-title="internship opportunity"
+            >
+
+                <div class="notification-top">
+
+                    <div class="notification-title">
+
+                        <div class="notification-icon">
+                            
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Internship Opportunity
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+                    <span class="notification-time">
+                        Recent
+                    </span>
+
+                </div>
+
+
+                <p>
+                    Internship opportunities and
+                    internship-cell announcements will
+                    appear here.
+                </p>
+
+
+                <div class="notification-footer">
+
+                    <span class="category">
+                        Internship
+                    </span>
+
+                    <button
+                        class="read-btn"
+                        onclick="viewNotification('Internship Opportunity')"
+                    >
+                        View
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- NOTIFICATION 7 -->
+
+            <div
+                class="notification"
+                data-category="event"
+                data-title="college event"
+            >
+
+                <div class="notification-top">
+
+                    <div class="notification-title">
+
+                        <div class="notification-icon">
+                            
+                        </div>
+
+                        <div>
+
+                            <h3>College Event Update</h3>
+                            <p>Official notifications will appear here after authorized college content is connected.</p>
+                        </div>
+                    </div>
+                    <button class="notification-action" onclick="markRead(this)">Mark as read</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+</div>
+<script>
+const token = localStorage.getItem("khit_token");
+if (!token) window.location.href = "login.html";
+function goDashboard() { window.location.href = "student-dashboard.html"; }
+function logout() { localStorage.removeItem("khit_token"); localStorage.removeItem("khit_user"); localStorage.removeItem("khit_student"); window.location.href = "login.html"; }
+function markRead(button) { button.textContent = "Read"; button.disabled = true; }
+function viewNotification(name) { alert(`${name}\n\nOfficial notification details will appear after authorized data is connected.`); }
+</script>
+</body>
+</html>

@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>KHIT Family | Academics</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        header {
+            height: 70px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+        }
+
+        .brand h2 {
+            color: #8f1738;
+            font-size: 21px;
+        }
+
+        .brand p {
+            color: #6b7280;
+            font-size: 11px;
+            margin-top: 3px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .student-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            border: none;
+            background: #8f1738;
+            color: white;
+            padding: 9px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background: #0d2d54;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: auto;
+            padding: 30px;
+        }
+
+        .top-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .top-section h1 {
+            color: #8f1738;
+            font-size: 28px;
+        }
+
+        .top-section p {
+            color: #6b7280;
+            font-size: 14px;
+            margin-top: 6px;
+        }
+
+        .back-btn {
+            border: 1px solid #d1d5db;
+            background: white;
+            color: #8f1738;
+            padding: 10px 16px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .back-btn:hover {
+            background: #f0f4f8;
+        }
+
+        /* ACADEMIC OVERVIEW */
+
+        .overview {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 22px;
+        }
+
+        .section-title {
+            color: #8f1738;
+            font-size: 18px;
+            margin-bottom: 18px;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .info-box {
+            background: #f8fafc;
+            border: 1px solid #edf0f4;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .info-label {
+            color: #6b7280;
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .info-value {
+            color: #8f1738;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        /* SEMESTER */
+
+        .semester-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 22px;
+        }
+
+        .semester-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .semester-header h2 {
+            color: #8f1738;
+            font-size: 18px;
+        }
+
+        .semester-badge {
+            background: #eaf1f9;
+            color: #8f1738;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* SUBJECT TABLE */
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+        th {
+            background: #f4f7fb;
+            color: #374151;
+            text-align: left;
+            padding: 13px;
+            font-size: 12px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        td {
+            padding: 14px 13px;
+            font-size: 13px;
+            border-bottom: 1px solid #eef2f7;
+            color: #4b5563;
+        }
+
+        td:first-child {
+            font-weight: 600;
+            color: #8f1738;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 15px;
+            font-size: 11px;
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+
+        /* SYLLABUS */
+
+        .syllabus-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 22px;
+        }
+
+        .progress-item {
+            margin-bottom: 18px;
+        }
+
+        .progress-top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 7px;
+            font-size: 13px;
+        }
+
+        .progress-name {
+            color: #374151;
+            font-weight: 600;
+        }
+
+        .progress-value {
+            color: #6b7280;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #edf0f4;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #8f1738;
+            border-radius: 10px;
+        }
+
+        /* SUMMARY */
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .summary-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .summary-card h3 {
+            color: #6b7280;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .summary-value {
+            color: #8f1738;
+            font-size: 25px;
+            font-weight: 700;
+        }
+
+        /* NOTICE */
+
+        .notice {
+            margin-top: 22px;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 18px;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 900px) {
+
+            .overview-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 0 4%;
+            }
+
+            .brand p,
+            .student-name {
+                display: none;
+            }
+
+            .container {
+                padding: 20px 15px;
+            }
+
+            .top-section {
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .top-section h1 {
+                font-size: 23px;
+            }
+
+            .overview-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .info-box {
+                padding: 12px;
+            }
+
+            .semester-header {
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+        }
+
+    </style>
+
+    <link rel='stylesheet' href='premium-theme.css'>
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<header>
+
+    <div class="brand">
+
+        <h2>
+            KHIT Family
+        </h2>
+
+        <p>
+            Your College  Your Campus  Your Digital Family
+        </p>
+
+    </div>
+
+
+    <div class="header-right">
+
+        <span
+            class="student-name"
+            id="headerName"
+        >
+            Student
+        </span>
+
+        <button
+            class="logout-btn"
+            onclick="logout()"
+        >
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+
+
+<!-- MAIN -->
+
+<div class="container">
+
+
+    <!-- TOP -->
+
+    <div class="top-section">
+
+        <div>
+
+            <h1>
+                 Academics
+            </h1>
+
+            <p>
+                View your academic information, subjects and syllabus progress.
+            </p>
+
+        </div>
+
+
+        <button
+            class="back-btn"
+            onclick="goDashboard()"
+        >
+             Dashboard
+        </button>
+
+    </div>
+
+
+
+    <!-- ACADEMIC OVERVIEW -->
+
+    <div class="overview">
+
+        <h2 class="section-title">
+            Academic Overview
+        </h2>
+
+
+        <div class="overview-grid">
+
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Student Name
+                </div>
+
+                <div
+                    class="info-value"
+                    id="studentName"
+                >
+                    -
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Student ID
+                </div>
+
+                <div
+                    class="info-value"
+                    id="studentId"
+                >
+                    -
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Roll Number
+                </div>
+
+                <div
+                    class="info-value"
+                    id="rollNumber"
+                >
+                    -
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Department
+                </div>
+
+                <div
+                    class="info-value"
+                    id="department"
+                >
+                    -
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Current Year
+                </div>
+
+                <div
+                    class="info-value"
+                    id="year"
+                >
+                    -
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Section
+                </div>
+
+                <div
+                    class="info-value"
+                    id="section"
+                >
+                    -
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Academic Year
+                </div>
+
+                <div
+                    class="info-value"
+                    id="academicYear"
+                >
+                    -
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Fee Category
+                </div>
+
+                <div
+                    class="info-value"
+                    id="feeCategory"
+                >
+                    -
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- CURRENT SEMESTER -->
+
+    <div class="semester-card">
+
+        <div class="semester-header">
+
+            <h2>
+                Current Semester
+            </h2>
+
+            <span class="semester-badge">
+                Academic Records
+            </span>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Subject Code
+                        </th>
+
+                        <th>
+                            Subject
+                        </th>
+
+                        <th>
+                            Type
+                        </th>
+
+                        <th>
+                            Credits
+                        </th>
+
+                        <th>
+                            Faculty
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <tr>
+
+                        <td>
+                            -
+                        </td>
+
+                        <td>
+                            Academic data not available
+                        </td>
+
+                        <td>
+                            -
+                        </td>
+
+                        <td>
+                            -
+                        </td>
+
+                        <td>
+                            -
+                        </td>
+
+                        <td>
+
+                            <span class="status">
+                                Awaiting college data
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- SYLLABUS -->
+
+    <div class="syllabus-card">
+
+        <h2 class="section-title">
+            Syllabus Progress
+        </h2>
+
+
+        <div class="progress-item">
+
+            <div class="progress-top">
+
+                <span class="progress-name">
+                    Overall Syllabus
+                </span>
+
+                <span class="progress-value">
+                    --
+                </span>
+
+            </div>
+
+
+            <div class="progress-bar">
+
+                <div
+                    class="progress-fill"
+                    style="width: 0%"
+                >
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="progress-item">
+
+            <div class="progress-top">
+
+                <span class="progress-name">
+                    Completed Subjects
+                </span>
+
+                <span class="progress-value">
+                    --
+                </span>
+
+            </div>
+
+
+            <div class="progress-bar">
+
+                <div
+                    class="progress-fill"
+                    style="width: 0%"
+                >
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="progress-item">
+
+            <div class="progress-top">
+
+                <span class="progress-name">
+                    Pending Subjects
+                </span>
+
+                <span class="progress-value">
+                    --
+                </span>
+
+            </div>
+
+
+            <div class="progress-bar">
+
+                <div
+                    class="progress-fill"
+                    style="width: 0%"
+                >
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- SEMESTER SUMMARY -->
+
+    <div class="summary-grid">
+
+
+        <div class="summary-card">
+
+            <h3>
+                Total Subjects
+            </h3>
+
+            <div class="summary-value">
+                --
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <h3>
+                Total Credits
+            </h3>
+
+            <div class="summary-value">
+                --
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <h3>
+                Current SGPA
+            </h3>
+
+            <div class="summary-value">
+                --
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- NOTICE -->
+
+    <div class="notice">
+
+        <strong>
+            Academic Records:
+        </strong>
+
+        Subject, faculty, credits, syllabus progress and SGPA
+        will be displayed here after authorized college academic
+        data is connected to the portal.
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+const API_URL =
+    "http://localhost:5000";
+
+
+/* LOGIN CHECK */
+
+const token =
+    localStorage.getItem("khit_token");
+
+
+if (!token) {
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+/* LOAD PROFILE */
+
+async function loadStudentProfile() {
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/student/profile`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            alert(
+                result.message ||
+                "Unable to load profile."
+            );
+
+            logout();
+
+            return;
+
+        }
+
+
+        const student =
+            result.student;
+
+
+        document.getElementById(
+            "headerName"
+        ).textContent =
+            student.full_name || "Student";
+
+
+        document.getElementById(
+            "studentName"
+        ).textContent =
+            student.full_name || "-";
+
+
+        document.getElementById(
+            "studentId"
+        ).textContent =
+            student.student_id || "-";
+
+
+        document.getElementById(
+            "rollNumber"
+        ).textContent =
+            student.roll_number || "-";
+
+
+        document.getElementById(
+            "department"
+        ).textContent =
+            student.department || "-";
+
+
+        document.getElementById(
+            "year"
+        ).textContent =
+            student.year || "-";
+
+
+        document.getElementById(
+            "section"
+        ).textContent =
+            student.section || "-";
+
+
+        document.getElementById(
+            "academicYear"
+        ).textContent =
+            student.academic_year || "-";
+
+
+        document.getElementById(
+            "feeCategory"
+        ).textContent =
+            student.fee_category || "-";
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Academic profile error:",
+            error
+        );
+
+        alert(
+            "Cannot connect to KHIT Family server."
+        );
+
+    }
+
+}
+
+
+/* DASHBOARD */
+
+function goDashboard() {
+
+    window.location.href =
+        "student-dashboard.html";
+
+}
+
+
+/* LOGOUT */
+
+function logout() {
+
+    localStorage.removeItem(
+        "khit_token"
+    );
+
+    localStorage.removeItem(
+        "khit_user"
+    );
+
+    localStorage.removeItem(
+        "khit_student"
+    );
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+/* START */
+
+async function loadAcademicRecords() {
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/api/student/academics`,
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
+
+        const result = await response.json();
+        if (!response.ok) return;
+
+        const subjects = result.subjects || [];
+        const tableBody = document.querySelector(".semester-card tbody");
+
+        if (!tableBody || !subjects.length) return;
+
+        tableBody.innerHTML = subjects.map(subject => `
+            <tr>
+                <td>${escapeHTML(subject.code || "-")}</td>
+                <td>${escapeHTML(subject.name || "-")}</td>
+                <td>${escapeHTML(subject.semester || "-")}</td>
+                <td>-</td>
+                <td>-</td>
+                <td><span class="status">Available</span></td>
+            </tr>
+        `).join("");
+
+    } catch (error) {
+        console.error("Academic records error:", error);
+    }
+
+}
+
+function escapeHTML(value) {
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+loadStudentProfile();
+loadAcademicRecords();
+
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Students Management | KHIT Family</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #172033;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: #101827;
+            color: white;
+            padding: 22px 15px;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .brand {
+            text-align: center;
+            padding-bottom: 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+
+        .brand h2 {
+            font-size: 22px;
+            letter-spacing: 2px;
+        }
+
+        .brand p {
+            font-size: 11px;
+            color: #9ca8bb;
+            margin-top: 6px;
+        }
+
+        .menu-title {
+            color: #7f8ba1;
+            font-size: 11px;
+            margin: 18px 12px 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .menu a {
+            display: block;
+            text-decoration: none;
+            color: #cbd5e1;
+            padding: 12px 14px;
+            border-radius: 9px;
+            margin-bottom: 5px;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: #1d4ed8;
+            color: white;
+        }
+
+        .logout {
+            margin-top: 25px;
+            width: 100%;
+            border: none;
+            background: #dc2626;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 250px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 70px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            position: sticky;
+            top: 0;
+            z-index: 900;
+        }
+
+        .topbar h3 {
+            font-size: 20px;
+        }
+
+        .admin-info {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        /* HERO */
+        .hero {
+            background: linear-gradient(135deg, #172554, #1d4ed8);
+            color: white;
+            border-radius: 18px;
+            padding: 30px;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .hero p {
+            color: #dbeafe;
+            font-size: 14px;
+        }
+
+        /* STAT CARDS */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 5px 20px rgba(15,23,42,0.04);
+        }
+
+        .stat-card span {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .stat-card h2 {
+            margin-top: 8px;
+            font-size: 28px;
+        }
+
+        /* PANEL */
+        .panel {
+            background: white;
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 25px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 5px 20px rgba(15,23,42,0.04);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            gap: 15px;
+        }
+
+        .panel-header h2 {
+            font-size: 19px;
+        }
+
+        /* FILTERS */
+        .filters {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr auto;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #dbe1ea;
+            border-radius: 8px;
+            outline: none;
+            background: white;
+            font-size: 13px;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #2563eb;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn {
+            padding: 11px 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .btn-blue {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-gray {
+            background: #e5e7eb;
+            color: #1f2937;
+        }
+
+        .btn-green {
+            background: #16a34a;
+            color: white;
+        }
+
+        /* TABLE */
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1050px;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #475569;
+            font-size: 12px;
+            text-align: left;
+            padding: 13px 12px;
+            border-bottom: 1px solid #e5e7eb;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #eef2f7;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        tr:hover td {
+            background: #f8fbff;
+        }
+
+        .student-name {
+            font-weight: bold;
+            color: #172033;
+        }
+
+        .student-id {
+            color: #2563eb;
+            font-weight: bold;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .badge-green {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .badge-orange {
+            background: #ffedd5;
+            color: #9a3412;
+        }
+
+        .badge-blue {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .action-btn {
+            padding: 7px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            margin-right: 4px;
+        }
+
+        .view {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .edit {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        /* EMPTY / LOADING */
+        .message {
+            text-align: center;
+            padding: 35px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .error {
+            color: #dc2626;
+        }
+
+        /* MOBILE */
+        .mobile-menu {
+            display: none;
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+        @media(max-width:1100px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .filters {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+
+        @media(max-width:800px) {
+
+            .sidebar {
+                transform: translateX(-100%);
+                transition: 0.3s;
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .topbar {
+                padding: 0 18px;
+            }
+
+            .content {
+                padding: 18px;
+            }
+
+            .hero h1 {
+                font-size: 23px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .filters {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width:500px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-info {
+                display: none;
+            }
+        }
+    </style>
+    <link rel='stylesheet' href='premium-theme.css'>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+        <h2>KHIT FAMILY</h2>
+        <p>College Management Portal</p>
+    </div>
+
+    <div class="menu-title">Main</div>
+
+    <div class="menu">
+        <a href="admin-dashboard.html">Dashboard</a>
+        <a href="admin-students.html" class="active">Students</a>
+        <a href="admin-faculty.html">Faculty</a>
+        <a href="admin-fees.html">Fees</a>
+        <a href="admin-bus.html">Bus</a>
+        <a href="database/admin-notifications.html">Notifications</a>
+        <a href="admin-events.html">Events</a>
+    </div>
+
+    <div class="menu-title">Academic</div>
+
+    <div class="menu">
+        <a href="#">Attendance</a>
+        <a href="#">Exams & Results</a>
+        <a href="#">Academics</a>
+        <a href="#">Timetable</a>
+    </div>
+
+    <div class="menu-title">Career</div>
+
+    <div class="menu">
+        <a href="#">Placements</a>
+        <a href="#">Internships</a>
+    </div>
+
+    <div class="menu-title">System</div>
+
+    <div class="menu">
+        <a href="#">Documents</a>
+        <a href="#">Reports</a>
+        <a href="#">Settings</a>
+    </div>
+
+    <button class="logout" onclick="logout()">Logout</button>
+
+</aside>
+
+
+<!-- MAIN -->
+<main class="main">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+
+        <div style="display:flex;align-items:center;gap:15px;">
+            <div class="mobile-menu" onclick="toggleSidebar()"></div>
+            <h3>Students Management</h3>
+        </div>
+
+        <div class="admin-info" id="adminInfo">
+            Admin Portal
+        </div>
+
+    </header>
+
+
+    <section class="content">
+
+        <!-- HERO -->
+        <div class="hero">
+
+            <h1>Student Management</h1>
+
+            <p>
+                View, search and manage registered KHIT student records.
+            </p>
+
+        </div>
+
+
+        <!-- STATS -->
+        <div class="stats">
+
+            <div class="stat-card">
+                <span>Total Students</span>
+                <h2 id="totalStudents">0</h2>
+            </div>
+
+            <div class="stat-card">
+                <span>Active Students</span>
+                <h2 id="activeStudents">0</h2>
+            </div>
+
+            <div class="stat-card">
+                <span>Departments</span>
+                <h2 id="departmentCount">0</h2>
+            </div>
+
+            <div class="stat-card">
+                <span>Fee Categories</span>
+                <h2 id="feeCategoryCount">0</h2>
+            </div>
+
+        </div>
+
+
+        <!-- STUDENTS PANEL -->
+        <div class="panel">
+
+            <div class="panel-header">
+
+                <h2>Registered Students</h2>
+
+                <div class="panel-actions">
+                    <button class="btn btn-gray" onclick="document.getElementById('importFile').click()">
+                        Import Excel
+                    </button>
+                    <input id="importFile" type="file" accept=".xlsx,.xls,.csv" hidden onchange="handleImportFile(this.files[0])">
+                    <button class="btn btn-green" onclick="exportStudents()">
+                        Export Excel
+                    </button>
+                </div>
+
+            </div>
+
+            <div id="importPreview" style="display:none; background:#f8fafc; border:1px solid #dbe1ea; border-radius:10px; padding:14px; margin-bottom:16px;">
+                <strong>Import Preview</strong>
+                <div id="importPreviewText" style="margin-top:8px; color:#475569; font-size:13px;"></div>
+            </div>
+
+
+            <!-- FILTERS -->
+            <div class="filters">
+
+                <input
+                    type="text"
+                    id="search"
+                    placeholder="Search name, student ID, roll number, mobile..."
+                    oninput="filterStudents()"
+                >
+
+                <select id="branchFilter" onchange="filterStudents()">
+                    <option value="">All Branches</option>
+                </select>
+
+                <select id="yearFilter" onchange="filterStudents()">
+                    <option value="">All Years</option>
+                    <option value="1">1st Year</option>
+                    <option value="2">2nd Year</option>
+                    <option value="3">3rd Year</option>
+                    <option value="4">4th Year</option>
+                </select>
+
+                <select id="sectionFilter" onchange="filterStudents()">
+                    <option value="">All Sections</option>
+                </select>
+
+                <select id="feeFilter" onchange="filterStudents()">
+                    <option value="">All Fee Categories</option>
+                    <option value="Management">Management</option>
+                    <option value="Fee Reimbursement">Fee Reimbursement</option>
+                </select>
+
+                <button class="btn btn-gray" onclick="clearFilters()">
+                    Clear
+                </button>
+
+            </div>
+
+
+            <!-- TABLE -->
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>ID</th>
+                            <th>Student</th>
+                            <th>Student ID</th>
+                            <th>Roll Number</th>
+                            <th>Department</th>
+                            <th>Year</th>
+                            <th>Section</th>
+                            <th>Academic Year</th>
+                            <th>Fee Category</th>
+                            <th>Mobile</th>
+                            <th>Action</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="studentsTable">
+
+                        <tr>
+                            <td colspan="11" class="message">
+                                Loading students...
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <!-- SECURITY NOTICE -->
+        <div class="panel">
+
+            <h2 style="font-size:17px;margin-bottom:10px;">
+                 Student Data Security
+            </h2>
+
+            <p style="font-size:13px;color:#64748b;line-height:1.7;">
+                Student information should only be accessed by authorized
+                college administrators according to their assigned permissions.
+                Production deployment should use HTTPS, secure authentication,
+                role-based access control and audit logging.
+            </p>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script>
+
+    const API = "http://localhost:5000";
+
+    let allStudents = [];
+
+
+    // AUTH CHECK
+    const token = localStorage.getItem("khit_token");
+    const storedUser = localStorage.getItem("khit_user");
+
+    if (!token) {
+        window.location.href = "database/admin-login.html";
+    }
+
+
+    // ADMIN INFO
+    if (storedUser) {
+
+        try {
+
+            const user = JSON.parse(storedUser);
+
+            document.getElementById("adminInfo").textContent =
+                "Logged in as: " + (user.username || "Admin");
+
+        } catch (error) {
+
+            document.getElementById("adminInfo").textContent =
+                "Admin Portal";
+
+        }
+
+    }
+
+
+    function logout() {
+        localStorage.removeItem("khit_token");
+        localStorage.removeItem("khit_user");
+        window.location.href = "database/admin-login.html";
+    }
+
+    function toggleSidebar() {
+        document.getElementById("sidebar").classList.toggle("show");
+    }
+
+    function escapeHTML(value) {
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/\"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    function escapeAttribute(value) {
+        return escapeHTML(value);
+    }
+
+    async function loadStudents() {
+
+        try {
+
+            const response = await fetch(
+                API + "/api/admin/students",
+                {
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    }
+                }
+            );
+
+            if (response.status === 401 || response.status === 403) {
+                logout();
+                return;
+            }
+
+            const data = await response.json();
+
+            if (data.status !== "success") {
+                throw new Error(data.message || "Unable to load students");
+            }
+
+            allStudents = data.students || [];
+            updateStats();
+            populateFilters();
+            renderStudents(allStudents);
+
+        } catch (error) {
+
+            console.error(error);
+
+            document.getElementById("studentsTable").innerHTML = `
+                <tr>
+                    <td colspan="11" class="message error">
+                        Failed to load student data.
+                        <br><br>
+                        ${escapeHTML(error.message)}
+                    </td>
+                </tr>
+            `;
+
+        }
+
+    }
+
+    function updateStats() {
+        const total = allStudents.length;
+        document.getElementById("totalStudents").textContent = total;
+        document.getElementById("activeStudents").textContent = total;
+
+        const departments = new Set();
+        const feeCategories = new Set();
+
+        allStudents.forEach(student => {
+            if (student.department) departments.add(student.department);
+            if (student.fee_category) feeCategories.add(student.fee_category);
+        });
+
+        document.getElementById("departmentCount").textContent = departments.size;
+        document.getElementById("feeCategoryCount").textContent = feeCategories.size;
+    }
+
+    function populateFilters() {
+        const branchFilter = document.getElementById("branchFilter");
+        const sectionFilter = document.getElementById("sectionFilter");
+
+        const branches = new Set();
+        const sections = new Set();
+
+        allStudents.forEach(student => {
+            if (student.department) branches.add(student.department);
+            if (student.section) sections.add(student.section);
+        });
+
+        branchFilter.innerHTML = '<option value="">All Branches</option>';
+        [...branches].sort().forEach(branch => {
+            branchFilter.innerHTML += `
+                <option value="${escapeAttribute(branch)}">${escapeHTML(branch)}</option>
+            `;
+        });
+
+        sectionFilter.innerHTML = '<option value="">All Sections</option>';
+        [...sections].sort().forEach(section => {
+            sectionFilter.innerHTML += `
+                <option value="${escapeAttribute(section)}">Section ${escapeHTML(section)}</option>
+            `;
+        });
+    }
+
+    function filterStudents() {
+        const search = document.getElementById("search").value.trim().toLowerCase();
+        const branch = document.getElementById("branchFilter").value;
+        const year = document.getElementById("yearFilter").value;
+        const section = document.getElementById("sectionFilter").value;
+        const fee = document.getElementById("feeFilter").value;
+
+        const filtered = allStudents.filter(student => {
+            const searchText = [
+                student.full_name,
+                student.student_id,
+                student.roll_number,
+                student.mobile,
+                student.email
+            ].filter(Boolean).join(" ").toLowerCase();
+
+            const matchesSearch = !search || searchText.includes(search);
+            const matchesBranch = !branch || String(student.department || "") === branch;
+            const matchesYear = !year || String(student.year || "") === year;
+            const matchesSection = !section || String(student.section || "") === section;
+            const matchesFee = !fee || String(student.fee_category || "") === fee;
+
+            return matchesSearch && matchesBranch && matchesYear && matchesSection && matchesFee;
+        });
+
+        renderStudents(filtered);
+    }
+
+    function clearFilters() {
+        document.getElementById("search").value = "";
+        document.getElementById("branchFilter").value = "";
+        document.getElementById("yearFilter").value = "";
+        document.getElementById("sectionFilter").value = "";
+        document.getElementById("feeFilter").value = "";
+        renderStudents(allStudents);
+    }
+
+    function renderStudents(students) {
+        const table = document.getElementById("studentsTable");
+
+        if (!students.length) {
+            table.innerHTML = `
+                <tr>
+                    <td colspan="11" class="message">No students found.</td>
+                </tr>
+            `;
+            return;
+        }
+
+        table.innerHTML = students.map(student => `
+            <tr>
+                <td>${escapeHTML(student.id)}</td>
+                <td>
+                    <div style="font-weight:600;">${escapeHTML(student.full_name || "-")}</div>
+                    <small style="color:#64748b;">${escapeHTML(student.username || "")}</small>
+                </td>
+                <td>${escapeHTML(student.student_id || "-")}</td>
+                <td>${escapeHTML(student.roll_number || "-")}</td>
+                <td>${escapeHTML(student.department || "-")}</td>
+                <td>${escapeHTML(student.year || "-")}</td>
+                <td>${escapeHTML(student.section || "-")}</td>
+                <td>${escapeHTML(student.academic_year || "-")}</td>
+                <td>${escapeHTML(student.fee_category || "-")}</td>
+                <td>${escapeHTML(student.mobile || "-")}</td>
+                <td>
+                    <button class="action-btn view" onclick="viewStudent(${student.id})">View</button>
+                </td>
+            </tr>
+        `).join("");
+    }
+
+    function viewStudent(studentId) {
+        const student = allStudents.find(item => Number(item.id) === Number(studentId));
+        if (!student) return;
+
+        const details = [
+            `Student: ${student.full_name || "-"}`,
+            `Student ID: ${student.student_id || "-"}`,
+            `Roll Number: ${student.roll_number || "-"}`,
+            `Department: ${student.department || "-"}`,
+            `Year: ${student.year || "-"}`,
+            `Section: ${student.section || "-"}`,
+            `Email: ${student.email || "-"}`,
+            `Mobile: ${student.mobile || "-"}`
+        ].join("\n");
+
+        alert(details);
+    }
+
+    async function exportStudents() {
+        const response = await fetch("/api/admin/students/export", {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("khit_token")}`
+            }
+        });
+
+        if (!response.ok) {
+            const data = await response.json().catch(() => ({}));
+            alert(data.message || "Unable to export students.");
+            return;
+        }
+
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "khit_students.xlsx";
+        link.click();
+        URL.revokeObjectURL(url);
+    }
+
+    async function handleImportFile(file) {
+        if (!file) return;
+
+        const form = new FormData();
+        form.append("file", file);
+
+        try {
+            const response = await fetch("/api/admin/students/import-preview", {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("khit_token")}`
+                },
+                body: form
+            });
+
+            const result = await response.json().catch(() => ({ message: "Unable to parse preview response." }));
+            const preview = document.getElementById("importPreview");
+            const text = document.getElementById("importPreviewText");
+
+            preview.style.display = "block";
+
+            if (!response.ok) {
+                text.textContent = result.message || "Unable to preview import file.";
+                return;
+            }
+
+            const valid = result.valid_template ? "valid" : "needs review";
+            text.innerHTML = `
+                <div><strong>Sheet:</strong> ${escapeHTML(result.sheet || "-")}</div>
+                <div><strong>Rows:</strong> ${result.total_rows || 0}</div>
+                <div><strong>Status:</strong> ${valid}</div>
+                <div><strong>Required columns:</strong> ${["full_name", "student_id", "roll_number", "email"].join(", ")}</div>
+                <div><strong>Missing columns:</strong> ${result.missing_columns && result.missing_columns.length ? result.missing_columns.join(", ") : "none"}</div>
+                <div style="margin-top:8px;"><strong>Sample:</strong> ${result.preview && result.preview.length ? JSON.stringify(result.preview[0]).slice(0, 220) : "No rows found"}</div>
+            `;
+
+        } catch (error) {
+            console.error("Import preview error:", error);
+            const preview = document.getElementById("importPreview");
+            const text = document.getElementById("importPreviewText");
+            preview.style.display = "block";
+            text.textContent = "Unable to preview the selected spreadsheet.";
+        }
+    }
+
+    loadStudents();
+
+</script>
+
+</body>
+
+</html>

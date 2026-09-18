@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>KHIT Family | Student Login</title>
+
+    <style>
+        :root {
+            --khit-deep: #8f1738;
+            --khit-deep-2: #5e1029;
+            --khit-mid: #b03a59;
+            --khit-soft: #eaf3ff;
+            --khit-ink: #1e2430;
+            --khit-muted: #667085;
+            --khit-bg: #f7f3f1;
+            --khit-border: #dfeafc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(180deg, var(--khit-bg) 0%, #ffffff 100%);
+            display: flex;
+            flex-direction: column;
+            color: var(--khit-ink);
+        }
+
+        header {
+            background: rgba(255,255,255,0.96);
+            border-bottom: 1px solid var(--khit-border);
+            padding: 15px 7%;
+            backdrop-filter: blur(10px);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+            border-radius: 10px;
+            background: #fff;
+            border: 1px solid rgba(18, 59, 109, 0.12);
+            box-shadow: 0 6px 16px rgba(18, 59, 109, 0.10);
+        }
+
+        .brand h2 {
+            color: var(--khit-deep);
+            font-size: 20px;
+        }
+
+        .brand p {
+            color: var(--khit-muted);
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 35px 15px;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 430px;
+            background: white;
+            padding: 35px;
+            border-radius: 16px;
+            border: 1px solid var(--khit-border);
+            box-shadow: 0 16px 40px rgba(30, 36, 48, 0.08);
+        }
+
+        .login-title {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .login-title h1 {
+            color: var(--khit-deep);
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .login-title p {
+            color: var(--khit-muted);
+            font-size: 14px;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 7px;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.08);
+        }
+
+        .login-btn {
+            width: 100%;
+            border: none;
+            background: linear-gradient(135deg, var(--khit-deep) 0%, var(--khit-deep-2) 100%);
+            color: white;
+            padding: 14px;
+            border-radius: 9px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 5px;
+            box-shadow: 0 12px 22px rgba(18, 59, 109, 0.15);
+        }
+
+        .login-btn:hover {
+            background: linear-gradient(135deg, var(--khit-deep-2) 0%, var(--khit-deep) 100%);
+        }
+
+        .login-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .message {
+            display: none;
+            margin-top: 18px;
+            padding: 12px;
+            border-radius: 7px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .success {
+            display: block;
+            background: #ecfdf5;
+            color: #047857;
+            border: 1px solid #a7f3d0;
+        }
+
+        .error {
+            display: block;
+            background: #fef2f2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 14px;
+        }
+
+        .links button {
+            border: none;
+            background: none;
+            color: #2563eb;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        @media (max-width: 500px) {
+            .login-card {
+                padding: 25px 20px;
+            }
+
+            .login-title h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+    <link rel='stylesheet' href='premium-theme.css'>
+</head>
+
+<body>
+
+<header>
+
+    <div class="brand">
+
+        <img
+            src="/khit-logo.png"
+            alt="KHIT Logo"
+            class="logo"
+        >
+
+        <div>
+            <h2>KHIT Family</h2>
+            <p>Your College  Your Campus  Your Digital Family</p>
+        </div>
+
+    </div>
+
+</header>
+
+
+<main>
+
+    <div class="login-card">
+
+        <div class="login-title">
+
+            <h1>Student Login</h1>
+
+            <p>
+                Login to your KHIT Family account
+            </p>
+
+        </div>
+
+
+        <div class="field">
+
+            <label for="username">
+                Username
+            </label>
+
+            <input
+                type="text"
+                id="username"
+                placeholder="Enter username"
+                autocomplete="username"
+            >
+
+        </div>
+
+        <div class="field">
+
+            <label for="password">
+                Password
+            </label>
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter password"
+                autocomplete="current-password"
+            >
+
+        </div>
+
+
+        <button
+            class="login-btn"
+            id="loginBtn"
+            onclick="studentLogin()"
+        >
+            Login
+        </button>
+
+
+        <div
+            id="message"
+            class="message"
+        ></div>
+
+
+        <div class="links">
+
+            <p>
+                Don't have an account?
+                <button onclick="openRegistration()">
+                    Register as Student
+                </button>
+            </p>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<footer>
+
+     KHIT Family  All Rights Reserved
+
+</footer>
+
+
+<script>
+
+const API_URL = "http://localhost:5000";
+
+
+// ==========================================
+// STUDENT LOGIN
+// ==========================================
+
+async function studentLogin() {
+
+    const username =
+        document.getElementById("username").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+    const button =
+        document.getElementById("loginBtn");
+
+    const message =
+        document.getElementById("message");
+
+
+    message.className = "message";
+    message.textContent = "";
+
+
+    if (!username || !password) {
+
+        message.textContent =
+            "Please enter username and password.";
+
+        message.className =
+            "message error";
+
+        return;
+    }
+
+
+    button.disabled = true;
+    button.textContent = "Logging in...";
+
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/api/login`,
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    username: username,
+                    password: password,
+                    role: "student"
+                })
+            }
+        );
+
+
+        const result =
+            await response.json();
+
+
+        if (response.ok) {
+
+            // Save login information
+            localStorage.setItem(
+                "khit_token",
+                result.token
+            );
+
+            localStorage.setItem(
+                "khit_user",
+                JSON.stringify(result.user)
+            );
+
+            localStorage.setItem(
+                "khit_student",
+                JSON.stringify(result.student)
+            );
+
+
+            message.textContent =
+                "Login successful! Opening dashboard...";
+
+            message.className =
+                "message success";
+
+
+            // Open dashboard
+            setTimeout(() => {
+                window.location.href = "student-dashboard.html";
+            }, 800);
+
+
+        } else {
+
+            message.textContent =
+                result.message ||
+                "Invalid username or password.";
+
+            message.className =
+                "message error";
+
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        message.textContent =
+            "Cannot connect to KHIT Family server. Please make sure node server.js is running.";
+
+        message.className =
+            "message error";
+
+    }
+
+
+    button.disabled = false;
+    button.textContent = "Login";
+}
+
+
+// ==========================================
+// REGISTRATION
+// ==========================================
+
+function openRegistration() {
+
+    window.location.href =
+        "index.html";
+
+}
+
+</script>
+
+</body>
+</html>
+
+
+

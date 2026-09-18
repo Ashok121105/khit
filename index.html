@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>KHIT Family | Student Registration</title>
+
+    <style>
+        :root {
+            --khit-deep: #8f1738;
+            --khit-deep-2: #5e1029;
+            --khit-mid: #b03a59;
+            --khit-soft: #eaf3ff;
+            --khit-light: #f5f9ff;
+            --khit-ink: #1e2430;
+            --khit-muted: #667085;
+            --khit-surface: #ffffff;
+            --khit-bg: #f3f8ff;
+            --khit-border: #dfeafc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(180deg, var(--khit-bg) 0%, #ffffff 100%);
+            color: var(--khit-ink);
+        }
+
+        header {
+            background: rgba(255,255,255,0.96);
+            border-bottom: 1px solid var(--khit-border);
+            padding: 16px 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            gap: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            object-fit: contain;
+            background: var(--khit-soft);
+            border: 1px solid rgba(18, 59, 109, 0.12);
+            box-shadow: 0 6px 16px rgba(18, 59, 109, 0.10);
+        }
+
+        .brand-text h2 {
+            color: var(--khit-deep);
+            font-size: 20px;
+        }
+
+        .brand-text p {
+            color: var(--khit-muted);
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        .top-links {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .portal-btn,
+        .home-btn,
+        .admin-lock-btn {
+            border: none;
+            background: linear-gradient(135deg, var(--khit-deep) 0%, var(--khit-deep-2) 100%);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 14px;
+            box-shadow: 0 8px 18px rgba(18, 59, 109, 0.18);
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        .portal-btn:hover,
+        .home-btn:hover,
+        .demo-btn:hover,
+        .register-btn:hover,
+        .portal-card button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 12px 20px rgba(18, 59, 109, 0.18);
+        }
+
+        .portal-btn.secondary {
+            background: #fff;
+            color: var(--khit-deep);
+            border: 1px solid rgba(18, 59, 109, 0.2);
+            box-shadow: none;
+        }
+
+        .admin-lock-btn {
+            padding: 9px 12px;
+            font-size: 18px;
+            line-height: 1;
+            min-width: 42px;
+            background: linear-gradient(135deg, #0f172a, #334155);
+        }
+
+        .page {
+            width: min(1100px, 92%);
+            margin: 35px auto;
+        }
+
+        .title-section {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .title-section h1 {
+            color: var(--khit-deep);
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .title-section p {
+            color: var(--khit-muted);
+        }
+
+        .form-card {
+            background: linear-gradient(180deg, #ffffff 0%, #fffdfb 100%);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 12px 30px rgba(30, 36, 48, 0.06);
+            border: 1px solid var(--khit-border);
+        }
+
+        .section-title {
+            color: var(--khit-deep);
+            font-size: 19px;
+            margin: 25px 0 16px;
+            padding-bottom: 9px;
+            border-bottom: 2px solid #f0e7df;
+        }
+
+        .section-title:first-child {
+            margin-top: 0;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 7px;
+            color: #374151;
+        }
+
+        label span {
+            color: #dc2626;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            border: 1px solid #d8d0ca;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 14px;
+            outline: none;
+            background: #fff;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--khit-deep);
+            box-shadow: 0 0 0 3px rgba(18, 59, 109, 0.08);
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .note {
+            background: #f0f6ff;
+            border-left: 4px solid #2563eb;
+            padding: 12px 14px;
+            border-radius: 5px;
+            color: #374151;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .button-area {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .register-btn {
+            border: none;
+            background: linear-gradient(135deg, var(--khit-deep) 0%, var(--khit-deep-2) 100%);
+            color: white;
+            padding: 14px 42px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 12px 22px rgba(18, 59, 109, 0.15);
+        }
+
+        .register-btn:hover {
+            background: linear-gradient(135deg, var(--khit-deep-2) 0%, var(--khit-deep) 100%);
+        }
+
+        .register-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .message {
+            display: none;
+            margin-top: 20px;
+            padding: 14px;
+            border-radius: 7px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .success {
+            display: block;
+            background: #ecfdf5;
+            color: #047857;
+            border: 1px solid #a7f3d0;
+        }
+
+        .error {
+            display: block;
+            background: #fef2f2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        .login-text {
+            text-align: center;
+            margin-top: 22px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .login-text button {
+            border: none;
+            background: none;
+            color: var(--khit-deep);
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(170px, 1fr));
+            gap: 16px;
+            margin: 24px 0 32px;
+        }
+
+        .portal-card {
+            background: white;
+            border: 1px solid var(--khit-border);
+            border-radius: 14px;
+            padding: 20px 16px;
+            box-shadow: 0 10px 25px rgba(30, 36, 48, 0.04);
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .portal-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 28px rgba(30, 36, 48, 0.06);
+        }
+
+        .portal-card h3 {
+            color: var(--khit-deep);
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .portal-card p {
+            color: var(--khit-muted);
+            font-size: 12px;
+            line-height: 1.5;
+            margin-bottom: 14px;
+        }
+
+        .portal-card button {
+            width: 100%;
+            border: none;
+            background: linear-gradient(135deg, var(--khit-deep) 0%, var(--khit-deep-2) 100%);
+            color: white;
+            padding: 10px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .portal-card.secondary button {
+            background: linear-gradient(135deg, var(--khit-soft) 0%, #fff 100%);
+            color: var(--khit-deep);
+            border: 1px solid rgba(217, 177, 93, 0.35);
+        }
+
+        .status-panel {
+            background: linear-gradient(135deg, #fffaf0 0%, #ffffff 100%);
+            border: 1px solid rgba(217, 177, 93, 0.35);
+            border-radius: 14px;
+            padding: 18px 20px;
+            margin: 12px 0 26px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            box-shadow: 0 12px 28px rgba(18, 59, 109, 0.05);
+        }
+
+        .status-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .status-badge {
+            background: linear-gradient(135deg, var(--khit-deep) 0%, var(--khit-deep-2) 100%);
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.7px;
+            border-radius: 999px;
+            padding: 7px 10px;
+            text-transform: uppercase;
+        }
+
+        .status-text {
+            color: var(--khit-ink);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .progress-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: min(360px, 100%);
+            flex: 1;
+        }
+
+        .progress-track {
+            position: relative;
+            width: 100%;
+            height: 12px;
+            border-radius: 999px;
+            background: #f3e7cb;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            position: absolute;
+            inset: 0 auto 0 0;
+            width: 0;
+            background: linear-gradient(90deg, var(--khit-mid) 0%, var(--khit-deep) 100%);
+            border-radius: inherit;
+            transition: width 0.35s ease;
+        }
+
+        .progress-value {
+            color: var(--khit-deep);
+            font-weight: 700;
+            font-size: 13px;
+            min-width: 52px;
+            text-align: right;
+        }
+
+        .demo-btn {
+            border: none;
+            background: linear-gradient(135deg, var(--khit-deep) 0%, var(--khit-deep-2) 100%);
+            color: white;
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+            box-shadow: 0 10px 18px rgba(18, 59, 109, 0.12);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 15px;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        @media (max-width: 700px) {
+
+            header {
+                padding: 12px 5%;
+            }
+
+            .brand-text h2 {
+                font-size: 17px;
+            }
+
+            .brand-text p {
+                display: none;
+            }
+
+            .page {
+                width: 94%;
+                margin: 22px auto;
+            }
+
+            .title-section h1 {
+                font-size: 25px;
+            }
+
+            .form-card {
+                padding: 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .field.full {
+                grid-column: auto;
+            }
+
+            .home-btn {
+                padding: 8px 12px;
+            }
+
+            .portal-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .status-panel {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .progress-wrap {
+                min-width: 100%;
+            }
+        }
+    </style>
+    <link rel='stylesheet' href='premium-theme.css'>
+</head>
+
+<body>
+
+<!-- =========================================
+     HEADER
+========================================= -->
+
+<header>
+
+    <div class="brand">
+
+        <img
+            src="/khit-logo.png"
+            alt="KHIT Logo"
+            class="logo"
+        >
+
+        <div class="brand-text">
+            <h2>KHIT Family</h2>
+            <p>Your College  Your Campus  Your Digital Family</p>
+        </div>
+
+    </div>
+
+    <div class="top-links">
+        <button class="portal-btn secondary" onclick="goToStudentLogin()">Student Login</button>
+        <button class="admin-lock-btn" type="button" onclick="goToAdminLogin()" aria-label="Admin access" title="Admin access">Admin Access</button>
+    </div>
+
+</header>
+
+
+<!-- =========================================
+     PAGE
+========================================= -->
+
+<main class="page">
+
+    <div class="portal-grid">
+        <div class="portal-card">
+            <h3>Student</h3>
+            <p>Access your academic, attendance, fees, and profile dashboard.</p>
+            <button onclick="goToStudentLogin()">Open Student Login</button>
+        </div>
+        <div class="portal-card">
+            <h3>Faculty</h3>
+            <p>Review classes, attendance, notifications, and academic activity.</p>
+            <button onclick="goToFacultyLogin()">Open Faculty Login</button>
+        </div>
+        <div class="portal-card">
+            <h3>Parent</h3>
+            <p>Track your childs progress, fees, and academic updates.</p>
+            <button onclick="goToParentLogin()">Open Parent Login</button>
+        </div>
+        <div class="portal-card">
+            <h3>Register</h3>
+            <p>Create a new student account and complete your profile setup.</p>
+            <button onclick="document.getElementById('registerSection').scrollIntoView({behavior: 'smooth'});">Register Now</button>
+        </div>
+    </div>
+
+    <div class="notice-panel" style="margin: 22px auto 0; max-width: 760px; background: #fff7ed; border: 1px solid #fed7aa; color: #9a4f00; border-radius: 12px; padding: 14px 18px; font-size: 14px; line-height: 1.6;">
+        Public access is limited to Student, Parent, and Faculty portals. Admin access remains restricted to authorized accounts only.
+    </div>
+
+    <div class="status-panel">
+        <div class="status-meta">
+            <span class="status-badge">Prototype status</span>
+            <span class="status-text">Demo-ready portal: core flows are in place</span>
+        </div>
+
+        <div class="progress-wrap" aria-label="Prototype completion progress">
+            <div class="progress-track">
+                <div class="progress-fill" id="demoProgressFill"></div>
+            </div>
+            <div class="progress-value" id="demoProgressValue">88%</div>
+        </div>
+
+        <button class="demo-btn" type="button" onclick="showDemoCredentials()">View demo creds</button>
+    </div>
+
+    <div class="title-section">
+
+        <h1>Student Registration</h1>
+
+        <p>
+            Create your KHIT Family student account
+        </p>
+
+    </div>
+
+
+    <div class="form-card" id="registerSection">
+
+        <div class="note">
+            <strong>Important:</strong>
+            Enter your college-assigned Student ID and Roll Number.
+            The portal will not generate your roll number.
+        </div>
+
+
+        <!-- =====================================
+             ACCOUNT DETAILS
+        ====================================== -->
+
+        <h2 class="section-title">
+            Account Details
+        </h2>
+
+        <div class="form-grid">
+
+            <div class="field">
+
+                <label>
+                    Username <span>*</span>
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    placeholder="Create username"
+                    required
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Password <span>*</span>
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Create password"
+                    required
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================
+             PERSONAL DETAILS
+        ====================================== -->
+
+        <h2 class="section-title">
+            Personal Details
+        </h2>
+
+        <div class="form-grid">
+
+            <div class="field">
+
+                <label>
+                    Full Name <span>*</span>
+                </label>
+
+                <input
+                    type="text"
+                    id="full_name"
+                    placeholder="Enter full name"
+                    required
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Date of Birth
+                </label>
+
+                <input
+                    type="date"
+                    id="dob"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Gender
+                </label>
+
+                <select id="gender">
+
+                    <option value="">
+                        Select Gender
+                    </option>
+
+                    <option value="Male">
+                        Male
+                    </option>
+
+                    <option value="Female">
+                        Female
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Mobile Number
+                </label>
+
+                <input
+                    type="tel"
+                    id="mobile"
+                    placeholder="Enter mobile number"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    College Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="example@college.edu"
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================
+             ACADEMIC DETAILS
+        ====================================== -->
+
+        <h2 class="section-title">
+            Academic Details
+        </h2>
+
+        <div class="form-grid">
+
+            <div class="field">
+
+                <label>
+                    Student ID <span>*</span>
+                </label>
+
+                <input
+                    type="text"
+                    id="student_id"
+                    placeholder="College-assigned Student ID"
+                    required
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Roll Number <span>*</span>
+                </label>
+
+                <input
+                    type="text"
+                    id="roll_number"
+                    placeholder="College-assigned Roll Number"
+                    required
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Department / Branch
+                </label>
+
+                <select id="department">
+
+                    <option value="">
+                        Select Department
+                    </option>
+
+                    <option value="ECE">
+                        Electronics & Communication Engineering
+                    </option>
+
+                    <option value="CSE">
+                        Computer Science & Engineering
+                    </option>
+
+                    <option value="EEE">
+                        Electrical & Electronics Engineering
+                    </option>
+
+                    <option value="ME">
+                        Mechanical Engineering
+                    </option>
+
+                    <option value="CE">
+                        Civil Engineering
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Current Year
+                </label>
+
+                <select id="year">
+
+                    <option value="">
+                        Select Year
+                    </option>
+
+                    <option value="1">
+                        1st Year
+                    </option>
+
+                    <option value="2">
+                        2nd Year
+                    </option>
+
+                    <option value="3">
+                        3rd Year
+                    </option>
+
+                    <option value="4">
+                        4th Year
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Section
+                </label>
+
+                <input
+                    type="text"
+                    id="section"
+                    placeholder="Example: A"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Academic Year
+                </label>
+
+                <input
+                    type="text"
+                    id="academic_year"
+                    placeholder="Example: 2026-27"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Fee Category
+                </label>
+
+                <select id="fee_category">
+
+                    <option value="">
+                        Select Fee Category
+                    </option>
+
+                    <option value="Management">
+                        Management
+                    </option>
+
+                    <option value="Fee Reimbursement">
+                        Fee Reimbursement
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================
+             PARENT DETAILS
+        ====================================== -->
+
+        <h2 class="section-title">
+            Parent / Guardian Details
+        </h2>
+
+        <div class="form-grid">
+
+            <div class="field">
+
+                <label>
+                    Parent / Guardian Name
+                </label>
+
+                <input
+                    type="text"
+                    id="parent_name"
+                    placeholder="Enter parent name"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Parent / Guardian Mobile
+                </label>
+
+                <input
+                    type="tel"
+                    id="parent_mobile"
+                    placeholder="Enter parent mobile"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Parent Email
+                </label>
+
+                <input
+                    type="email"
+                    id="parent_email"
+                    placeholder="Optional"
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================
+             ADDRESS
+        ====================================== -->
+
+        <h2 class="section-title">
+            Address Details
+        </h2>
+
+        <div class="form-grid">
+
+            <div class="field full">
+
+                <label>
+                    Address
+                </label>
+
+                <textarea
+                    id="address"
+                    placeholder="House / Door No., Street / Village"
+                ></textarea>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    City / Town
+                </label>
+
+                <input
+                    type="text"
+                    id="city"
+                    placeholder="City / Town"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    District
+                </label>
+
+                <input
+                    type="text"
+                    id="district"
+                    placeholder="District"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    State
+                </label>
+
+                <input
+                    type="text"
+                    id="state"
+                    value="Andhra Pradesh"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    PIN Code
+                </label>
+
+                <input
+                    type="text"
+                    id="pincode"
+                    placeholder="PIN Code"
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================
+             REGISTER
+        ====================================== -->
+
+        <div class="button-area">
+
+            <button
+                class="register-btn"
+                id="registerBtn"
+                onclick="registerStudent()"
+            >
+                Create Student Account
+            </button>
+
+        </div>
+
+
+        <div
+            id="message"
+            class="message"
+        ></div>
+
+
+        <div class="login-text">
+
+            Already have an account?
+
+            <button onclick="goToLogin()">
+                Student Login
+            </button>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<footer>
+
+    <p>
+         KHIT Family  All Rights Reserved
+    </p>
+
+</footer>
+
+
+<!-- =========================================
+     JAVASCRIPT
+========================================= -->
+
+<script>
+
+    const API_URL = "http://localhost:5000";
+    const DEMO_PROGRESS = 88;
+
+    function applyDemoProgress() {
+        const fill = document.getElementById("demoProgressFill");
+        const value = document.getElementById("demoProgressValue");
+
+        if (!fill || !value) return;
+
+        fill.style.width = `${DEMO_PROGRESS}%`;
+        value.textContent = `${DEMO_PROGRESS}%`;
+    }
+
+    document.addEventListener("DOMContentLoaded", applyDemoProgress);
+
+
+    // =========================================
+    // SHOW MESSAGE
+    // =========================================
+
+    function showMessage(message, type) {
+
+        const messageBox =
+            document.getElementById("message");
+
+        messageBox.textContent = message;
+
+        messageBox.className =
+            "message " + type;
+
+    }
+
+
+    // =========================================
+    // STUDENT REGISTRATION
+    // =========================================
+
+    async function registerStudent() {
+
+        const button =
+            document.getElementById("registerBtn");
+
+        button.disabled = true;
+
+        button.textContent = "Creating Account...";
+
+
+        const data = {
+
+            username:
+                document.getElementById("username").value.trim(),
+
+            password:
+                document.getElementById("password").value,
+
+            student_id:
+                document.getElementById("student_id").value.trim(),
+
+            roll_number:
+                document.getElementById("roll_number").value.trim(),
+
+            full_name:
+                document.getElementById("full_name").value.trim(),
+
+            email:
+                document.getElementById("email").value.trim(),
+
+            mobile:
+                document.getElementById("mobile").value.trim(),
+
+            dob:
+                document.getElementById("dob").value,
+
+            gender:
+                document.getElementById("gender").value,
+
+            department:
+                document.getElementById("department").value,
+
+            year:
+                document.getElementById("year").value,
+
+            section:
+                document.getElementById("section").value.trim(),
+
+            academic_year:
+                document.getElementById("academic_year").value.trim(),
+
+            fee_category:
+                document.getElementById("fee_category").value,
+
+            parent_name:
+                document.getElementById("parent_name").value.trim(),
+
+            parent_mobile:
+                document.getElementById("parent_mobile").value.trim(),
+
+            parent_email:
+                document.getElementById("parent_email").value.trim(),
+
+            address:
+                document.getElementById("address").value.trim(),
+
+            city:
+                document.getElementById("city").value.trim(),
+
+            district:
+                document.getElementById("district").value.trim(),
+
+            state:
+                document.getElementById("state").value.trim(),
+
+            pincode:
+                document.getElementById("pincode").value.trim()
+        };
+
+        if (!data.username || !data.password || !data.student_id || !data.roll_number || !data.full_name) {
+            showMessage("Please fill all required fields.", "error");
+            button.disabled = false;
+            button.textContent = "Create Student Account";
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_URL}/api/student/register`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.message || "Registration failed");
+            }
+
+            showMessage(result.message || "Student registered successfully.", "success");
+
+            document.getElementById("registerBtn").disabled = false;
+            document.getElementById("registerBtn").textContent = "Create Student Account";
+
+            document.getElementById("username").value = "";
+            document.getElementById("password").value = "";
+            document.getElementById("student_id").value = "";
+            document.getElementById("roll_number").value = "";
+            document.getElementById("full_name").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("mobile").value = "";
+            document.getElementById("dob").value = "";
+            document.getElementById("gender").value = "";
+            document.getElementById("department").value = "";
+            document.getElementById("year").value = "";
+            document.getElementById("section").value = "";
+            document.getElementById("academic_year").value = "";
+            document.getElementById("fee_category").value = "";
+            document.getElementById("parent_name").value = "";
+            document.getElementById("parent_mobile").value = "";
+            document.getElementById("parent_email").value = "";
+            document.getElementById("address").value = "";
+            document.getElementById("city").value = "";
+            document.getElementById("district").value = "";
+            document.getElementById("state").value = "Andhra Pradesh";
+            document.getElementById("pincode").value = "";
+
+        } catch (error) {
+            showMessage(error.message || "Something went wrong.", "error");
+        } finally {
+            button.disabled = false;
+            button.textContent = "Create Student Account";
+        }
+    }
+
+    function goHome() {
+        window.location.href = "index.html";
+    }
+
+    function goToStudentLogin() {
+        window.location.href = "login.html";
+    }
+
+    function goToFacultyLogin() {
+        window.location.href = "faculty-login.html";
+    }
+
+    function goToParentLogin() {
+        window.location.href = "parent-login.html";
+    }
+
+    function goToAdminLogin() {
+        window.location.href = "database/admin-login.html";
+    }
+
+    function goToLogin() {
+        window.location.href = "login.html";
+    }
+
+    async function showDemoCredentials() {
+        try {
+            const response = await fetch(`${API_URL}/api/demo-credentials`);
+            const result = await response.json();
+
+            if (!response.ok || result.status !== "success") {
+                throw new Error(result.message || "Unable to load demo credentials");
+            }
+
+            const demo = result.demoAccounts || {};
+            const details = [
+                `Admin: ${demo.admin?.username || "admin"} / ${demo.admin?.password || "admin123"}`,
+                `Student: ${demo.student?.username || "student"} / ${demo.student?.password || "student123"}`,
+                `Parent: student_id ${demo.parent?.student_id || "STU-1001"}, parent_mobile ${demo.parent?.parent_mobile || "9876500001"}`
+            ].join("\n");
+
+            alert("Demo credentials:\n\n" + details);
+        } catch (error) {
+            alert(error.message || "Unable to load demo credentials.");
+        }
+    }
+
+</script>
+</body>
+</html>
+
+

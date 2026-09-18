@@ -1,0 +1,866 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>KHIT Family - Exams & Results</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .result-status {
+            display: inline-block;
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .semester-card {
+            transition: 0.2s;
+        }
+
+        .semester-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .marks-total {
+            font-weight: 800;
+        }
+
+        .grade {
+            font-weight: 800;
+        }
+
+        .download-box {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .info-text {
+            line-height: 1.7;
+        }
+
+        @media print {
+            .topbar,
+            .actions,
+            .notice,
+            .download-box {
+                display: none !important;
+            }
+
+            body {
+                background: white;
+            }
+
+            .card,
+            .stat {
+                box-shadow: none;
+            }
+        }
+    </style>
+    <link rel='stylesheet' href='premium-theme.css'>
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <div class="brand">
+        KHIT Family
+    </div>
+
+    <div class="actions">
+
+        <button
+            class="btn secondary"
+            onclick="goDashboard()">
+            Dashboard
+        </button>
+
+        <button
+            class="btn danger"
+            onclick="logout()">
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+
+<main class="wrap">
+
+    <!-- PAGE HEADER -->
+
+    <div class="hero">
+
+        <h1>
+            Exams & Results
+        </h1>
+
+        <p>
+            View examination schedule, marks and academic results.
+        </p>
+
+    </div>
+
+
+    <!-- STUDENT INFORMATION -->
+
+    <div class="card">
+
+        <div class="result-header">
+
+            <div>
+
+                <h2 id="studentName">
+                    Student
+                </h2>
+
+                <p class="muted">
+                    Student ID:
+                    <b id="studentId">--</b>
+                </p>
+
+                <p class="muted">
+                    Roll Number:
+                    <b id="rollNumber">--</b>
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <p class="muted">
+                    Department
+                </p>
+
+                <h3 id="department">
+                    --
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- RESULT SUMMARY -->
+
+    <div
+        class="grid3"
+        style="margin-top:20px"
+    >
+
+        <div class="stat">
+
+            <span>
+                Current SGPA
+            </span>
+
+            <b>
+                --
+            </b>
+
+        </div>
+
+
+        <div class="stat">
+
+            <span>
+                Overall CGPA
+            </span>
+
+            <b>
+                --
+            </b>
+
+        </div>
+
+
+        <div class="stat">
+
+            <span>
+                Result Status
+            </span>
+
+            <b>
+
+                <span class="result-status">
+                    Awaiting College Data
+                </span>
+
+            </b>
+
+        </div>
+
+    </div>
+
+
+    <!-- EXAM SCHEDULE -->
+
+    <div
+        class="card"
+        style="margin-top:20px"
+    >
+
+        <h2>
+            Examination Schedule
+        </h2>
+
+        <p class="muted">
+            Upcoming and completed examinations.
+        </p>
+
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Exam
+                        </th>
+
+                        <th>
+                            Subject
+                        </th>
+
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            Time
+                        </th>
+
+                        <th>
+                            Room
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <tr>
+
+                        <td>
+                            --
+                        </td>
+
+                        <td>
+                            --
+                        </td>
+
+                        <td>
+                            --
+                        </td>
+
+                        <td>
+                            --
+                        </td>
+
+                        <td>
+                            --
+                        </td>
+
+                        <td>
+                            Awaiting Data
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- SEMESTER RESULTS -->
+
+    <div
+        class="card"
+        style="margin-top:20px"
+    >
+
+        <h2>
+            Semester-wise Results
+        </h2>
+
+        <div class="grid3">
+
+            <div class="stat semester-card">
+
+                <span>
+                    Semester 1
+                </span>
+
+                <b>
+                    SGPA: --
+                </b>
+
+                <p class="muted">
+                    Result: --
+                </p>
+
+            </div>
+
+
+            <div class="stat semester-card">
+
+                <span>
+                    Semester 2
+                </span>
+
+                <b>
+                    SGPA: --
+                </b>
+
+                <p class="muted">
+                    Result: --
+                </p>
+
+            </div>
+
+
+            <div class="stat semester-card">
+
+                <span>
+                    Semester 3
+                </span>
+
+                <b>
+                    SGPA: --
+                </b>
+
+                <p class="muted">
+                    Result: --
+                </p>
+
+            </div>
+
+
+            <div class="stat semester-card">
+
+                <span>
+                    Semester 4
+                </span>
+
+                <b>
+                    SGPA: --
+                </b>
+
+                <p class="muted">
+                    Result: --
+                </p>
+
+            </div>
+
+
+            <div class="stat semester-card">
+
+                <span>
+                    Semester 5
+                </span>
+
+                <b>
+                    SGPA: --
+                </b>
+
+                <p class="muted">
+                    Result: --
+                </p>
+
+            </div>
+
+
+            <div class="stat semester-card">
+
+                <span>
+                    Semester 6
+                </span>
+
+                <b>
+                    SGPA: --
+                </b>
+
+                <p class="muted">
+                    Result: --
+                </p>
+
+            </div>
+
+
+            <div class="stat semester-card">
+
+                <span>
+                    Semester 7
+                </span>
+
+                <b>
+                    SGPA: --
+                </b>
+
+                <p class="muted">
+                    Result: --
+                </p>
+
+            </div>
+
+
+            <div class="stat semester-card">
+
+                <span>
+                    Semester 8
+                </span>
+
+                <b>
+                    SGPA: --
+                </b>
+
+                <p class="muted">
+                    Result: --
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SUBJECT WISE MARKS -->
+
+    <div
+        class="card"
+        style="margin-top:20px"
+    >
+
+        <h2>
+            Subject-wise Marks
+        </h2>
+
+        <p class="muted">
+            Marks obtained in the selected examination.
+        </p>
+
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Subject Code
+                        </th>
+
+                        <th>
+                            Subject
+                        </th>
+
+                        <th>
+                            Internal
+                        </th>
+
+                        <th>
+                            External
+                        </th>
+
+                        <th>
+                            Total
+                        </th>
+
+                        <th>
+                            Grade
+                        </th>
+
+                        <th>
+                            Result
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <tr>
+
+                        <td>
+                            --
+                        </td>
+
+                        <td>
+                            --
+                        </td>
+
+                        <td>
+                            --
+                        </td>
+
+                        <td>
+                            --
+                        </td>
+
+                        <td class="marks-total">
+                            --
+                        </td>
+
+                        <td class="grade">
+                            --
+                        </td>
+
+                        <td>
+                            Awaiting Data
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- BACKLOG / ARREARS -->
+
+    <div
+        class="card"
+        style="margin-top:20px"
+    >
+
+        <h2>
+            Backlogs / Arrears
+        </h2>
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Semester
+                        </th>
+
+                        <th>
+                            Subject
+                        </th>
+
+                        <th>
+                            Subject Code
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <tr>
+
+                        <td>
+                            --
+                        </td>
+
+                        <td>
+                            --
+                        </td>
+
+                        <td>
+                            --
+                        </td>
+
+                        <td>
+                            No data available
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- RESULT DOWNLOAD -->
+
+    <div
+        class="card"
+        style="margin-top:20px"
+    >
+
+        <h2>
+            Result / Marks Memo
+        </h2>
+
+        <p class="info-text muted">
+
+            Once authorized examination data is connected,
+            students will be able to view and download their
+            official result or marks memo.
+
+        </p>
+
+
+        <div class="download-box">
+
+            <button
+                class="btn"
+                onclick="downloadResult()">
+
+                Download Result
+
+            </button>
+
+
+            <button
+                class="btn secondary"
+                onclick="printResult()">
+
+                Print Result
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- INFORMATION NOTICE -->
+
+    <div class="notice">
+
+        <b>
+            Important:
+        </b>
+
+        Examination schedules, marks, grades, SGPA, CGPA
+        and backlog information will be displayed only
+        after authorized college academic data is connected.
+
+        The current values are placeholders for the prototype.
+
+    </div>
+
+</main>
+
+
+<script>
+
+    const token =
+        localStorage.getItem("khit_token");
+
+
+    if (!token) {
+
+        location.href = "login.html";
+
+    }
+
+
+    async function loadStudent() {
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/student/profile",
+                    {
+                        headers: {
+                            "Authorization":
+                                "Bearer " + token
+                        }
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                logout();
+
+                return;
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            const student =
+                data.student;
+
+
+            document.getElementById(
+                "studentName"
+            ).textContent =
+                student.full_name || "--";
+
+
+            document.getElementById(
+                "studentId"
+            ).textContent =
+                student.student_id || "--";
+
+
+            document.getElementById(
+                "rollNumber"
+            ).textContent =
+                student.roll_number || "--";
+
+
+            document.getElementById(
+                "department"
+            ).textContent =
+                student.department || "--";
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Student data error:",
+                error
+            );
+
+            logout();
+
+        }
+
+    }
+
+
+    function goDashboard() {
+
+        location.href =
+            "student-dashboard.html";
+
+    }
+
+
+    function printResult() {
+
+        window.print();
+
+    }
+
+
+    function downloadResult() {
+
+        alert(
+            "Official result download will be enabled after authorized college result data is connected."
+        );
+
+    }
+
+
+    function logout() {
+
+        localStorage.removeItem(
+            "khit_token"
+        );
+
+        localStorage.removeItem(
+            "khit_user"
+        );
+
+        localStorage.removeItem(
+            "khit_student"
+        );
+
+        location.href =
+            "login.html";
+
+    }
+
+
+    async function loadExamResults() {
+
+        try {
+
+            const response = await fetch(
+                "/api/student/exams",
+                {
+                    headers: {
+                        "Authorization":
+                            "Bearer " + token
+                    }
+                }
+            );
+
+            if (!response.ok) return;
+
+            const data = await response.json();
+            const results = data.results || [];
+            const table = document.querySelector("table");
+
+            if (table && results.length) {
+                table.querySelector("tbody").innerHTML = results.map(result => `
+                    <tr>
+                        <td>${result.exam_type || "-"}</td>
+                        <td>${result.subject_name || result.subject_code || "-"}</td>
+                        <td>${result.exam_date || "-"}</td>
+                        <td>${result.marks ?? "-"} / ${result.max_marks ?? "-"}</td>
+                    </tr>
+                `).join("");
+            }
+
+        } catch (error) {
+            console.error("Exam results error:", error);
+        }
+
+    }
+
+    loadStudent();
+    loadExamResults();
+
+</script>
+
+</body>
+</html>

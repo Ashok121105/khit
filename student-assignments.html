@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Assignments | KHIT Family</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        /* TOPBAR */
+
+        .topbar {
+            height: 70px;
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: #123c69;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .brand h2 {
+            color: #123c69;
+            font-size: 20px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-weight: 600;
+        }
+
+        .dashboard-btn {
+            background: #eef4ff;
+            color: #123c69;
+        }
+
+        .logout-btn {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        /* CONTAINER */
+
+        .container {
+            max-width: 1250px;
+            margin: auto;
+            padding: 30px 20px 50px;
+        }
+
+        /* HERO */
+
+        .hero {
+            background: linear-gradient(135deg, #123c69, #1d5d91);
+            color: white;
+            padding: 32px;
+            border-radius: 18px;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 {
+            font-size: 29px;
+            margin-bottom: 8px;
+        }
+
+        .hero p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* STUDENT INFO */
+
+        .student-info {
+            background: white;
+            padding: 22px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .student-info h2 {
+            color: #123c69;
+            margin-bottom: 18px;
+            font-size: 20px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .info-item {
+            background: #f8fafc;
+            padding: 14px;
+            border-radius: 9px;
+        }
+
+        .info-item span {
+            display: block;
+            color: #64748b;
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .info-item strong {
+            font-size: 14px;
+        }
+
+        /* FILTERS */
+
+        .filters {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 12px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dbe2ea;
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #123c69;
+        }
+
+        /* SUMMARY */
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 20px;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .summary-card span {
+            display: block;
+            color: #64748b;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .summary-card strong {
+            font-size: 25px;
+            color: #123c69;
+        }
+
+        /* ASSIGNMENTS */
+
+        .section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .section h2 {
+            color: #123c69;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .assignments {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .assignment-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 13px;
+            padding: 20px;
+            background: #fafafa;
+            transition: 0.2s;
+        }
+
+        .assignment-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.07);
+        }
+
+        .assignment-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .assignment-icon {
+            width: 45px;
+            height: 45px;
+            background: #eef4ff;
+            color: #123c69;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+        }
+
+        .status {
+            height: fit-content;
+            padding: 6px 10px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .pending {
+            background: #fff7ed;
+            color: #c2410c;
+        }
+
+        .submitted {
+            background: #ecfdf5;
+            color: #047857;
+        }
+
+        .overdue {
+            background: #fef2f2;
+            color: #b91c1c;
+        }
+
+        .assignment-card h3 {
+            color: #123c69;
+            font-size: 16px;
+            margin-bottom: 7px;
+        }
+
+        .assignment-card p {
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 14px;
+        }
+
+        .assignment-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .detail {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .detail span {
+            display: block;
+            color: #94a3b8;
+            font-size: 10px;
+            margin-bottom: 4px;
+        }
+
+        .detail strong {
+            color: #334155;
+            font-size: 12px;
+        }
+
+        .view-btn {
+            background: #123c69;
+            color: white;
+            font-size: 12px;
+        }
+
+        /* TABLE */
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+
+        th {
+            background: #f1f5f9;
+            padding: 13px;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        td {
+            padding: 14px 13px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 13px;
+        }
+
+        /* NOTICE */
+
+        .notice {
+            background: #eff6ff;
+            border-left: 4px solid #2563eb;
+            padding: 17px;
+            border-radius: 8px;
+            color: #1e3a8a;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 950px) {
+
+            .info-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .assignments {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .brand h2 {
+                font-size: 17px;
+            }
+
+            .actions button {
+                padding: 8px 10px;
+                font-size: 11px;
+            }
+
+            .container {
+                padding: 20px 12px 40px;
+            }
+
+            .hero {
+                padding: 24px;
+            }
+
+            .hero h1 {
+                font-size: 23px;
+            }
+
+            .info-grid,
+            .summary {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 18px;
+            }
+        }
+    </style>
+    <link rel='stylesheet' href='premium-theme.css'>
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <div class="brand">
+
+        <div class="logo">
+            KHIT
+        </div>
+
+        <h2>
+            KHIT Family
+        </h2>
+
+    </div>
+
+    <div class="actions">
+
+        <button
+            class="dashboard-btn"
+            onclick="goDashboard()">
+            Dashboard
+        </button>
+
+        <button
+            class="logout-btn"
+            onclick="logout()">
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+
+<main class="container">
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <h1>
+             Assignments
+        </h1>
+
+        <p>
+            View your assignments, deadlines,
+            submission status and academic tasks.
+        </p>
+
+    </section>
+
+
+    <!-- STUDENT INFORMATION -->
+
+    <section class="student-info">
+
+        <h2>
+            Student Information
+        </h2>
+
+        <div class="info-grid">
+
+            <div class="info-item">
+
+                <span>
+                    Student Name
+                </span>
+
+                <strong id="studentName">
+                    Loading...
+                </strong>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <span>
+                    Student ID
+                </span>
+
+                <strong id="studentId">
+                    Loading...
+                </strong>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <span>
+                    Roll Number
+                </span>
+
+                <strong id="rollNumber">
+                    Loading...
+                </strong>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <span>
+                    Department
+                </span>
+
+                <strong id="department">
+                    Loading...
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FILTER -->
+
+    <section class="filters">
+
+        <div class="filter-grid">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search assignments..."
+                onkeyup="filterAssignments()">
+
+
+            <select
+                id="subjectFilter"
+                onchange="filterAssignments()">
+
+                <option value="">
+                    All Subjects
+                </option>
+
+                <option value="Digital Electronics">
+                    Digital Electronics
+                </option>
+
+                <option value="Microprocessors">
+                    Microprocessors
+                </option>
+
+                <option value="Communication">
+                    Communication
+                </option>
+
+                <option value="Embedded Systems">
+                    Embedded Systems
+                </option>
+
+            </select>
+
+
+            <select
+                id="statusFilter"
+                onchange="filterAssignments()">
+
+                <option value="">
+                    All Status
+                </option>
+
+                <option value="Pending">
+                    Pending
+                </option>
+
+                <option value="Submitted">
+                    Submitted
+                </option>
+
+                <option value="Overdue">
+                    Overdue
+                </option>
+
+            </select>
+
+        </div>
+
+    </section>
+
+
+    <!-- SUMMARY -->
+
+    <section class="summary">
+
+        <div class="summary-card">
+
+            <span>
+                Total Assignments
+            </span>
+
+            <strong id="totalAssignments">
+                6
+            </strong>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <span>
+                Pending
+            </span>
+
+            <strong id="pendingAssignments">
+                3
+            </strong>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <span>
+                Submitted
+            </span>
+
+            <strong id="submittedAssignments">
+                2
+            </strong>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <span>
+                Overdue
+            </span>
+
+            <strong id="overdueAssignments">
+                1
+            </strong>
+
+        </div>
+
+    </section>
+
+
+    <!-- ASSIGNMENT CARDS -->
+
+    <section class="section">
+
+        <h2>
+            My Assignments
+        </h2>
+
+
+        <div
+            class="assignments"
+            id="assignmentsContainer">
+
+
+            <!-- ASSIGNMENT 1 -->
+
+            <div
+                class="assignment-card"
+                data-subject="Digital Electronics"
+                data-status="Pending">
+
+                <div class="assignment-top">
+
+                    <div class="assignment-icon">
+                        
+                    </div>
+
+                    <span class="status pending">
+                        Pending
+                    </span>
+
+                </div>
+
+                <h3>
+                    Digital Logic Design
+                </h3>
+
+                <p>
+                    Prepare an assignment on logic gates,
+                    Boolean algebra and logic simplification.
+                </p>
+
+                <div class="assignment-details">
+
+                    <div class="detail">
+
+                        <span>
+                            Subject
+                        </span>
+
+                        <strong>
+                            Digital Electronics
+                        </strong>
+
+                    </div>
+
+                    <div class="detail">
+
+                        <span>
+                            Due Date
+                        </span>
+
+                        <strong>
+                            -
+                        </strong>
+
+                    </div>
+
+                </div>
+
+                <button
+                    class="view-btn"
+                    onclick="viewAssignment('Digital Logic Design')">
+
+                    View Assignment
+
+                </button>
+
+            </div>
+
+
+            <!-- ASSIGNMENT 2 -->
+
+            <div
+                class="assignment-card"
+                data-subject="Microprocessors"
+                data-status="Pending">
+
+                <div class="assignment-top">
+
+                    <div class="assignment-icon">
+                        
+                    </div>
+
+                    <span class="status pending">
+                        Pending
+                    </span>
+
+                </div>
+
+                <h3>
+                    8086 Microprocessor
+                </h3>
+
+                <p>
+                    Study and explain the architecture
+                    and instruction set of 8086.
+                </p>
+
+                <div class="assignment-details">
+
+                    <div class="detail">
+
+                        <span>
+                            Subject
+                        </span>
+
+                        <strong>
+                            Microprocessors
+                        </strong>
+
+                    </div>
+
+                    <div class="detail">
+
+                        <span>
+                            Due Date
+                        </span>
+
+                        <strong>
+                            -
+                        </strong>
+
+                    </div>
+
+                </div>
+
+                <button
+                    class="view-btn"
+                    onclick="viewAssignment('8086 Microprocessor')">
+
+                    View Assignment
+
+                </button>
+
+            </div>
+
+
+            <!-- ASSIGNMENT 3 -->
+
+            <div
+                class="assignment-card"
+                data-subject="Communication"
+                data-status="Submitted">
+
+                <div class="assignment-top">
+
+                    <div class="assignment-icon">
+                        
+                    </div>
+
+                    <span class="status submitted">
+                        Submitted
+                    </span>
+
+                </div>
+
+                <h3>
+                    Digital Communication
+                </h3>
+
+                <p>
+                    Prepare notes on digital modulation
+                    techniques and communication systems.
+                </p>
+
+                <div class="assignment-details">
+
+                    <div class="detail">
+
+                        <span>
+                            Subject
+                        </span>
+
+                        <strong>
+                            Communication
+                        </strong>
+
+                    </div>
+
+                    <div class="detail">
+
+                        <span>
+                            Due Date
+                        </span>
+
+                        <strong>
+                            -
+                        </strong>
+
+                    </div>
+
+                </div>
+
+                <button
+                    class="view-btn"
+                    onclick="viewAssignment('Digital Communication')">
+
+                    View Assignment
+
+                </button>
+
+            </div>
+
+
+            <!-- ASSIGNMENT 4 -->
+
+            <div
+                class="assignment-card"
+                data-subject="Embedded Systems"
+                data-status="Submitted">
+
+                <div class="assignment-top">
+
+                    <div class="assignment-icon">
+                        
+                    </div>
+
+                    <span class="status submitted">
+                        Submitted
+                    </span>
+
+                </div>
+
+                <h3>
+                    Embedded Systems
+                </h3>
+
+                <p>
+                    Explain microcontrollers,
+                    embedded applications and system design.
+                </p>
+
+                <div class="assignment-details">
+
+                    <div class="detail">
+
+                        <span>
+                            Subject
+                        </span>
+
+                        <strong>
+                            Embedded Systems
+                        </strong>
+
+                    </div>
+
+                    <div class="detail">
+
+                        <span>
+                            Due Date
+                        </span>
+
+                        <strong>
+                            -
+                        </strong>
+
+                    </div>
+
+                </div>
+
+                <button
+                    class="view-btn"
+                    onclick="viewAssignment('Embedded Systems')">
+
+                    View Assignment
+
+                </button>
+
+            </div>
+
+
+            <!-- ASSIGNMENT 5 -->
+
+            <div
+                class="assignment-card"
+                data-subject="Communication"
+                data-status="Pending">
+
+                <div class="assignment-top">
+                    <div class="assignment-icon"></div>
+                    <span class="status pending">Pending</span>
+                </div>
+                <h3>Digital Communication</h3>
+                <p>Prepare notes on communication systems and modulation techniques.</p>
+                <div class="assignment-details">
+                    <div class="detail"><span>Subject</span><strong>Communication</strong></div>
+                    <div class="detail"><span>Due Date</span><strong>-</strong></div>
+                </div>
+                <button class="view-btn" onclick="viewAssignment('Digital Communication')">View Assignment</button>
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+</div>
+
+<script>
+const token = localStorage.getItem("khit_token");
+if (!token) window.location.href = "login.html";
+function goDashboard() { window.location.href = "student-dashboard.html"; }
+function logout() {
+    localStorage.removeItem("khit_token");
+    localStorage.removeItem("khit_user");
+    localStorage.removeItem("khit_student");
+    window.location.href = "login.html";
+}
+function filterAssignments() {
+    const value = (document.getElementById("assignmentSearch")?.value || "").toLowerCase();
+    document.querySelectorAll(".assignment-card").forEach(card => {
+        card.style.display = card.textContent.toLowerCase().includes(value) ? "" : "none";
+    });
+}
+function viewAssignment(name) {
+    alert(`${name}\n\nOfficial assignment details will appear after faculty data is connected.`);
+}
+async function loadAssignments() {
+    try {
+        const response = await fetch("/api/student/assignments", { headers: { Authorization: `Bearer ${token}` } });
+        if (!response.ok) return;
+        const data = await response.json();
+        const assignments = data.assignments || [];
+        const container = document.getElementById("assignmentsContainer");
+        if (!assignments.length || !container) return;
+        container.innerHTML = assignments.map(item => `<div class="assignment-card"><div class="assignment-top"><span class="status pending">${item.submitted_at ? "Submitted" : "Pending"}</span></div><h3>${item.title || "Assignment"}</h3><p>${item.description || ""}</p><div class="assignment-details"><div class="detail"><span>Subject</span><strong>${item.subject_name || "-"}</strong></div><div class="detail"><span>Due Date</span><strong>${item.due_date || "-"}</strong></div></div><button class="view-btn" onclick="viewAssignment('${String(item.title || "Assignment").replace(/'/g, "\\'")}')">View Assignment</button></div>`).join("");
+    } catch (error) { console.error("Assignments error:", error); }
+}
+loadAssignments();
+</script>
+
+</body>
+</html>

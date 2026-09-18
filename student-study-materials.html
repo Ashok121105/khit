@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Study Materials | KHIT Family</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .topbar {
+            height: 70px;
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: #123c69;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .brand h2 {
+            color: #123c69;
+            font-size: 20px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-weight: 600;
+        }
+
+        .dashboard-btn {
+            background: #eef4ff;
+            color: #123c69;
+        }
+
+        .logout-btn {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: auto;
+            padding: 30px 20px 50px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #123c69, #1d5d91);
+            color: white;
+            padding: 32px;
+            border-radius: 18px;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 {
+            font-size: 29px;
+            margin-bottom: 8px;
+        }
+
+        .hero p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* STUDENT INFO */
+
+        .student-info {
+            background: white;
+            padding: 22px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .student-info h2 {
+            color: #123c69;
+            margin-bottom: 18px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .info-item {
+            background: #f8fafc;
+            padding: 14px;
+            border-radius: 9px;
+        }
+
+        .info-item span {
+            display: block;
+            color: #64748b;
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .info-item strong {
+            font-size: 14px;
+        }
+
+        /* SEARCH */
+
+        .tools {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 12px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dbe2ea;
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #123c69;
+        }
+
+        /* SECTION */
+
+        .section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .section h2 {
+            color: #123c69;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        /* MATERIAL CARDS */
+
+        .materials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .material-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 13px;
+            padding: 20px;
+            background: #fafafa;
+            transition: 0.2s;
+        }
+
+        .material-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.07);
+        }
+
+        .material-icon {
+            width: 45px;
+            height: 45px;
+            background-color: #eef4ff;
+            color: #123c69;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 800;
+            margin-bottom: 14px;
+        }
+
+        .material-icon::before {
+            content: "◆";
+            font-size: 20px;
+        }
+
+        .material-card[data-subject="Digital Electronics"] .material-icon::before {
+            content: "▦";
+            font-size: 23px;
+        }
+
+        .material-card[data-subject="Microprocessors"] .material-icon::before {
+            content: "⚙";
+            font-size: 22px;
+        }
+
+        .material-card[data-subject="Communication"] .material-icon::before {
+            content: "◉";
+            font-size: 22px;
+        }
+
+        .material-card[data-subject="Embedded Systems"] .material-icon::before {
+            content: "⌘";
+            font-size: 23px;
+        }
+
+        .material-card[data-type="Question Paper"] .material-icon::before {
+            content: "▤";
+            font-size: 22px;
+        }
+
+        .material-card[data-type="Notes"]:last-child .material-icon::before {
+            content: "▱";
+            font-size: 24px;
+        }
+
+        .material-card h3 {
+            color: #123c69;
+            font-size: 16px;
+            margin-bottom: 7px;
+        }
+
+        .material-card p {
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .material-meta {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-bottom: 15px;
+        }
+
+        .material-btn {
+            background: #123c69;
+            color: white;
+            font-size: 12px;
+        }
+
+        /* TABLE */
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+
+        th {
+            background: #f1f5f9;
+            padding: 13px;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        td {
+            padding: 14px 13px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 14px;
+        }
+
+        .type {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 15px;
+            background: #eef4ff;
+            color: #123c69;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        /* NOTICE */
+
+        .notice {
+            background: #eff6ff;
+            border-left: 4px solid #2563eb;
+            padding: 17px;
+            border-radius: 8px;
+            color: #1e3a8a;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 950px) {
+
+            .info-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .materials-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .brand h2 {
+                font-size: 17px;
+            }
+
+            .actions button {
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+
+            .container {
+                padding: 20px 12px 40px;
+            }
+
+            .hero {
+                padding: 24px;
+            }
+
+            .hero h1 {
+                font-size: 23px;
+            }
+
+            .info-grid,
+            .materials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 18px;
+            }
+        }
+    </style>
+    <link rel='stylesheet' href='premium-theme.css'>
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <div class="brand">
+
+        <div class="logo">
+            KHIT
+        </div>
+
+        <h2>
+            KHIT Family
+        </h2>
+
+    </div>
+
+    <div class="actions">
+
+        <button
+            class="dashboard-btn"
+            onclick="goDashboard()">
+            Dashboard
+        </button>
+
+        <button
+            class="logout-btn"
+            onclick="logout()">
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+
+<main class="container">
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <h1>
+             Study Materials
+        </h1>
+
+        <p>
+            Access subject notes, PDFs, videos,
+            question papers and other academic resources.
+        </p>
+
+    </section>
+
+
+    <!-- STUDENT INFORMATION -->
+
+    <section class="student-info">
+
+        <h2>
+            Student Information
+        </h2>
+
+        <div class="info-grid">
+
+            <div class="info-item">
+
+                <span>
+                    Student Name
+                </span>
+
+                <strong id="studentName">
+                    Loading...
+                </strong>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <span>
+                    Student ID
+                </span>
+
+                <strong id="studentId">
+                    Loading...
+                </strong>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <span>
+                    Roll Number
+                </span>
+
+                <strong id="rollNumber">
+                    Loading...
+                </strong>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <span>
+                    Department
+                </span>
+
+                <strong id="department">
+                    Loading...
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SEARCH AND FILTER -->
+
+    <section class="tools">
+
+        <div class="tools-grid">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search materials..."
+                onkeyup="filterMaterials()">
+
+
+            <select
+                id="subjectFilter"
+                onchange="filterMaterials()">
+
+                <option value="">
+                    All Subjects
+                </option>
+
+                <option value="Digital Electronics">
+                    Digital Electronics
+                </option>
+
+                <option value="Microprocessors">
+                    Microprocessors
+                </option>
+
+                <option value="Communication">
+                    Communication
+                </option>
+
+                <option value="Embedded Systems">
+                    Embedded Systems
+                </option>
+
+            </select>
+
+
+            <select
+                id="typeFilter"
+                onchange="filterMaterials()">
+
+                <option value="">
+                    All Types
+                </option>
+
+                <option value="PDF">
+                    PDF
+                </option>
+
+                <option value="Video">
+                    Video
+                </option>
+
+                <option value="Question Paper">
+                    Question Paper
+                </option>
+
+                <option value="Notes">
+                    Notes
+                </option>
+
+            </select>
+
+        </div>
+
+    </section>
+
+
+    <!-- MATERIALS -->
+
+    <section class="section">
+
+        <h2>
+            Available Materials
+        </h2>
+
+
+        <div
+            class="materials-grid"
+            id="materialsGrid">
+
+
+            <div
+                class="material-card"
+                data-subject="Digital Electronics"
+                data-type="PDF">
+
+                <div class="material-icon">
+                    
+                </div>
+
+                <h3>
+                    Digital Electronics Notes
+                </h3>
+
+                <p>
+                    Unit-wise study notes for
+                    Digital Electronics.
+                </p>
+
+                <div class="material-meta">
+                    PDF  Academic Material
+                </div>
+
+                <button
+                    class="material-btn"
+                    onclick="openMaterial('Digital Electronics Notes')">
+
+                    View / Download
+
+                </button>
+
+            </div>
+
+
+            <div
+                class="material-card"
+                data-subject="Microprocessors"
+                data-type="Notes">
+
+                <div class="material-icon">
+                    
+                </div>
+
+                <h3>
+                    Microprocessors Notes
+                </h3>
+
+                <p>
+                    Important concepts, instructions
+                    and examination notes.
+                </p>
+
+                <div class="material-meta">
+                    Notes  Academic Material
+                </div>
+
+                <button
+                    class="material-btn"
+                    onclick="openMaterial('Microprocessors Notes')">
+
+                    View / Download
+
+                </button>
+
+            </div>
+
+
+            <div
+                class="material-card"
+                data-subject="Communication"
+                data-type="Video">
+
+                <div class="material-icon">
+                    
+                </div>
+
+                <h3>
+                    Communication Lectures
+                </h3>
+
+                <p>
+                    Video lectures can be provided
+                    by authorized faculty.
+                </p>
+
+                <div class="material-meta">
+                    Video  Faculty Resource
+                </div>
+
+                <button
+                    class="material-btn"
+                    onclick="openMaterial('Communication Lectures')">
+
+                    Watch
+
+                </button>
+
+            </div>
+
+
+            <div
+                class="material-card"
+                data-subject="Embedded Systems"
+                data-type="PDF">
+
+                <div class="material-icon">
+                    
+                </div>
+
+                <h3>
+                    Embedded Systems PDF
+                </h3>
+
+                <p>
+                    Subject material and reference
+                    documents.
+                </p>
+
+                <div class="material-meta">
+                    PDF  Academic Material
+                </div>
+
+                <button
+                    class="material-btn"
+                    onclick="openMaterial('Embedded Systems PDF')">
+
+                    View / Download
+
+                </button>
+
+            </div>
+
+
+            <div
+                class="material-card"
+                data-subject="Digital Electronics"
+                data-type="Question Paper">
+
+                <div class="material-icon">
+                    
+                </div>
+
+                <h3>
+                    Previous Question Papers
+                </h3>
+
+                <p>
+                    Previous examination question
+                    papers for practice.
+                </p>
+
+                <div class="material-meta">
+                    Question Paper  Exam Preparation
+                </div>
+
+                <button
+                    class="material-btn"
+                    onclick="openMaterial('Previous Question Papers')">
+
+                    View
+
+                </button>
+
+            </div>
+
+
+            <div
+                class="material-card"
+                data-subject="Embedded Systems"
+                data-type="Notes">
+
+                <div class="material-icon">
+                    
+                </div>
+
+                <h3>
+                    Important Reference Notes
+                </h3>
+
+                <p>
+                    Additional reference material
+                    for academic preparation.
+                </p>
+
+                <div class="material-meta">
+                    Notes  Reference
+                </div>
+
+                <button
+                    class="material-btn"
+                    onclick="openMaterial('Important Reference Notes')">
+
+                    View / Download
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- RECENT MATERIALS -->
+
+    <section class="section">
+
+        <h2>
+            Recently Added Materials
+        </h2>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Material</th>
+                        <th>Subject</th>
+                        <th>Type</th>
+                        <th>Added By</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>
+                            Subject Notes
+                        </td>
+
+                        <td>
+                            Academic Subject
+                        </td>
+
+                        <td>
+                            <span class="type">
+                                PDF
+                            </span>
+                        </td>
+
+                        <td>
+                            Authorized Faculty
+                        </td>
+
+                        <td>
+                            -
+                        </td>
+
+                        <td>
+                            <button
+                                class="material-btn"
+                                onclick="openMaterial('Subject Notes')">
+
+                                View
+
+                            </button>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+                            Previous Question Paper
+                        </td>
+
+                        <td>
+                            Academic Subject
+                        </td>
+
+                        <td>
+                            <span class="type">
+                                Question Paper
+                            </span>
+                        </td>
+
+                        <td>
+                            Authorized Faculty
+                        </td>
+
+                        <td>
+                            -
+                        </td>
+
+                        <td>
+                            <button
+                                class="material-btn"
+                                onclick="openMaterial('Question Paper')">
+
+                                View
+
+                            </button>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- NOTICE -->
+
+    <div class="notice">
+
+        <strong>
+            Important:
+        </strong>
+
+        <br>
+
+        The materials currently displayed are
+        prototype/sample entries.
+
+        In the final KHIT Family Portal, PDFs,
+        videos, notes and question papers will be
+        uploaded and managed by authorized faculty
+        or college administrators.
+
+        Access can be restricted based on
+        department, year, section and subject.
+
+    </div>
+
+
+</main>
+
+
+<script>
+
+    const API_URL = "http://localhost:5000";
+
+    const token = localStorage.getItem("khit_token");
+
+    if (!token) {
+        window.location.href = "login.html";
+    }
+
+    function filterMaterials() {
+        const searchValue = document.getElementById("searchInput").value.toLowerCase();
+        const subjectFilter = document.getElementById("subjectFilter").value;
+        const typeFilter = document.getElementById("typeFilter").value;
+        const cards = document.querySelectorAll(".material-card");
+
+        cards.forEach((card) => {
+            const subject = (card.dataset.subject || "").toLowerCase();
+            const type = (card.dataset.type || "").toLowerCase();
+            const title = (card.querySelector("h3")?.textContent || "").toLowerCase();
+            const description = (card.querySelector("p")?.textContent || "").toLowerCase();
+
+            const matchesSearch = !searchValue || title.includes(searchValue) || description.includes(searchValue);
+            const matchesSubject = !subjectFilter || subject === subjectFilter.toLowerCase();
+            const matchesType = !typeFilter || type === typeFilter.toLowerCase();
+
+            card.style.display = (matchesSearch && matchesSubject && matchesType) ? "block" : "none";
+        });
+    }
+
+    function openMaterial(name) {
+        alert("Material: " + name + "\n\nThis is a demo prototype. In the final portal, authorized study resources will be opened here.");
+    }
+
+    function goDashboard() {
+        window.location.href = "student-dashboard.html";
+    }
+
+    function logout() {
+        localStorage.removeItem("khit_token");
+        localStorage.removeItem("khit_user");
+        localStorage.removeItem("khit_student");
+        window.location.href = "login.html";
+    }
+
+    async function loadStudentProfile() {
+        try {
+            const response = await fetch(`${API_URL}/api/student/profile`, {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                alert(result.message || "Unable to load profile.");
+                logout();
+                return;
+            }
+
+            const student = result.student;
+
+            document.getElementById("studentName").textContent = student.full_name || "-";
+            document.getElementById("studentId").textContent = student.student_id || "-";
+            document.getElementById("rollNumber").textContent = student.roll_number || "-";
+            document.getElementById("department").textContent = student.department || "-";
+
+        } catch (error) {
+            console.error("Study materials profile error:", error);
+            alert("Cannot connect to KHIT Family server.");
+        }
+    }
+
+    async function loadMaterials() {
+        try {
+            const response = await fetch(`${API_URL}/api/student/materials`, {
+                headers: { "Authorization": `Bearer ${token}` }
+            });
+            if (!response.ok) return;
+            const data = await response.json();
+            const materials = data.materials || [];
+            if (!materials.length) return;
+
+            const container = document.querySelector(".materials-grid, .materials");
+            if (!container) return;
+
+            container.innerHTML = materials.map(material => `
+                <article class="material-card" data-subject="${material.subject || ""}" data-type="${material.material_type || "Document"}">
+                    <h3>${material.title || "Study Material"}</h3>
+                    <p>${material.description || ""}</p>
+                    <small>${material.material_type || "Document"}</small>
+                    ${material.file_url ? `<a href="${material.file_url}" target="_blank" rel="noopener">Open material</a>` : ""}
+                </article>
+            `).join("");
+            filterMaterials();
+        } catch (error) {
+            console.error("Materials error:", error);
+        }
+    }
+
+    loadStudentProfile();
+    loadMaterials();
+    filterMaterials();
+
+</script>
+
+</body>
+
+</html>
+

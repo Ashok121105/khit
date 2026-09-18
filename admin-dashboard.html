@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Dashboard | KHIT Family</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+    background: #f1f5f9;
+    color: #0f172a;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 250px;
+    height: 100vh;
+    background: #0f172a;
+    color: white;
+    padding: 22px 15px;
+    overflow-y: auto;
+    transition: transform 0.25s ease;
+}
+
+.logo {
+    padding: 10px;
+    margin-bottom: 25px;
+}
+
+.logo h2 {
+    font-size: 21px;
+}
+
+.logo p {
+    color: #94a3b8;
+    font-size: 11px;
+    margin-top: 5px;
+}
+
+.menu-title {
+    color: #64748b;
+    font-size: 10px;
+    text-transform: uppercase;
+    margin: 18px 10px 8px;
+    font-weight: 700;
+}
+
+.menu a {
+    display: block;
+    padding: 11px 12px;
+    margin: 3px 0;
+    border-radius: 8px;
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.menu a:hover,
+.menu a.active {
+    background: #1e40af;
+    color: white;
+}
+
+/* ================= MAIN ================= */
+
+.main {
+    margin-left: 250px;
+    min-height: 100vh;
+}
+
+/* ================= TOPBAR ================= */
+
+.topbar {
+    height: 70px;
+    background: white;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+}
+
+.topbar-left h3 {
+    font-size: 18px;
+}
+
+.topbar-left p {
+    color: #64748b;
+    font-size: 11px;
+    margin-top: 3px;
+}
+
+.admin-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.admin-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #2563eb;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+.admin-text {
+    text-align: right;
+}
+
+.admin-text strong {
+    display: block;
+    font-size: 13px;
+}
+
+.admin-text span {
+    font-size: 10px;
+    color: #64748b;
+}
+
+/* ================= CONTENT ================= */
+
+.content {
+    padding: 28px;
+}
+
+/* ================= HERO ================= */
+
+.hero {
+    background: linear-gradient(
+        135deg,
+        #1e3a8a,
+        #2563eb
+    );
+
+    border-radius: 16px;
+    padding: 28px;
+    color: white;
+    margin-bottom: 25px;
+}
+
+.hero h1 {
+    font-size: 26px;
+    margin-bottom: 7px;
+}
+
+.hero p {
+    color: #dbeafe;
+    font-size: 13px;
+}
+
+/* ================= STAT CARDS ================= */
+
+.stats {
+    display: grid;
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 16px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 13px;
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+}
+
+.stat-icon {
+    width: 40px;
+    height: 40px;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+    margin-bottom: 13px;
+}
+
+.stat-card h3 {
+    font-size: 25px;
+}
+
+.stat-card p {
+    color: #64748b;
+    font-size: 12px;
+    margin-top: 3px;
+}
+
+/* ================= MODULE GRID ================= */
+
+.section-title {
+    margin-bottom: 14px;
+}
+
+.section-title h2 {
+    font-size: 18px;
+}
+
+.section-title p {
+    color: #64748b;
+    font-size: 12px;
+    margin-top: 3px;
+}
+
+.modules {
+    display: grid;
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 15px;
+}
+
+.module {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 18px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.module:hover {
+    transform: translateY(-2px);
+    border-color: #93c5fd;
+    box-shadow:
+        0 8px 20px
+        rgba(15,23,42,0.08);
+}
+
+.module-icon {
+    font-size: 22px;
+    margin-bottom: 12px;
+}
+
+.module h3 {
+    font-size: 14px;
+}
+
+.module p {
+    color: #64748b;
+    font-size: 11px;
+    margin-top: 5px;
+    line-height: 1.5;
+}
+
+/* ================= LOWER SECTION ================= */
+
+.lower-grid {
+    display: grid;
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 18px;
+    margin-top: 25px;
+}
+
+.panel {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 13px;
+    padding: 20px;
+}
+
+.panel h3 {
+    font-size: 15px;
+    margin-bottom: 15px;
+}
+
+.quick-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.quick-item:last-child {
+    border-bottom: none;
+}
+
+.quick-item span {
+    color: #475569;
+    font-size: 12px;
+}
+
+.quick-btn {
+    border: none;
+    background: #eff6ff;
+    color: #1d4ed8;
+    padding: 7px 10px;
+    border-radius: 7px;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+/* ================= SECURITY ================= */
+
+.security {
+    margin-top: 20px;
+    padding: 15px;
+    background: #ecfdf5;
+    border: 1px solid #bbf7d0;
+    color: #166534;
+    border-radius: 10px;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* ================= MOBILE ================= */
+
+.mobile-menu {
+    display: none;
+}
+
+@media(max-width: 1100px) {
+
+    .stats {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .modules {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+
+@media(max-width: 750px) {
+
+    .sidebar {
+        transform: translateX(-100%);
+        transition: 0.25s;
+        z-index: 1000;
+    }
+
+    .sidebar.open,
+    .sidebar.show {
+        transform: translateX(0);
+    }
+
+    .main {
+        margin-left: 0;
+    }
+
+    .mobile-menu {
+        display: block;
+        border: none;
+        background: transparent;
+        font-size: 22px;
+        cursor: pointer;
+        margin-right: 12px;
+    }
+
+    .topbar {
+        padding: 0 15px;
+    }
+
+    .topbar-left {
+        display: flex;
+        align-items: center;
+    }
+
+    .admin-text {
+        display: none;
+    }
+
+    .content {
+        padding: 18px;
+    }
+
+    .hero {
+        padding: 22px;
+    }
+
+    .hero h1 {
+        font-size: 22px;
+    }
+
+    .stats {
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 10px;
+    }
+
+    .stat-card {
+        padding: 15px;
+    }
+
+    .stat-card h3 {
+        font-size: 21px;
+    }
+
+    .modules {
+        grid-template-columns:
+            1fr 1fr;
+
+        gap: 10px;
+    }
+
+    .module {
+        padding: 14px;
+    }
+
+    .lower-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+</style>
+    <link rel='stylesheet' href='premium-theme.css'>
+</head>
+
+<body>
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="logo">
+
+        <h2>KHIT Family</h2>
+
+        <p>
+            Administration Portal
+        </p>
+
+    </div>
+
+
+    <div class="menu">
+
+        <div class="menu-title">
+            Main
+        </div>
+
+        <a
+            href="admin-dashboard.html"
+            class="active">
+             Dashboard
+        </a>
+
+
+        <div class="menu-title">
+            Management
+        </div>
+
+        <a href="#" onclick="openStudents()">
+             Students
+        </a>
+
+        <a href="#" onclick="openFaculty()">
+             Faculty
+        </a>
+
+        <a href="#" onclick="openFees()">
+             Fees
+        </a>
+
+        <a href="#" onclick="openBus()">
+             Bus Management
+        </a>
+
+
+        <div class="menu-title">
+            Academic
+        </div>
+
+        <a href="#">
+             Academics
+        </a>
+
+        <a href="#">
+             Timetable
+        </a>
+
+        <a href="#">
+             Exams & Results
+        </a>
+
+        <a href="#">
+             Attendance
+        </a>
+
+
+        <div class="menu-title">
+            Communication
+        </div>
+
+        <a href="database/admin-notifications.html">
+             Notifications
+        </a>
+
+        <a href="#">
+             Events
+        </a>
+
+
+        <div class="menu-title">
+            Career
+        </div>
+
+        <a href="#">
+             Placements
+        </a>
+
+        <a href="#">
+             Internships
+        </a>
+
+
+        <div class="menu-title">
+            Documents
+        </div>
+
+        <a href="#">
+             Documents
+        </a>
+
+
+        <div class="menu-title">
+            System
+        </div>
+
+        <a href="#">
+             Settings
+        </a>
+
+        <a
+            href="#"
+            onclick="logout()">
+             Logout
+        </a>
+
+    </div>
+
+</aside>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main">
+
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+        <div class="topbar-left">
+
+            <button
+                class="mobile-menu"
+                onclick="toggleSidebar()">
+                
+            </button>
+
+            <div>
+
+                <h3>
+                    Admin Dashboard
+                </h3>
+
+                <p>
+                    KHIT Family Management System
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="admin-info">
+
+            <div class="admin-text">
+
+                <strong id="adminName">
+                    Admin
+                </strong>
+
+                <span id="adminRole">
+                    Administrator
+                </span>
+
+            </div>
+
+
+            <div class="admin-avatar">
+                A
+            </div>
+
+        </div>
+
+    </header>
+
+    <!-- CONTENT -->
+
+    <section class="content">
+
+        <!-- HERO -->
+        <div class="hero">
+            <h1>Welcome to KHIT Family</h1>
+            <p>Manage students, faculty, academics, fees, notifications and college operations from one secure portal.</p>
+        </div>
+
+        <!-- STATISTICS -->
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <h3 id="studentCount">0</h3>
+                <p>Total Students</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">👨‍🏫</div>
+                <h3 id="facultyCount">0</h3>
+                <p>Total Faculty</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">🔔</div>
+                <h3 id="notificationCount">0</h3>
+                <p>Notifications</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">📅</div>
+                <h3 id="eventCount">0</h3>
+                <p>Events</p>
+            </div>
+        </div>
+
+        <!-- MODULES -->
+        <div class="section-title">
+            <h2>Management Modules</h2>
+            <p>Access major college management sections.</p>
+        </div>
+
+        <div class="modules">
+            <div class="module" onclick="openStudents()">
+                <div class="module-icon">👥</div>
+                <h3>Students</h3>
+                <p>View, search and manage student records.</p>
+            </div>
+
+            <div class="module" onclick="openFaculty()">
+                <div class="module-icon">👨‍🏫</div>
+                <h3>Faculty</h3>
+                <p>Manage faculty profiles, departments and roles.</p>
+            </div>
+
+            <div class="module" onclick="openFees()">
+                <div class="module-icon">💰</div>
+                <h3>Fees</h3>
+                <p>Track fee payments, pending amounts and receipts.</p>
+            </div>
+
+            <div class="module" onclick="openBus()">
+                <div class="module-icon">🚌</div>
+                <h3>Bus Management</h3>
+                <p>Manage official routes, buses and student assignments.</p>
+            </div>
+
+            <div class="module" onclick="openNotifications()">
+                <div class="module-icon">📢</div>
+                <h3>Notifications</h3>
+                <p>Publish targeted announcements to students and faculty.</p>
+            </div>
+
+            <div class="module" onclick="openEvents()">
+                <div class="module-icon">🎉</div>
+                <h3>Events</h3>
+                <p>Manage college events, registrations and activities.</p>
+            </div>
+
+            <div class="module" onclick="openReports()">
+                <div class="module-icon">📊</div>
+                <h3>Reports</h3>
+                <p>Monitor attendance, fee progress and department health.</p>
+            </div>
+
+            <div class="module" onclick="openDocuments()">
+                <div class="module-icon">📄</div>
+                <h3>Documents</h3>
+                <p>Manage certificates, memos and official documents.</p>
+            </div>
+
+            <div class="module" onclick="openLeave()">
+                <div class="module-icon">📝</div>
+                <h3>Leave Requests</h3>
+                <p>Review staff and student leave requests.</p>
+            </div>
+
+            <div class="module" onclick="openSettings()">
+                <div class="module-icon">⚙️</div>
+                <h3>Settings</h3>
+                <p>Configure portal settings and administration controls.</p>
+            </div>
+        </div>
+
+        <!-- LOWER -->
+        <div class="lower-grid">
+            <div class="panel">
+                <h3>Quick Actions</h3>
+
+                <div class="quick-item">
+                    <span>Publish Notification</span>
+                    <button class="quick-btn" onclick="openNotifications()">Open</button>
+                </div>
+
+                <div class="quick-item">
+                    <span>View Students</span>
+                    <button class="quick-btn" onclick="openStudents()">Open</button>
+                </div>
+
+                <div class="quick-item">
+                    <span>View Faculty</span>
+                    <button class="quick-btn" onclick="openFaculty()">Open</button>
+                </div>
+
+                <div class="quick-item">
+                    <span>Manage Bus</span>
+                    <button class="quick-btn" onclick="openBus()">Open</button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h3>System Information</h3>
+
+                <div class="quick-item">
+                    <span>Portal</span>
+                    <strong>KHIT Family</strong>
+                </div>
+
+                <div class="quick-item">
+                    <span>Access</span>
+                    <strong>Admin</strong>
+                </div>
+
+                <div class="quick-item">
+                    <span>Authentication</span>
+                    <strong>JWT</strong>
+                </div>
+
+                <div class="quick-item">
+                    <span>Database</span>
+                    <strong>SQLite</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="security">
+            <strong>Administrative Security:</strong>
+            This portal is designed for authorized college administration. Access to student, faculty, fee and academic information should follow official KHIT permissions and data protection policies.
+        </div>
+    </section>
+</main>
+
+
+<script>
+
+const API = "http://localhost:5000";
+const token = localStorage.getItem("khit_token");
+const storedUser = localStorage.getItem("khit_user");
+
+if (!token) {
+    window.location.href = "database/admin-login.html";
+}
+
+if (storedUser) {
+    try {
+        const user = JSON.parse(storedUser);
+        document.getElementById("adminName").textContent = user.username || "Administrator";
+        document.getElementById("adminRole").textContent = user.role || "Administrator";
+    } catch (error) {
+        console.error("Unable to read administrator details:", error);
+    }
+}
+
+function logout() {
+    localStorage.removeItem("khit_token");
+    localStorage.removeItem("khit_user");
+    window.location.href = "database/admin-login.html";
+}
+
+function toggleSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    sidebar.classList.toggle("open");
+    sidebar.classList.toggle("show");
+}
+
+function navigate(page) {
+    window.location.href = page;
+}
+
+function openStudents() { navigate("admin-students.html"); }
+function openFaculty() { navigate("admin-faculty.html"); }
+function openFees() { navigate("admin-fees.html"); }
+function openBus() { navigate("admin-bus.html"); }
+function openNotifications() { navigate("database/admin-notifications.html"); }
+function openEvents() { navigate("admin-events.html"); }
+function openDocuments() { navigate("admin-documents.html"); }
+function openLeave() { navigate("admin-leave.html"); }
+function openSettings() { navigate("admin-settings.html"); }
+function openReports() { navigate("admin-reports.html"); }
+
+async function loadDashboardStats() {
+    if (!token) return;
+
+    try {
+        const response = await fetch(API + "/api/admin/stats", {
+            headers: { "Authorization": "Bearer " + token }
+        });
+
+        if (response.status === 401 || response.status === 403) {
+            logout();
+            return;
+        }
+
+        const data = await response.json();
+        if (data.status === "success") {
+            const stats = data.stats || {};
+            document.getElementById("studentCount").textContent = stats.students || 0;
+            document.getElementById("facultyCount").textContent = stats.faculty || 0;
+            document.getElementById("notificationCount").textContent = stats.notifications || 0;
+            document.getElementById("eventCount").textContent = stats.events || 0;
+        }
+    } catch (error) {
+        console.error("Unable to load dashboard statistics:", error);
+    }
+}
+
+loadDashboardStats();
+
+</script>
+
+</body>
+
+</html>

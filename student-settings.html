@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KHIT Family | Settings</title>
+    <link rel="stylesheet" href="premium-theme.css">
+    <script src="theme.js" defer></script>
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; min-height: 100vh; font-family: Arial, sans-serif; background: #fbf8f5; color: #30252a; }
+        .settings-shell { min-height: 100vh; }
+        .settings-topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 7%; background: rgba(255,255,255,0.92); border-bottom: 1px solid #eadde0; }
+        .brand h1 { margin: 0; color: #8f1738; font-size: 21px; }
+        .brand p { margin: 4px 0 0; color: #75686d; font-size: 12px; }
+        .top-actions { display: flex; align-items: center; gap: 10px; }
+        .top-actions button, .back-link { border: 1px solid #eadde0; border-radius: 8px; padding: 10px 14px; background: #fff; color: #8f1738; font-weight: 700; cursor: pointer; text-decoration: none; }
+        .logout { background: #8f1738 !important; color: #fff !important; border: 0 !important; }
+        .settings-main { width: min(860px, 92%); margin: 34px auto; }
+        .page-heading { margin-bottom: 24px; }
+        .page-heading h2 { margin: 0 0 6px; color: #8f1738; font-size: 30px; }
+        .page-heading p { margin: 0; color: #75686d; }
+        .panel { background: #fff; border: 1px solid #eadde0; border-radius: 14px; padding: 24px; margin-bottom: 18px; box-shadow: 0 12px 28px rgba(95,16,41,0.08); }
+        .panel h3 { margin: 0 0 6px; color: #8f1738; }
+        .panel-copy { margin: 0 0 20px; color: #75686d; font-size: 14px; }
+        .theme-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+        .theme-option { position: relative; }
+        .theme-option input { position: absolute; opacity: 0; }
+        .theme-option label { display: block; padding: 18px; border: 2px solid #eadde0; border-radius: 10px; cursor: pointer; background: #fffaf9; }
+        .theme-option label strong { display: block; color: #30252a; margin-bottom: 5px; }
+        .theme-option label span { color: #75686d; font-size: 13px; }
+        .theme-option input:checked + label { border-color: #8f1738; box-shadow: 0 0 0 3px rgba(143,23,56,0.12); }
+        .theme-preview { width: 100%; height: 42px; border-radius: 7px; margin-bottom: 12px; background: #fff; border: 1px solid #eadde0; }
+        .theme-preview.dark { background: #241a1f; border-color: #5e1029; }
+        .status { min-height: 20px; margin: 16px 0 0; color: #8f1738; font-size: 13px; font-weight: 700; }
+        @media (max-width: 600px) { .settings-topbar { padding: 16px 5%; } .settings-main { width: 90%; } .theme-options { grid-template-columns: 1fr; } .top-actions .back-link { display: none; } }
+    </style>
+</head>
+<body>
+    <div class="settings-shell">
+        <header class="settings-topbar">
+            <div class="brand">
+                <h1>KHIT Family</h1>
+                <p>Student Portal Settings</p>
+            </div>
+            <div class="top-actions">
+                <a class="back-link" href="student-dashboard.html">Back to Dashboard</a>
+                <button class="logout" type="button" onclick="logout()">Logout</button>
+            </div>
+        </header>
+
+        <main class="settings-main">
+            <div class="page-heading">
+                <h2>Settings</h2>
+                <p>Choose how your student portal should look.</p>
+            </div>
+
+            <section class="panel" aria-labelledby="themeHeading">
+                <h3 id="themeHeading">Appearance</h3>
+                <p class="panel-copy">Select Light or Dark mode. Your choice is saved on this device.</p>
+                <div class="theme-options">
+                    <div class="theme-option">
+                        <input id="lightTheme" name="theme" type="radio" value="light">
+                        <label for="lightTheme">
+                            <div class="theme-preview"></div>
+                            <strong>Light mode</strong>
+                            <span>Bright, clean portal view.</span>
+                        </label>
+                    </div>
+                    <div class="theme-option">
+                        <input id="darkTheme" name="theme" type="radio" value="dark">
+                        <label for="darkTheme">
+                            <div class="theme-preview dark"></div>
+                            <strong>Dark mode</strong>
+                            <span>Comfortable view for low light.</span>
+                        </label>
+                    </div>
+                </div>
+                <p id="themeStatus" class="status" aria-live="polite"></p>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const token = localStorage.getItem("khit_token");
+        if (!token) {
+            window.location.href = "login.html";
+        }
+
+        const selectedTheme = localStorage.getItem("khit_theme") || "light";
+        const themeInputs = document.querySelectorAll('input[name="theme"]');
+        const themeStatus = document.getElementById("themeStatus");
+
+        document.getElementById(selectedTheme === "dark" ? "darkTheme" : "lightTheme").checked = true;
+
+        themeInputs.forEach((input) => {
+            input.addEventListener("change", () => {
+                localStorage.setItem("khit_theme", input.value);
+                window.applyKhitTheme(input.value);
+                themeStatus.textContent = `${input.value === "dark" ? "Dark" : "Light"} mode saved.`;
+            });
+        });
+
+        function logout() {
+            localStorage.removeItem("khit_token");
+            localStorage.removeItem("khit_user");
+            localStorage.removeItem("khit_student");
+            window.location.href = "login.html";
+        }
+    </script>
+</body>
+</html>

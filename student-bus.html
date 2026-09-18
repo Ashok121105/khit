@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Services | KHIT Family</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .topbar {
+            height: 70px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 42px;
+            height: 42px;
+            background: #123c69;
+            color: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .brand h2 {
+            color: #123c69;
+            font-size: 20px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-weight: 600;
+        }
+
+        .dashboard-btn {
+            background: #eef4ff;
+            color: #123c69;
+        }
+
+        .logout-btn {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 30px 20px 50px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #123c69, #1d5d91);
+            color: white;
+            padding: 30px;
+            border-radius: 18px;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 {
+            font-size: 29px;
+            margin-bottom: 8px;
+        }
+
+        .hero p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .student-card {
+            background: white;
+            padding: 22px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .student-card h2 {
+            color: #123c69;
+            margin-bottom: 18px;
+        }
+
+        .student-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .info {
+            background: #f8fafc;
+            padding: 14px;
+            border-radius: 9px;
+        }
+
+        .info span {
+            display: block;
+            color: #64748b;
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .info strong {
+            font-size: 14px;
+        }
+
+        .bus-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .bus-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .bus-header h2 {
+            color: #123c69;
+        }
+
+        .status {
+            padding: 7px 12px;
+            border-radius: 20px;
+            background: #fef3c7;
+            color: #92400e;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .bus-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .bus-info {
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+            background: #fafafa;
+        }
+
+        .bus-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            background: #eef4ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-bottom: 12px;
+        }
+
+        .bus-info h3 {
+            color: #123c69;
+            margin-bottom: 7px;
+            font-size: 16px;
+        }
+
+        .bus-info p {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .stops {
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+
+        th {
+            background: #f1f5f9;
+            padding: 13px;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        td {
+            padding: 13px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 14px;
+        }
+
+        .notice {
+            background: #eff6ff;
+            border-left: 4px solid #2563eb;
+            padding: 17px;
+            border-radius: 8px;
+            color: #1e3a8a;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+        }
+
+        @media (max-width: 900px) {
+            .student-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .bus-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .brand h2 {
+                font-size: 17px;
+            }
+
+            .dashboard-btn,
+            .logout-btn {
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+
+            .container {
+                padding: 20px 12px;
+            }
+
+            .hero {
+                padding: 23px;
+            }
+
+            .hero h1 {
+                font-size: 23px;
+            }
+
+            .student-grid,
+            .bus-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link rel='stylesheet' href='premium-theme.css'>
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <div class="brand">
+        <div class="logo">KHIT</div>
+        <h2>KHIT Family</h2>
+    </div>
+
+    <div class="actions">
+
+        <button
+            class="dashboard-btn"
+            onclick="goDashboard()">
+            Dashboard
+        </button>
+
+        <button
+            class="logout-btn"
+            onclick="logout()">
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+
+<main class="container">
+
+    <section class="hero">
+
+        <h1> Bus Services</h1>
+
+        <p>
+            View your assigned college bus, route,
+            pickup stop, timings and bus fee.
+        </p>
+
+    </section>
+
+
+    <!-- STUDENT INFORMATION -->
+
+    <section class="student-card">
+
+        <h2>Student Information</h2>
+
+        <div class="student-grid">
+
+            <div class="info">
+                <span>Student Name</span>
+                <strong id="studentName">Loading...</strong>
+            </div>
+
+            <div class="info">
+                <span>Student ID</span>
+                <strong id="studentId">Loading...</strong>
+            </div>
+
+            <div class="info">
+                <span>Roll Number</span>
+                <strong id="rollNumber">Loading...</strong>
+            </div>
+
+            <div class="info">
+                <span>Department</span>
+                <strong id="department">Loading...</strong>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- BUS DETAILS -->
+
+    <section class="bus-card">
+
+        <div class="bus-header">
+
+            <h2>My Bus Details</h2>
+
+            <span class="status">
+                Awaiting Official Data
+            </span>
+
+        </div>
+
+
+        <div class="bus-grid">
+
+            <div class="bus-info">
+
+                <div class="bus-icon">
+                    
+                </div>
+
+                <h3>Bus Number</h3>
+
+                <p id="busNumber">
+                    Not assigned
+                </p>
+
+            </div>
+
+
+            <div class="bus-info">
+
+                <div class="bus-icon">
+                    
+                </div>
+
+                <h3>Route</h3>
+
+                <p id="routeName">
+                    Not assigned
+                </p>
+
+            </div>
+
+
+            <div class="bus-info">
+
+                <div class="bus-icon">
+                    
+                </div>
+
+                <h3>Pickup Stop</h3>
+
+                <p id="pickupStop">
+                    Not assigned
+                </p>
+
+            </div>
+
+
+            <div class="bus-info">
+
+                <div class="bus-icon">
+                    
+                </div>
+
+                <h3>Pickup Time</h3>
+
+                <p id="pickupTime">
+                    Not available
+                </p>
+
+            </div>
+
+
+            <div class="bus-info">
+
+                <div class="bus-icon">
+                    
+                </div>
+
+                <h3>College Arrival</h3>
+
+                <p id="arrivalTime">
+                    Not available
+                </p>
+
+            </div>
+
+
+            <div class="bus-info">
+
+                <div class="bus-icon">
+                    
+                </div>
+
+                <h3>Bus Fee</h3>
+
+                <p id="busFee">
+                    0
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- BUS STOPS -->
+
+    <section class="bus-card">
+
+        <div class="bus-header">
+
+            <h2>Route & Bus Stops</h2>
+
+        </div>
+
+        <div class="stops">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Stop No.</th>
+                        <th>Place</th>
+                        <th>Pickup Time</th>
+                        <th>Expected Arrival</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td colspan="4"
+                            class="empty">
+
+                            Official bus route data
+                            will appear here after
+                            college integration.
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- BUS FEE -->
+
+    <section class="bus-card">
+
+        <div class="bus-header">
+
+            <h2>Bus Fee Status</h2>
+
+        </div>
+
+        <div class="bus-grid">
+
+            <div class="bus-info">
+
+                <div class="bus-icon"></div>
+
+                <h3>Total Bus Fee</h3>
+
+                <p>
+                    0
+                </p>
+
+            </div>
+
+
+            <div class="bus-info">
+
+                <div class="bus-icon"></div>
+
+                <h3>Paid Amount</h3>
+
+                <p>
+                    0
+                </p>
+
+            </div>
+
+
+            <div class="bus-info">
+
+                <div class="bus-icon">!</div>
+
+                <h3>Pending Amount</h3>
+
+                <p>
+                    0
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <div class="notice">
+
+        <strong>Important:</strong><br>
+
+        Bus numbers, routes, stops, timings,
+        driver information, fees and student
+        assignments will be displayed only from
+        authorized college data.
+
+        The prototype does not invent or assume
+        any official KHIT bus route.
+
+    </div>
+
+
+</main>
+
+
+<script>
+
+    const token =
+        localStorage.getItem("khit_token");
+
+
+    if (!token) {
+
+        window.location.href =
+            "login.html";
+
+    }
+
+
+    function goDashboard() {
+
+        window.location.href =
+            "student-dashboard.html";
+
+    }
+
+
+    function logout() {
+
+        localStorage.removeItem(
+            "khit_token"
+        );
+
+        localStorage.removeItem(
+            "khit_user"
+        );
+
+        localStorage.removeItem(
+            "khit_student"
+        );
+
+        window.location.href =
+            "login.html";
+
+    }
+
+
+    async function loadStudentProfile() {
+
+        try {
+
+            const response =
+                await fetch(
+                    "http://localhost:5000/api/student/profile",
+                    {
+                        method: "GET",
+
+                        headers: {
+                            "Authorization":
+                                "Bearer " + token
+                        }
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.message ||
+                    "Unable to load profile"
+                );
+
+            }
+
+
+            const student =
+                data.student;
+
+
+            document.getElementById(
+                "studentName"
+            ).textContent =
+                student.full_name || "-";
+
+
+            document.getElementById(
+                "studentId"
+            ).textContent =
+                student.student_id || "-";
+
+
+            document.getElementById(
+                "rollNumber"
+            ).textContent =
+                student.roll_number || "-";
+
+
+            document.getElementById(
+                "department"
+            ).textContent =
+                student.department || "-";
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            logout();
+
+        }
+
+    }
+
+
+    async function loadBusAssignment() {
+        try {
+            const response = await fetch(
+                "http://localhost:5000/api/student/bus",
+                { headers: { "Authorization": "Bearer " + token } }
+            );
+            if (!response.ok) return;
+            const data = await response.json();
+            const assignment = data.assignment;
+            if (!assignment) return;
+
+            const values = document.querySelectorAll(".info-value, .detail-value, strong");
+            values.forEach(value => {
+                const text = value.textContent.trim().toLowerCase();
+                if (text.includes("not connected") || text === "-") {
+                    if (value.parentElement.textContent.toLowerCase().includes("bus")) value.textContent = assignment.bus_number || "-";
+                    if (value.parentElement.textContent.toLowerCase().includes("route")) value.textContent = assignment.route_name || "-";
+                    if (value.parentElement.textContent.toLowerCase().includes("stop")) value.textContent = assignment.stop_name || "-";
+                    if (value.parentElement.textContent.toLowerCase().includes("pickup")) value.textContent = assignment.pickup_time || "-";
+                }
+            });
+        } catch (error) {
+            console.error("Bus assignment error:", error);
+        }
+    }
+
+    loadStudentProfile();
+    loadBusAssignment();
+
+</script>
+
+</body>
+</html>

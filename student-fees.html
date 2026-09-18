@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Fees | KHIT Family</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #0f172a;
+    }
+    .topbar {
+      background: #0f172a;
+      color: #fff;
+      padding: 18px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand { font-size: 24px; font-weight: 700; }
+    .actions { display: flex; align-items: center; gap: 12px; }
+    .btn {
+      border: none;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .secondary { background: #e2e8f0; color: #0f172a; }
+    .danger { background: #dc2626; color: white; }
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px 40px;
+    }
+    .hero {
+      background: linear-gradient(135deg, #0f172a, #1d4ed8);
+      color: white;
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+    .hero h1 { margin: 0 0 8px; font-size: 30px; }
+    .hero p { margin: 0; color: #dbeafe; }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .card {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 6px 18px rgba(15,23,42,0.04);
+    }
+    .card h3 {
+      margin: 0 0 12px;
+      font-size: 14px;
+      color: #475569;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+    .value {
+      font-size: 30px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .fee-progression {
+      margin-bottom: 20px;
+    }
+    .fee-progression h2 {
+      margin: 0 0 6px;
+      font-size: 20px;
+    }
+    .fee-progression-copy {
+      margin: 0 0 16px;
+    }
+    .year-list {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .year-card {
+      padding: 14px;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      background: #f8fafc;
+    }
+    .year-card strong,
+    .year-card span {
+      display: block;
+    }
+    .year-card span {
+      margin-top: 5px;
+      color: #64748b;
+      font-size: 12px;
+    }
+    .year-card.active {
+      border-color: #8f1738;
+      background: #fff5f7;
+    }
+    .year-card.complete {
+      border-color: #86efac;
+      background: #f0fdf4;
+    }
+    .year-card.locked {
+      opacity: 0.6;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    .list { display: flex; flex-direction: column; gap: 10px; }
+    .fee-item {
+      padding: 12px 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .fee-item:last-child { border-bottom: none; }
+    form {
+      display: grid;
+      gap: 14px;
+      margin-top: 10px;
+    }
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 13px;
+      color: #334155;
+      font-weight: 600;
+    }
+    input, select, button.submit-btn {
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 14px;
+    }
+    button.submit-btn {
+      background: #2563eb;
+      color: white;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    th, td {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 10px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      color: #475569;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .status {
+      display: inline-block;
+      padding: 5px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .status.paid { background: #dcfce7; color: #166534; }
+    .status.pending { background: #fef3c7; color: #92400e; }
+    .muted { color: #64748b; font-size: 13px; }
+    @media (max-width: 860px) {
+      .stats, .grid { grid-template-columns: 1fr; }
+      .topbar { flex-wrap: wrap; gap: 12px; }
+      .year-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+  </style>
+    <link rel='stylesheet' href='premium-theme.css'>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">KHIT Family</div>
+    <div class="actions">
+      <button class="btn secondary" onclick="goDashboard()">Dashboard</button>
+      <button class="btn danger" onclick="logout()">Logout</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Fee Management</h1>
+      <p id="heroSubtitle">Loading your fee summary...</p>
+    </section>
+
+    <section class="stats">
+      <div class="card">
+        <h3>Total Fees</h3>
+        <div class="value" id="totalFees">0</div>
+      </div>
+      <div class="card">
+        <h3>Paid</h3>
+        <div class="value" id="paidFees">0</div>
+      </div>
+      <div class="card">
+        <h3>Pending</h3>
+        <div class="value" id="pendingFees">0</div>
+      </div>
+      <div class="card">
+        <h3>Status</h3>
+        <div class="value" id="overallStatus"></div>
+      </div>
+    </section>
+
+    <section class="card fee-progression">
+      <h2>Fee Year Progress</h2>
+      <p class="muted fee-progression-copy">Complete each year before the next year becomes available.</p>
+      <div id="feeYearProgress" class="year-list"></div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <h3>Fee Records</h3>
+        <div id="feeRecords" class="list muted">Loading your fee records...</div>
+      </div>
+
+      <div class="card">
+        <h3>Make a Payment</h3>
+        <form id="paymentForm">
+          <label>
+            Fee Record
+            <select id="feeId" required></select>
+          </label>
+          <label>
+            Payment Amount
+            <input id="paymentAmount" type="number" min="1" step="0.01" required placeholder="Enter amount" />
+          </label>
+          <label>
+            Payment Method
+            <select id="paymentMethod">
+              <option value="Online">Online</option>
+              <option value="UPI">UPI</option>
+              <option value="Bank Transfer">Bank Transfer</option>
+              <option value="Cash">Cash</option>
+            </select>
+          </label>
+          <label>
+            Transaction ID
+            <input id="transactionId" type="text" placeholder="Optional reference" />
+          </label>
+          <button type="submit" class="submit-btn">Pay Now</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="card" style="margin-top:20px;">
+      <h3>Payment History</h3>
+      <div id="paymentHistoryContainer">
+        <div class="muted">Loading payment history...</div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const API = 'http://localhost:5000';
+    const token = localStorage.getItem('khit_token');
+    const user = JSON.parse(localStorage.getItem('khit_user') || '{}');
+
+    if (!token) {
+      window.location.href = 'login.html';
+    }
+
+    function formatCurrency(value) {
+      const num = Number(value || 0);
+      return `${num.toLocaleString('en-IN', { maximumFractionDigits: 2 })}`;
+    }
+
+    function goDashboard() {
+      window.location.href = 'student-dashboard.html';
+    }
+
+    function logout() {
+      localStorage.removeItem('khit_token');
+      localStorage.removeItem('khit_user');
+      localStorage.removeItem('khit_student');
+      window.location.href = 'login.html';
+    }
+
+    function renderFeeRecords(fees) {
+      const container = document.getElementById('feeRecords');
+      const select = document.getElementById('feeId');
+
+      if (!fees || !fees.length) {
+        container.textContent = 'No fee records found yet.';
+        select.innerHTML = '<option value="">No fee records available</option>';
+        return;
+      }
+
+      const availableFees = fees.filter(fee => !fee.locked);
+      select.innerHTML = availableFees.map(fee => `
+        <option value="${fee.id}">${fee.academic_year || 'Academic'} - ${fee.fee_year || ''} (${formatCurrency(fee.pending_amount || 0)} due)</option>
+      `).join('');
+
+      container.innerHTML = fees.map(fee => `
+        <div class="fee-item">
+          <strong>${fee.academic_year || 'Academic Year'}  ${fee.fee_year || 'N/A'}</strong><br>
+          <span class="muted">Total: ${formatCurrency(fee.total_amount)} | Paid: ${formatCurrency(fee.paid_amount)} | Pending: ${formatCurrency(fee.pending_amount)}</span><br>
+          <span class="status ${Number(fee.pending_amount || 0) > 0 ? 'pending' : 'paid'}">${Number(fee.pending_amount || 0) > 0 ? 'Pending' : 'Paid'}</span>
+        </div>
+      `).join('');
+    }
+
+    function isFeeComplete(fee) {
+      return Number(fee.pending_amount || 0) <= 0 || String(fee.status || '').toLowerCase() === 'paid';
+    }
+
+    function getUnlockedThrough(fees, studentYear) {
+      let unlockedThrough = 1;
+      const highestYear = Math.min(4, Math.max(1, Number(studentYear) || 1));
+
+      for (let year = 1; year < highestYear; year += 1) {
+        const record = fees.find(fee => Number(fee.fee_year) === year);
+        if (!record || !isFeeComplete(record)) {
+          break;
+        }
+        unlockedThrough = year + 1;
+      }
+
+      return unlockedThrough;
+    }
+
+    function applyFeeLocks(fees, studentYear) {
+      const unlockedThrough = getUnlockedThrough(fees, studentYear);
+
+      return fees.map(fee => ({
+        ...fee,
+        locked: Number(fee.fee_year) > unlockedThrough
+      }));
+    }
+
+    function renderFeeProgress(fees, studentYear) {
+      const container = document.getElementById('feeYearProgress');
+      const highestYear = Math.min(4, Math.max(1, Number(studentYear) || 1));
+      const unlockedThrough = getUnlockedThrough(fees, studentYear);
+      const records = new Map(fees.map(fee => [Number(fee.fee_year), fee]));
+      const firstLockedYear = fees.find(fee => fee.locked)?.fee_year;
+
+      container.innerHTML = [1, 2, 3, 4].map(year => {
+        const fee = records.get(year);
+        const complete = fee && isFeeComplete(fee);
+        const locked = year > highestYear || year > unlockedThrough;
+        const className = complete ? 'complete' : locked ? 'locked' : 'active';
+        const label = complete ? 'Completed' : locked ? 'Locked' : 'Available';
+        return `<div class="year-card ${className}">
+          <strong>${year}${year === 1 ? 'st' : year === 2 ? 'nd' : year === 3 ? 'rd' : 'th'} Year</strong>
+          <span>${label}${firstLockedYear === year ? ' - finish previous year first' : ''}</span>
+        </div>`;
+      }).join('');
+    }
+
+    function renderPaymentHistory(payments) {
+      const container = document.getElementById('paymentHistoryContainer');
+      if (!payments || !payments.length) {
+        container.innerHTML = '<div class="muted">No payment history available yet.</div>';
+        return;
+      }
+
+      container.innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Fee ID</th>
+              <th>Amount</th>
+              <th>Method</th>
+              <th>Txn ID</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${payments.map(payment => `
+              <tr>
+                <td>${payment.payment_reference || '-'}</td>
+                <td>${formatCurrency(payment.amount)}</td>
+                <td>${payment.payment_mode || 'Online'}</td>
+                <td>${payment.transaction_id || '-'}</td>
+                <td>${payment.payment_date ? new Date(payment.payment_date).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : '-'}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+
+    async function loadFees() {
+      try {
+        const response = await fetch(API + '/api/student/fees', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+
+        const result = await response.json();
+        if (!response.ok || result.status !== 'success') {
+          throw new Error(result.message || 'Unable to load fee details');
+        }
+
+        const { fees = [], payments = [], summary = {}, student = {} } = result;
+        const lockedFees = applyFeeLocks(fees, student.year);
+
+        document.getElementById('heroSubtitle').textContent = `${user.full_name || 'Student'}  ${user.student_id || 'Student ID'}`;
+        document.getElementById('totalFees').textContent = formatCurrency(summary.total || 0);
+        document.getElementById('paidFees').textContent = formatCurrency(summary.paid || 0);
+        document.getElementById('pendingFees').textContent = formatCurrency(summary.pending || 0);
+        document.getElementById('overallStatus').textContent = Number(summary.pending || 0) > 0 ? 'Pending' : 'Cleared';
+
+        renderFeeProgress(lockedFees, student.year);
+        renderFeeRecords(lockedFees);
+        renderPaymentHistory(payments);
+      } catch (error) {
+        console.error(error);
+        alert(error.message || 'Unable to load fee details');
+      }
+    }
+
+    async function submitPayment(event) {
+      event.preventDefault();
+
+      const feeId = document.getElementById('feeId').value;
+      const amount = Number(document.getElementById('paymentAmount').value);
+      const method = document.getElementById('paymentMethod').value;
+      const transactionId = document.getElementById('transactionId').value.trim();
+
+      if (!feeId || !Number.isFinite(amount) || amount <= 0) {
+        alert('Please select a valid fee and enter a payment amount.');
+        return;
+      }
+
+      try {
+        const response = await fetch(API + '/api/student/fees/pay', {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            fee_id: Number(feeId),
+            amount,
+            method,
+            transaction_id: transactionId || 'TXN-' + Date.now()
+          })
+        });
+
+        const result = await response.json();
+        if (!response.ok || result.status !== 'success') {
+          throw new Error(result.message || 'Payment failed');
+        }
+
+        alert('Payment recorded successfully.');
+        document.getElementById('paymentForm').reset();
+        await loadFees();
+      } catch (error) {
+        console.error(error);
+        alert(error.message || 'Payment update failed.');
+      }
+    }
+
+    document.getElementById('paymentForm').addEventListener('submit', submitPayment);
+    loadFees();
+  </script>
+</body>
+</html>
+
