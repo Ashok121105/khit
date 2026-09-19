@@ -1509,6 +1509,9 @@ app.post(
 
             } = req.body;
 
+            const normalizedStudentId = String(roll_number || student_id || "").trim();
+            const normalizedRollNumber = String(roll_number || student_id || "").trim();
+
 
             // Required fields
 
@@ -1516,7 +1519,7 @@ app.post(
                 !username ||
                 !password ||
                 !full_name ||
-                !student_id ||
+                !normalizedStudentId ||
                 !email
             ) {
 
@@ -1525,7 +1528,7 @@ app.post(
                     status: "error",
 
                     message:
-                        "Username, password, full name, student ID and email are required"
+                        "Username, password, full name, roll number and email are required"
 
                 });
 
@@ -1563,7 +1566,7 @@ app.post(
                     SELECT id
                     FROM students
                     WHERE student_id = ?
-                `).get(student_id);
+                `).get(normalizedStudentId);
 
 
             if (existingStudent) {
@@ -1668,8 +1671,8 @@ app.post(
 
                 userId,
 
-                student_id,
-                roll_number || null,
+                normalizedStudentId,
+                normalizedRollNumber,
 
                 full_name,
 

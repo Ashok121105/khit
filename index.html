@@ -578,8 +578,8 @@
 
         <div class="note">
             <strong>Important:</strong>
-            Enter your college-assigned Student ID and Roll Number.
-            The portal will not generate your roll number.
+            Enter your college-assigned Roll Number.
+            The portal will use it as your student identifier.
         </div>
 
 
@@ -737,22 +737,6 @@
         </h2>
 
         <div class="form-grid">
-
-            <div class="field">
-
-                <label>
-                    Student ID <span>*</span>
-                </label>
-
-                <input
-                    type="text"
-                    id="student_id"
-                    placeholder="College-assigned Student ID"
-                    required
-                >
-
-            </div>
-
 
             <div class="field">
 
@@ -1152,9 +1136,6 @@
             password:
                 document.getElementById("password").value,
 
-            student_id:
-                document.getElementById("student_id").value.trim(),
-
             roll_number:
                 document.getElementById("roll_number").value.trim(),
 
@@ -1213,7 +1194,7 @@
                 document.getElementById("pincode").value.trim()
         };
 
-        if (!data.username || !data.password || !data.student_id || !data.roll_number || !data.full_name) {
+        if (!data.username || !data.password || !data.roll_number || !data.full_name) {
             showMessage("Please fill all required fields.", "error");
             button.disabled = false;
             button.textContent = "Create Student Account";
@@ -1242,7 +1223,6 @@
 
             document.getElementById("username").value = "";
             document.getElementById("password").value = "";
-            document.getElementById("student_id").value = "";
             document.getElementById("roll_number").value = "";
             document.getElementById("full_name").value = "";
             document.getElementById("email").value = "";
