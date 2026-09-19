@@ -187,6 +187,24 @@
             font-weight: 600;
         }
 
+        .reset-panel {
+            display: none;
+            margin-top: 18px;
+            padding-top: 18px;
+            border-top: 1px solid var(--khit-border);
+        }
+
+        .reset-panel h2 {
+            color: var(--khit-deep);
+            font-size: 18px;
+            margin-bottom: 14px;
+        }
+
+        .reset-panel .login-btn {
+            font-size: 14px;
+            padding: 11px;
+        }
+
         footer {
             text-align: center;
             padding: 20px;
@@ -291,6 +309,46 @@
 
 
         <div class="links">
+            <button type="button" onclick="togglePasswordReset()">
+                Forgot Password?
+            </button>
+        </div>
+
+
+        <div id="resetPanel" class="reset-panel">
+            <h2>Reset Password</h2>
+
+            <div class="field">
+                <label for="resetUsername">Username</label>
+                <input type="text" id="resetUsername" placeholder="Enter username">
+            </div>
+
+            <div class="field">
+                <label for="resetEmail">Registered College Email</label>
+                <input type="email" id="resetEmail" placeholder="example@college.edu">
+            </div>
+
+            <button class="login-btn" type="button" onclick="requestPasswordOtp()">
+                Send Email OTP
+            </button>
+
+            <div class="field" style="margin-top: 18px;">
+                <label for="resetOtp">Email OTP</label>
+                <input type="text" id="resetOtp" inputmode="numeric" maxlength="6" placeholder="Enter 6-digit OTP">
+            </div>
+
+            <div class="field">
+                <label for="newPassword">New Password</label>
+                <input type="password" id="newPassword" minlength="8" placeholder="At least 8 characters">
+            </div>
+
+            <button class="login-btn" type="button" onclick="confirmPasswordReset()">
+                Reset Password
+            </button>
+        </div>
+
+
+        <div class="links">
 
             <p>
                 Don't have an account?
@@ -315,7 +373,7 @@
 
 <script>
 
-const API_URL = "http://localhost:5000";
+const API_URL = window.location.origin;
 
 
 // ==========================================
@@ -451,6 +509,67 @@ function openRegistration() {
     window.location.href =
         "index.html";
 
+}
+
+
+function togglePasswordReset() {
+    const panel = document.getElementById("resetPanel");
+    panel.style.display = panel.style.display === "block" ? "none" : "block";
+}
+
+
+async function requestPasswordOtp() {
+    const username = document.getElementById("resetUsername").value.trim();
+    const email = document.getElementById("resetEmail").value.trim();
+
+    if (!username || !email) {
+        showResetMessage("Enter your username and registered email.", "error");
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_URL}/api/password-reset/request`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, email })
+        });
+        const result = await response.json();
+        showResetMessage(result.message, response.ok ? "success" : "error");
+    } catch (error) {
+        showResetMessage("Unable to connect to the server.", "error");
+    }
+}
+
+
+async function confirmPasswordReset() {
+    const username = document.getElementById("resetUsername").value.trim();
+    const email = document.getElementById("resetEmail").value.trim();
+    const otp = document.getElementById("resetOtp").value.trim();
+    const newPassword = document.getElementById("newPassword").value;
+
+    if (!username || !email || !otp || newPassword.length < 8) {
+        showResetMessage("Enter the OTP and a password with at least 8 characters.", "error");
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_URL}/api/password-reset/confirm`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, email, otp, newPassword })
+        });
+        const result = await response.json();
+        showResetMessage(result.message, response.ok ? "success" : "error");
+    } catch (error) {
+        showResetMessage("Unable to connect to the server.", "error");
+    }
+}
+
+
+function showResetMessage(text, type) {
+    const message = document.getElementById("message");
+    message.textContent = text || "Password reset request failed.";
+    message.className = `message ${type}`;
 }
 
 </script>

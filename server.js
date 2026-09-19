@@ -8,6 +8,7 @@ const express = require("express");
 const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
 const multer = require("multer");
 const XLSX = require("xlsx");
 const path = require("path");
@@ -289,6 +290,47 @@ try {
 
     console.error("App settings table error:", error);
 
+}
+
+
+try {
+    db.exec(`
+        CREATE TABLE IF NOT EXISTS password_reset_otps (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            otp_hash TEXT NOT NULL,
+            expires_at DATETIME NOT NULL,
+            used_at DATETIME,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+        );
+    `);
+    console.log("password_reset_otps table ready.");
+} catch (error) {
+    console.error("Password reset table error:", error);
+}
+
+function getMailTransport() {
+    const host = process.env.SMTP_HOST;
+    const port = Number(process.env.SMTP_PORT || 587);
+    const user = process.env.SMTP_USER;
+    const pass = process.env.SMTP_PASS;
+
+    if (!host || !user || !pass) {
+        return null;
+    }
+
+    return nodemailer.createTransport({
+        host,
+        port,
+        secure: process.env.SMTP_SECURE === "true",
+        auth: { user, pass }
+    });
+}
+
+
+function createPasswordResetOtp() {
+    return String(Math.floor(100000 + Math.random() * 900000));
 }
 
 
@@ -1095,6 +1137,136 @@ app.get("/api/demo-credentials", async (req, res) => {
 // ============================================================
 // GENERIC LOGIN
 // ============================================================
+
+app.post("/api/password-reset/request", async (req, res) => {
+    try {
+        const username = String(req.body.username || "").trim();
+        const email = String(req.body.email || "").trim().toLowerCase();
+        const transport = getMailTransport();
+
+        if (!username || !email) {
+            return res.status(400).json({
+                status: "error",
+                message: "Username and registered email are required"
+            });
+        }
+
+        if (!transport) {
+            return res.status(503).json({
+                status: "error",
+                message: "Password reset email is not configured yet"
+            });
+        }
+
+        const user = db.prepare(`
+            SELECT u.id, u.username, s.email, s.full_name
+            FROM users u
+            JOIN students s ON s.user_id = u.id
+            WHERE u.username = ? AND u.role = 'student' AND lower(s.email) = ?
+        `).get(username, email);
+
+        if (!user) {
+            return res.status(400).json({
+                status: "error",
+                message: "Username and registered email do not match"
+            });
+        }
+
+        const otp = createPasswordResetOtp();
+        const otpHash = await bcrypt.hash(otp, 10);
+        const expiresAt = new Date(Date.now() + 10 * 60 * 1000).toISOString();
+
+        db.prepare(`
+            UPDATE password_reset_otps
+            SET used_at = CURRENT_TIMESTAMP
+            WHERE user_id = ? AND used_at IS NULL
+        `).run(user.id);
+
+        db.prepare(`
+            INSERT INTO password_reset_otps (user_id, otp_hash, expires_at)
+            VALUES (?, ?, ?)
+        `).run(user.id, otpHash, expiresAt);
+
+        await transport.sendMail({
+            from: process.env.SMTP_FROM || process.env.SMTP_USER,
+            to: user.email,
+            subject: "KHIT Family password reset OTP",
+            text: `Hello ${user.full_name || user.username},\n\nYour KHIT Family password reset OTP is ${otp}. It expires in 10 minutes.\n\nIf you did not request this, ignore this email.`
+        });
+
+        return res.json({
+            status: "success",
+            message: "OTP sent to your registered email"
+        });
+    } catch (error) {
+        console.error("Password reset request error:", error);
+        return res.status(500).json({
+            status: "error",
+            message: "Unable to send password reset OTP"
+        });
+    }
+});
+
+
+app.post("/api/password-reset/confirm", async (req, res) => {
+    try {
+        const username = String(req.body.username || "").trim();
+        const email = String(req.body.email || "").trim().toLowerCase();
+        const otp = String(req.body.otp || "").trim();
+        const newPassword = String(req.body.newPassword || "");
+
+        if (!username || !email || !otp || newPassword.length < 8) {
+            return res.status(400).json({
+                status: "error",
+                message: "Username, email, OTP, and an 8-character password are required"
+            });
+        }
+
+        const user = db.prepare(`
+            SELECT u.id
+            FROM users u
+            JOIN students s ON s.user_id = u.id
+            WHERE u.username = ? AND u.role = 'student' AND lower(s.email) = ?
+        `).get(username, email);
+
+        const reset = user && db.prepare(`
+            SELECT *
+            FROM password_reset_otps
+            WHERE user_id = ? AND used_at IS NULL
+            ORDER BY id DESC
+            LIMIT 1
+        `).get(user.id);
+
+        if (!reset || new Date(reset.expires_at).getTime() < Date.now()) {
+            return res.status(400).json({
+                status: "error",
+                message: "OTP is invalid or expired"
+            });
+        }
+
+        if (!(await bcrypt.compare(otp, reset.otp_hash))) {
+            return res.status(400).json({
+                status: "error",
+                message: "OTP is invalid or expired"
+            });
+        }
+
+        const passwordHash = await bcrypt.hash(newPassword, 10);
+        db.prepare("UPDATE users SET password = ? WHERE id = ?").run(passwordHash, user.id);
+        db.prepare("UPDATE password_reset_otps SET used_at = CURRENT_TIMESTAMP WHERE id = ?").run(reset.id);
+
+        return res.json({
+            status: "success",
+            message: "Password reset successful. You can login now."
+        });
+    } catch (error) {
+        console.error("Password reset confirmation error:", error);
+        return res.status(500).json({
+            status: "error",
+            message: "Unable to reset password"
+        });
+    }
+});
 
 app.post(
     "/api/login",
