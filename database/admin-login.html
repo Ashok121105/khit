@@ -128,6 +128,28 @@ input:focus {
     cursor: default;
 }
 
+.reset-panel {
+    display: none;
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid #dbeafe;
+}
+
+.reset-panel h3 {
+    color: #1e3a8a;
+    font-size: 17px;
+    margin-bottom: 12px;
+}
+
+.reset-panel input {
+    margin-bottom: 12px;
+}
+
+.reset-panel .login-btn {
+    font-size: 13px;
+    padding: 11px;
+}
+
 .message {
     display: none;
     padding: 12px;
@@ -264,6 +286,29 @@ input:focus {
         </form>
 
 
+        <div class="back">
+            <a href="#" onclick="toggleAdminReset(event)">
+                Forgot Admin Password?
+            </a>
+        </div>
+
+
+        <div id="adminResetPanel" class="reset-panel">
+            <h3>Reset Admin Password</h3>
+
+            <input type="email" id="resetEmail" placeholder="Configured admin email">
+            <input type="text" id="resetOtp" inputmode="numeric" maxlength="6" placeholder="6-digit OTP">
+            <input type="password" id="newPassword" minlength="8" placeholder="New password (8+ characters)">
+
+            <button class="login-btn" type="button" onclick="requestAdminOtp()">
+                Send OTP
+            </button>
+            <button class="login-btn" type="button" onclick="confirmAdminReset()" style="margin-top: 10px;">
+                Reset Password
+            </button>
+        </div>
+
+
         <div class="security">
 
              <strong>Authorized Access Only</strong><br>
@@ -305,8 +350,7 @@ input:focus {
 
 <script>
 
-const API_BASE =
-    "http://localhost:5000";
+const API_BASE = window.location.origin;
 
 
 const form =
@@ -331,6 +375,53 @@ function showMessage(
     message.className =
         "message " + type;
 
+}
+
+
+function toggleAdminReset(event) {
+    event.preventDefault();
+    const panel = document.getElementById("adminResetPanel");
+    panel.style.display = panel.style.display === "block" ? "none" : "block";
+}
+
+
+async function requestAdminOtp() {
+    const username = document.getElementById("username").value.trim();
+    const email = document.getElementById("resetEmail").value.trim();
+
+    if (!username || !email) {
+        showMessage("Enter admin username and configured reset email.", "error");
+        return;
+    }
+
+    const response = await fetch(`${API_BASE}/api/admin-password-reset/request`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, email })
+    });
+    const result = await response.json();
+    showMessage(result.message, response.ok ? "success" : "error");
+}
+
+
+async function confirmAdminReset() {
+    const username = document.getElementById("username").value.trim();
+    const email = document.getElementById("resetEmail").value.trim();
+    const otp = document.getElementById("resetOtp").value.trim();
+    const newPassword = document.getElementById("newPassword").value;
+
+    if (!username || !email || !otp || newPassword.length < 8) {
+        showMessage("Enter the OTP and a password with at least 8 characters.", "error");
+        return;
+    }
+
+    const response = await fetch(`${API_BASE}/api/admin-password-reset/confirm`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, email, otp, newPassword })
+    });
+    const result = await response.json();
+    showMessage(result.message, response.ok ? "success" : "error");
 }
 
 

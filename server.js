@@ -1268,6 +1268,99 @@ app.post("/api/password-reset/confirm", async (req, res) => {
     }
 });
 
+
+app.post("/api/admin-password-reset/request", async (req, res) => {
+    try {
+        const username = String(req.body.username || "").trim();
+        const email = String(req.body.email || "").trim().toLowerCase();
+        const configuredEmail = String(process.env.ADMIN_RESET_EMAIL || "").trim().toLowerCase();
+        const transport = getMailTransport();
+
+        if (!username || !email) {
+            return res.status(400).json({ status: "error", message: "Admin username and reset email are required" });
+        }
+
+        if (!transport || !configuredEmail) {
+            return res.status(503).json({ status: "error", message: "Admin password reset email is not configured yet" });
+        }
+
+        const user = db.prepare(`
+            SELECT id, username
+            FROM users
+            WHERE username = ? AND role IN ('admin', 'superadmin')
+        `).get(username);
+
+        if (!user || email !== configuredEmail) {
+            return res.status(400).json({ status: "error", message: "Admin username and reset email do not match" });
+        }
+
+        const otp = createPasswordResetOtp();
+        const otpHash = await bcrypt.hash(otp, 10);
+        const expiresAt = new Date(Date.now() + 10 * 60 * 1000).toISOString();
+
+        db.prepare(`
+            UPDATE password_reset_otps
+            SET used_at = CURRENT_TIMESTAMP
+            WHERE user_id = ? AND used_at IS NULL
+        `).run(user.id);
+        db.prepare(`
+            INSERT INTO password_reset_otps (user_id, otp_hash, expires_at)
+            VALUES (?, ?, ?)
+        `).run(user.id, otpHash, expiresAt);
+
+        await transport.sendMail({
+            from: process.env.SMTP_FROM || process.env.SMTP_USER,
+            to: configuredEmail,
+            subject: "KHIT Family admin password reset OTP",
+            text: `Your KHIT Family admin password reset OTP is ${otp}. It expires in 10 minutes.`
+        });
+
+        return res.json({ status: "success", message: "OTP sent to the configured admin email" });
+    } catch (error) {
+        console.error("Admin password reset request error:", error);
+        return res.status(500).json({ status: "error", message: "Unable to send admin password reset OTP" });
+    }
+});
+
+
+app.post("/api/admin-password-reset/confirm", async (req, res) => {
+    try {
+        const username = String(req.body.username || "").trim();
+        const email = String(req.body.email || "").trim().toLowerCase();
+        const otp = String(req.body.otp || "").trim();
+        const newPassword = String(req.body.newPassword || "");
+        const configuredEmail = String(process.env.ADMIN_RESET_EMAIL || "").trim().toLowerCase();
+
+        if (!username || email !== configuredEmail || !otp || newPassword.length < 8) {
+            return res.status(400).json({ status: "error", message: "Valid admin email, OTP, and an 8-character password are required" });
+        }
+
+        const user = db.prepare(`
+            SELECT id
+            FROM users
+            WHERE username = ? AND role IN ('admin', 'superadmin')
+        `).get(username);
+        const reset = user && db.prepare(`
+            SELECT * FROM password_reset_otps
+            WHERE user_id = ? AND used_at IS NULL
+            ORDER BY id DESC LIMIT 1
+        `).get(user.id);
+
+        if (!reset || new Date(reset.expires_at).getTime() < Date.now() || !(await bcrypt.compare(otp, reset.otp_hash))) {
+            return res.status(400).json({ status: "error", message: "OTP is invalid or expired" });
+        }
+
+        const passwordHash = await bcrypt.hash(newPassword, 10);
+        db.prepare("UPDATE users SET password = ? WHERE id = ?").run(passwordHash, user.id);
+        db.prepare("UPDATE password_reset_otps SET used_at = CURRENT_TIMESTAMP WHERE id = ?").run(reset.id);
+
+        return res.json({ status: "success", message: "Admin password reset successful. You can login now." });
+    } catch (error) {
+        console.error("Admin password reset confirmation error:", error);
+        return res.status(500).json({ status: "error", message: "Unable to reset admin password" });
+    }
+});
+
 app.post(
     "/api/login",
     async (req, res) => {
