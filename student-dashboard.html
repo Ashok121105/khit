@@ -1367,7 +1367,7 @@
 
 <script>
 
-const API_URL = "http://localhost:5000";
+const API_URL = window.location.origin;
 const token = localStorage.getItem("khit_token");
 
 if (!token) {

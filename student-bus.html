@@ -645,7 +645,7 @@
 
             const response =
                 await fetch(
-                    "http://localhost:5000/api/student/profile",
+                    `${window.location.origin}/api/student/profile`,
                     {
                         method: "GET",
 
@@ -714,7 +714,7 @@
     async function loadBusAssignment() {
         try {
             const response = await fetch(
-                "http://localhost:5000/api/student/bus",
+                `${window.location.origin}/api/student/bus`,
                 { headers: { "Authorization": "Bearer " + token } }
             );
             if (!response.ok) return;
