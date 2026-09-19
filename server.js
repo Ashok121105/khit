@@ -1105,8 +1105,6 @@ app.post(
                 password,
                 role,
                 student_id: studentId,
-                roll_number: rollNumber,
-                mobile,
                 parent_mobile: parentMobile,
                 parent_email: parentEmail
             } = req.body;
@@ -1278,13 +1276,6 @@ app.post(
             }
 
             if (requestedRole === "student") {
-                if (!username || !password || !studentId || !rollNumber || !mobile) {
-                    return res.status(400).json({
-                        status: "error",
-                        message: "Username, student ID, roll number, mobile number, and password are required"
-                    });
-                }
-
                 const user = db.prepare(`
                     SELECT *
                     FROM users
@@ -1295,7 +1286,7 @@ app.post(
                 if (!user) {
                     return res.status(401).json({
                         status: "error",
-                        message: "Invalid student credentials"
+                        message: "Invalid username or password"
                     });
                 }
 
@@ -1303,7 +1294,7 @@ app.post(
                 if (!passwordMatch) {
                     return res.status(401).json({
                         status: "error",
-                        message: "Invalid student credentials"
+                        message: "Invalid username or password"
                     });
                 }
 
@@ -1311,15 +1302,12 @@ app.post(
                     SELECT *
                     FROM students
                     WHERE user_id = ?
-                      AND student_id = ?
-                      AND roll_number = ?
-                      AND mobile = ?
-                `).get(user.id, String(studentId).trim(), String(rollNumber).trim(), String(mobile).trim());
+                `).get(user.id);
 
                 if (!student) {
-                    return res.status(401).json({
+                    return res.status(404).json({
                         status: "error",
-                        message: "Student details do not match this account"
+                        message: "Student profile not found"
                     });
                 }
 
